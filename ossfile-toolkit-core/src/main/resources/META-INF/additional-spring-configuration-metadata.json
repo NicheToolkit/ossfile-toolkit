@@ -1,0 +1,131 @@
+{
+  "groups": [
+    {
+      "name": "nichetoolkit.ossfile",
+      "sourceType": "io.github.nichetoolkit.ossfile.configure.OssfileProperties",
+      "type": "io.github.nichetoolkit.ossfile.configure.OssfileProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "nichetoolkit.ossfile.provider",
+      "type": "io.github.nichetoolkit.ossfile.OssfileProviderType",
+      "sourceType": "io.github.nichetoolkit.ossfile.OssfileProviderType",
+      "description": "the provider type on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.endpoint",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the endpoint on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.access-key",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the access key on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the secret key on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.secure",
+      "type": "java.lang.Boolean",
+      "sourceType": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "the switch of secure on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.region",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the region on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.expire",
+      "type": "java.lang.Long",
+      "sourceType": "java.lang.Long",
+      "defaultValue": 3600,
+      "description": "the credentials token expire on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.role-name",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the credentials role name on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.role-arn",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the credentials role arn on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.bucket",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the default bucket on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.prefix",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the prefix on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.image.compress",
+      "type": "java.lang.Long",
+      "sourceType": "java.lang.Long",
+      "defaultValue": 102400,
+      "description": "the image compress size on oss image configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.image.quality",
+      "type": "java.lang.Double",
+      "sourceType": "java.lang.Double",
+      "defaultValue": 0.5,
+      "description": "the image quality size on oss image configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.image.scale",
+      "type": "java.lang.Double",
+      "sourceType": "java.lang.Double",
+      "defaultValue": 0.5,
+      "description": "the image scale size on oss image configuration."
+    }
+  ],
+  "hints": [
+    {
+      "name": "nichetoolkit.ossfile.provider",
+      "values": [
+        {
+          "value": "MINIO",
+          "description": "the provider type is minio on oss file configuration."
+        },
+        {
+          "value": "ALIYUN",
+          "description": "the provider type aliyun on oss file configuration."
+        },
+        {
+          "value": "AMAZON",
+          "description": "the provider type amazon on oss file configuration."
+        }
+      ]
+    },{
+      "name": "nichetoolkit.ossfile.secure",
+      "values": [
+        {
+          "value": false,
+          "description": "the switch of secure is closed on mybatis configuration."
+        },
+        {
+          "value": true,
+          "description": "the switch of secure is opened on mybatis configuration."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.nichetoolkit.ossfile.configure.OssfileMinioAutoConfigure
+io.github.nichetoolkit.rest.fitter.RestFulfilledFitter=io.github.nichetoolkit.ossfile.MinioContextHolder

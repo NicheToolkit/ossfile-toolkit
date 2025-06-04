@@ -1,0 +1,881 @@
+package io.github.nichetoolkit.ossfile;
+
+import io.github.nichetoolkit.rest.error.natives.FileErrorException;
+import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
+import io.github.nichetoolkit.rest.error.natives.UnsupportedErrorException;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
+import io.minio.*;
+import io.minio.messages.Bucket;
+import io.minio.messages.Item;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.util.*;
+
+/**
+ * <code>MinioUtils</code>
+ * <p>The minio utils class.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see lombok.extern.slf4j.Slf4j
+ * @since Jdk1.8
+ */
+@Slf4j
+public class MinioUtils {
+
+    /**
+     * <code>initDefaultBucket</code>
+     * <p>The init default bucket method.</p>
+     * @param minioClient {@link io.minio.MinioClient} <p>The minio client parameter is <code>MinioClient</code> type.</p>
+     * @param bucketName  {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @see io.minio.MinioClient
+     * @see java.lang.String
+     */
+    public static void initDefaultBucket(MinioClient minioClient, String bucketName) {
+        try {
+            MinioHelper.initDefaultBucket(minioClient, bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server connect has error: {}, bucket: {}", exception.getMessage(), bucketName);
+            GeneralUtils.printStackTrace(exception);
+        }
+    }
+
+    /**
+     * <code>bucketPolicy</code>
+     * <p>The bucket policy method.</p>
+     * @return {@link java.lang.String} <p>The bucket policy return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static String bucketPolicy() {
+        return bucketPolicy(MinioContextHolder.defaultBucket());
+    }
+
+    /**
+     * <code>bucketPolicy</code>
+     * <p>The bucket policy method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @return {@link java.lang.String} <p>The bucket policy return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static String bucketPolicy(String bucketName) {
+        try {
+            return MinioHelper.bucketPolicy(bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server get bucket policy has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>listBuckets</code>
+     * <p>The list buckets method.</p>
+     * @return {@link java.util.List} <p>The list buckets return object is <code>List</code> type.</p>
+     * @see java.util.List
+     */
+    public static List<Bucket> listBuckets() {
+        try {
+            return MinioHelper.listBuckets();
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server get all buckets has error: {}", exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * <code>getBucket</code>
+     * <p>The get bucket getter method.</p>
+     * @return {@link java.util.Optional} <p>The get bucket return object is <code>Optional</code> type.</p>
+     * @see java.util.Optional
+     */
+    public static Optional<Bucket> getBucket() {
+        return getBucket(MinioContextHolder.defaultBucket());
+    }
+
+    /**
+     * <code>getBucket</code>
+     * <p>The get bucket getter method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @return {@link java.util.Optional} <p>The get bucket return object is <code>Optional</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Optional
+     */
+    public static Optional<Bucket> getBucket(String bucketName) {
+        try {
+            return MinioHelper.getBucket(bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server get bucket has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * <code>switchBucket</code>
+     * <p>The switch bucket method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static void switchBucket(String bucketName) {
+        try {
+            MinioHelper.switchBucket(bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server switch bucket has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+        }
+    }
+
+    /**
+     * <code>makeBucket</code>
+     * <p>The make bucket method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static void makeBucket(String bucketName) {
+        try {
+            MinioHelper.makeBucket(bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server make bucket has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+        }
+    }
+
+    /**
+     * <code>removeBucket</code>
+     * <p>The remove bucket method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static void removeBucket(String bucketName) {
+        try {
+            MinioHelper.removeBucket(bucketName);
+        } catch (ServiceErrorException exception) {
+            log.error("the minio server remove bucket has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+        }
+    }
+
+
+    /**
+     * <code>statObject</code>
+     * <p>The stat object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.StatObjectResponse} <p>The stat object return object is <code>StatObjectResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.StatObjectResponse
+     */
+    public static StatObjectResponse statObject(String objectName) {
+        return statObject(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>statObject</code>
+     * <p>The stat object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.StatObjectResponse} <p>The stat object return object is <code>StatObjectResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.StatObjectResponse
+     */
+    public static StatObjectResponse statObject(String bucketName, String objectName) {
+        try {
+            return MinioHelper.statObject(bucketName, objectName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server stat object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>isObjectExist</code>
+     * <p>The is object exist method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return boolean <p>The is object exist return object is <code>boolean</code> type.</p>
+     * @see java.lang.String
+     */
+    public static boolean isObjectExist(String objectName) {
+        return isObjectExist(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>isObjectExist</code>
+     * <p>The is object exist method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return boolean <p>The is object exist return object is <code>boolean</code> type.</p>
+     * @see java.lang.String
+     */
+    public static boolean isObjectExist(String bucketName, String objectName) {
+        boolean exist = true;
+        try {
+            MinioHelper.statObject(bucketName, objectName);
+        } catch (FileErrorException ignored) {
+            exist = false;
+        }
+        return exist;
+    }
+
+    /**
+     * <code>isFolderExist</code>
+     * <p>The is folder exist method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return boolean <p>The is folder exist return object is <code>boolean</code> type.</p>
+     * @see java.lang.String
+     */
+    public static boolean isFolderExist(String objectName) {
+        return isFolderExist(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>isFolderExist</code>
+     * <p>The is folder exist method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return boolean <p>The is folder exist return object is <code>boolean</code> type.</p>
+     * @see java.lang.String
+     */
+    public static boolean isFolderExist(String bucketName, String objectName) {
+        return MinioHelper.isFolderExist(bucketName, objectName);
+    }
+
+    /**
+     * <code>listObjects</code>
+     * <p>The list objects method.</p>
+     * @param prefix    {@link java.lang.String} <p>The prefix parameter is <code>String</code> type.</p>
+     * @param recursive boolean <p>The recursive parameter is <code>boolean</code> type.</p>
+     * @return {@link java.lang.Iterable} <p>The list objects return object is <code>Iterable</code> type.</p>
+     * @see java.lang.String
+     * @see java.lang.Iterable
+     */
+    public static Iterable<Result<Item>> listObjects(String prefix, boolean recursive) {
+        return listObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+    }
+
+    /**
+     * <code>listObjects</code>
+     * <p>The list objects method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param prefix     {@link java.lang.String} <p>The prefix parameter is <code>String</code> type.</p>
+     * @param recursive  boolean <p>The recursive parameter is <code>boolean</code> type.</p>
+     * @return {@link java.lang.Iterable} <p>The list objects return object is <code>Iterable</code> type.</p>
+     * @see java.lang.String
+     * @see java.lang.Iterable
+     */
+    public static Iterable<Result<Item>> listObjects(String bucketName, String prefix, boolean recursive) {
+        return MinioHelper.listObjects(bucketName, prefix, recursive);
+    }
+
+    /**
+     * <code>allObjects</code>
+     * <p>The all objects method.</p>
+     * @param prefix    {@link java.lang.String} <p>The prefix parameter is <code>String</code> type.</p>
+     * @param recursive boolean <p>The recursive parameter is <code>boolean</code> type.</p>
+     * @return {@link java.util.List} <p>The all objects return object is <code>List</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.List
+     */
+    public static List<Item> allObjects(String prefix, boolean recursive) {
+        return allObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+    }
+
+    /**
+     * <code>allObjects</code>
+     * <p>The all objects method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param prefix     {@link java.lang.String} <p>The prefix parameter is <code>String</code> type.</p>
+     * @param recursive  boolean <p>The recursive parameter is <code>boolean</code> type.</p>
+     * @return {@link java.util.List} <p>The all objects return object is <code>List</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.List
+     */
+    public static List<Item> allObjects(String bucketName, String prefix, boolean recursive) {
+        try {
+            return MinioHelper.allObjects(bucketName, prefix, recursive);
+        } catch (FileErrorException exception) {
+            log.error("the minio server all objects has error, prefix: {}, error: {}", prefix, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>getObject</code>
+     * <p>The get object getter method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
+     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.GetObjectResponse
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static GetObjectResponse getObject(String objectName) throws FileErrorException {
+        return getObject(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>getObject</code>
+     * <p>The get object getter method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.GetObjectResponse
+     */
+    public static GetObjectResponse getObject(String bucketName, String objectName) {
+        try {
+            return MinioHelper.getObject(bucketName, objectName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server get object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>getObject</code>
+     * <p>The get object getter method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param offset     long <p>The offset parameter is <code>long</code> type.</p>
+     * @param length     long <p>The length parameter is <code>long</code> type.</p>
+     * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
+     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.GetObjectResponse
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static GetObjectResponse getObject(String objectName, long offset, long length) throws FileErrorException {
+        return getObject(MinioContextHolder.defaultBucket(), objectName, offset, length);
+    }
+
+    /**
+     * <code>getObject</code>
+     * <p>The get object getter method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param offset     long <p>The offset parameter is <code>long</code> type.</p>
+     * @param length     long <p>The length parameter is <code>long</code> type.</p>
+     * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.GetObjectResponse
+     */
+    public static GetObjectResponse getObject(String bucketName, String objectName, long offset, long length) {
+        try {
+            return MinioHelper.getObject(bucketName,objectName,offset,length);
+        } catch (FileErrorException exception) {
+            log.error("the minio server get object with offset and length has error, range: [ {} , {} ], object: {}, bucket: {} error: {}", offset, length, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param file        {@link org.springframework.web.multipart.MultipartFile} <p>The file parameter is <code>MultipartFile</code> type.</p>
+     * @param objectName  {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param contentType {@link java.lang.String} <p>The content type parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see org.springframework.web.multipart.MultipartFile
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(MultipartFile file, String objectName, String contentType) {
+        return putObject(MinioContextHolder.defaultBucket(), file, objectName, contentType);
+    }
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param bucketName  {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param file        {@link org.springframework.web.multipart.MultipartFile} <p>The file parameter is <code>MultipartFile</code> type.</p>
+     * @param objectName  {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param contentType {@link java.lang.String} <p>The content type parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see org.springframework.web.multipart.MultipartFile
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(String bucketName, MultipartFile file, String objectName, String contentType) {
+        try {
+            return MinioHelper.putObject(bucketName,file,objectName,contentType);
+        } catch (FileErrorException exception) {
+            log.error("the minio server put object has error, contentType: {}, object: {}, bucket: {}, error: {}", contentType, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param fileName   {@link java.lang.String} <p>The file name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(String objectName, String fileName) {
+        return putObject(MinioContextHolder.defaultBucket(), objectName, fileName);
+    }
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param fileName   {@link java.lang.String} <p>The file name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(String bucketName, String objectName, String fileName) {
+        try {
+            return MinioHelper.uploadObject(bucketName,objectName,fileName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server upload object has error, fileName: {}, object: {}, bucket: {}, error: {}", fileName, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param objectName  {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param inputStream {@link java.io.InputStream} <p>The input stream parameter is <code>InputStream</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.io.InputStream
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(String objectName, InputStream inputStream) {
+        return putObject(MinioContextHolder.defaultBucket(), objectName, inputStream);
+    }
+
+    /**
+     * <code>putObject</code>
+     * <p>The put object method.</p>
+     * @param bucketName  {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName  {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param inputStream {@link java.io.InputStream} <p>The input stream parameter is <code>InputStream</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.io.InputStream
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putObject(String bucketName, String objectName, InputStream inputStream) {
+        try {
+            return MinioHelper.putObject(bucketName,objectName,inputStream);
+        } catch (FileErrorException exception) {
+            log.error("the minio server put object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>putFolder</code>
+     * <p>The put folder method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put folder return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putFolder(String objectName) {
+        return putFolder(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>putFolder</code>
+     * <p>The put folder method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The put folder return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse putFolder(String bucketName, String objectName) {
+        try {
+            return MinioHelper.putObject(bucketName,objectName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server put folder has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>composeSource</code>
+     * <p>The compose source method.</p>
+     * @param objectName     {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param composeSources {@link java.util.Collection} <p>The compose sources parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose source return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeSource(String objectName, Collection<ComposeSource> composeSources) {
+        return composeSource(MinioContextHolder.defaultBucket(), objectName, composeSources);
+    }
+
+
+    /**
+     * <code>composeSource</code>
+     * <p>The compose source method.</p>
+     * @param bucketName     {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName     {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param composeSources {@link java.util.Collection} <p>The compose sources parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose source return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeSource(String bucketName, String objectName, Collection<ComposeSource> composeSources) {
+        try {
+            return MinioHelper.composeSource(bucketName,objectName, composeSources);
+        } catch (FileErrorException exception) {
+            log.error("the minio server compose collection source object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>composeSource</code>
+     * <p>The compose source method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param sourcesMap {@link java.util.Map} <p>The sources map parameter is <code>Map</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose source return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Map
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeSource(String bucketName, String objectName, Map<String, Collection<String>> sourcesMap) {
+        try {
+            return MinioHelper.composeSource(bucketName,objectName, sourcesMap);
+        } catch (FileErrorException exception) {
+            log.error("the minio server compose map source object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>composeObject</code>
+     * <p>The compose object method.</p>
+     * @param bucketName     {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName     {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param composeSources {@link java.util.Collection} <p>The compose sources parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeObject(String bucketName, String objectName, Collection<String> composeSources) {
+        try {
+            return MinioHelper.composeObject(bucketName,objectName,composeSources);
+        } catch (FileErrorException exception) {
+            log.error("the minio server compose object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>composeObject</code>
+     * <p>The compose object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param sources    {@link java.util.Collection} <p>The sources parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeObject(String objectName, Collection<String> sources) {
+        return composeObject(MinioContextHolder.defaultBucket(), objectName, Collections.singletonMap(MinioContextHolder.defaultBucket(), sources));
+    }
+
+    /**
+     * <code>composeObject</code>
+     * <p>The compose object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param sourcesMap {@link java.util.Map} <p>The sources map parameter is <code>Map</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Map
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeObject(String objectName, Map<String, Collection<String>> sourcesMap) {
+        return composeSource(MinioContextHolder.defaultBucket(), objectName, sourcesMap);
+    }
+
+    /**
+     * <code>composeObject</code>
+     * <p>The compose object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param sourcesMap {@link java.util.Map} <p>The sources map parameter is <code>Map</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The compose object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Map
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse composeObject(String bucketName, String objectName, Map<String, Collection<String>> sourcesMap) {
+        return composeSource(bucketName, objectName, sourcesMap);
+    }
+
+
+    /**
+     * <code>uploadObject</code>
+     * <p>The upload object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param filename   {@link java.lang.String} <p>The filename parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The upload object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse uploadObject(String objectName, String filename) {
+        return uploadObject(objectName, filename, 0L);
+    }
+
+    /**
+     * <code>uploadObject</code>
+     * <p>The upload object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param filename   {@link java.lang.String} <p>The filename parameter is <code>String</code> type.</p>
+     * @param partSize   long <p>The part size parameter is <code>long</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The upload object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse uploadObject(String objectName, String filename, long partSize) {
+        return uploadObject(MinioContextHolder.defaultBucket(), objectName, filename, partSize);
+    }
+
+    /**
+     * <code>uploadObject</code>
+     * <p>The upload object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param filename   {@link java.lang.String} <p>The filename parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The upload object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse uploadObject(String bucketName, String objectName, String filename) {
+        return uploadObject(bucketName, objectName, filename, 0L);
+    }
+
+    /**
+     * <code>uploadObject</code>
+     * <p>The upload object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param filename   {@link java.lang.String} <p>The filename parameter is <code>String</code> type.</p>
+     * @param partSize   long <p>The part size parameter is <code>long</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The upload object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse uploadObject(String bucketName, String objectName, String filename, long partSize) {
+        try {
+            return MinioHelper.uploadObject(bucketName,objectName,filename,partSize);
+        } catch (FileErrorException exception) {
+            log.error("the minio server upload object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>uploadSnowballObjects</code>
+     * <p>The upload snowball objects method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param objects    {@link java.util.Collection} <p>The objects parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The upload snowball objects return object is <code>ObjectWriteResponse</code> type.</p>
+     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static ObjectWriteResponse uploadSnowballObjects(String bucketName, String objectName, Collection<SnowballObject> objects) throws FileErrorException {
+        try {
+            return MinioHelper.uploadSnowballObjects(bucketName,objectName,objects);
+        } catch (FileErrorException exception) {
+            log.error("the minio server upload snowball objects has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>copyObject</code>
+     * <p>The copy object method.</p>
+     * @param sourceObjectName {@link java.lang.String} <p>The source object name parameter is <code>String</code> type.</p>
+     * @param targetObjectName {@link java.lang.String} <p>The target object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The copy object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static ObjectWriteResponse copyObject(String sourceObjectName, String targetObjectName) throws FileErrorException {
+        return copyObject(MinioContextHolder.defaultBucket(), sourceObjectName, MinioContextHolder.defaultBucket(), targetObjectName);
+    }
+
+    /**
+     * <code>copyObject</code>
+     * <p>The copy object method.</p>
+     * @param sourceBucketName {@link java.lang.String} <p>The source bucket name parameter is <code>String</code> type.</p>
+     * @param sourceObjectName {@link java.lang.String} <p>The source object name parameter is <code>String</code> type.</p>
+     * @param targetBucketName {@link java.lang.String} <p>The target bucket name parameter is <code>String</code> type.</p>
+     * @param targetObjectName {@link java.lang.String} <p>The target object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The copy object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.ObjectWriteResponse
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static ObjectWriteResponse copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) throws FileErrorException {
+        try {
+            return MinioHelper.copyObject(sourceBucketName,sourceObjectName,targetBucketName,targetObjectName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server copy object has error, target object: {}, target bucket: {}, source object: {}, source bucket: {}, error: {}", targetObjectName, targetBucketName, sourceObjectName, sourceBucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>removeObject</code>
+     * <p>The remove object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static void removeObject(String objectName) {
+        removeObject(MinioContextHolder.defaultBucket(), objectName);
+    }
+
+    /**
+     * <code>removeObject</code>
+     * <p>The remove object method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static void removeObject(String bucketName, String objectName) {
+        try {
+            MinioHelper.removeObject(bucketName,objectName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server remove object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+        }
+    }
+
+    /**
+     * <code>removeObjects</code>
+     * <p>The remove objects method.</p>
+     * @param objectNames {@link java.util.Collection} <p>The object names parameter is <code>Collection</code> type.</p>
+     * @see java.util.Collection
+     */
+    public static void removeObjects(Collection<String> objectNames) {
+        removeObjects(MinioContextHolder.defaultBucket(), objectNames);
+    }
+
+    /**
+     * <code>removeObjects</code>
+     * <p>The remove objects method.</p>
+     * @param bucketName  {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectNames {@link java.util.Collection} <p>The object names parameter is <code>Collection</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     */
+    public static void removeObjects(String bucketName, Collection<String> objectNames) {
+        objectNames.forEach(objectName -> removeObject(bucketName, objectName));
+    }
+
+    /**
+     * <code>objectUri</code>
+     * <p>The object uri method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param expire     {@link java.lang.Integer} <p>The expire parameter is <code>Integer</code> type.</p>
+     * @return {@link java.lang.String} <p>The object uri return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     * @see java.lang.Integer
+     */
+    public static String objectUri(String objectName, Integer expire) {
+        return objectUri(MinioContextHolder.defaultBucket(), objectName, expire);
+    }
+
+    /**
+     * <code>objectUri</code>
+     * <p>The object uri method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param expire     {@link java.lang.Integer} <p>The expire parameter is <code>Integer</code> type.</p>
+     * @return {@link java.lang.String} <p>The object uri return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     * @see java.lang.Integer
+     */
+    public static String objectUri(String bucketName, String objectName, Integer expire) {
+        try {
+            return MinioHelper.objectUri(bucketName,objectName,expire);
+        } catch (FileErrorException exception) {
+            log.error("the minio server presigned object url has error, expire: {}, object: {}, bucket: {}, error: {}", expire, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>objectUris</code>
+     * <p>The object uris method.</p>
+     * @return {@link java.util.Map} <p>The object uris return object is <code>Map</code> type.</p>
+     * @see java.util.Map
+     */
+    public static Map<String, String> objectUris() {
+        return objectUris(MinioContextHolder.defaultBucket());
+    }
+
+    /**
+     * <code>objectUris</code>
+     * <p>The object uris method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @return {@link java.util.Map} <p>The object uris return object is <code>Map</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Map
+     */
+    public static Map<String, String> objectUris(String bucketName) {
+        try {
+            return MinioHelper.objectUris(bucketName);
+        } catch (FileErrorException exception) {
+            log.error("the minio server presigned object urls has error, bucket: {}, error: {}", bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>uriDecode</code>
+     * <p>The uri decode method.</p>
+     * @param url {@link java.lang.String} <p>The url parameter is <code>String</code> type.</p>
+     * @return {@link java.lang.String} <p>The uri decode return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static String uriDecode(String url) {
+        try {
+            return MinioHelper.uriDecode(url);
+        } catch (UnsupportedErrorException exception) {
+            log.error("the minio server url decode has error, error: {}", exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+}

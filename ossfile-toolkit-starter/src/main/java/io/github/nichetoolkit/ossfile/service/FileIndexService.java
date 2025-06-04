@@ -1,0 +1,32 @@
+package io.github.nichetoolkit.ossfile.service;
+
+
+import io.github.nichetoolkit.ossfile.OssfileFilter;
+import io.github.nichetoolkit.ossfile.OssfileBulkModel;
+import io.github.nichetoolkit.rest.RestException;
+import io.github.nichetoolkit.rice.service.FilterService;
+import io.github.nichetoolkit.rice.service.extend.RemoveService;
+
+/**
+ * <p>FileIndexService</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @version v1.0.0
+ */
+public interface FileIndexService extends FilterService<String,String, OssfileBulkModel, OssfileFilter>, RemoveService<String,String> {
+
+    /**
+     * 通过id集合查询单个
+     * @param name 对象id
+     * @return M 查询的对象
+     * @throws RestException 模块异常
+     */
+    OssfileBulkModel queryByNameWithUploadInterrupt(String name) throws RestException;
+
+    /**
+     * 文件分片上传结束
+     * @param id id
+     * @throws RestException 模块异常
+     */
+    void finishSliceUpload(String id, Integer sliceSize) throws RestException;
+
+}

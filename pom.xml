@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.nichetoolkit</groupId>
+    <artifactId>ossfile-toolkit-parent</artifactId>
+    <version>1.1.2-SNAPSHOT</version>
+
+    <modules>
+<!--        <module>ossfile-toolkit-example</module>-->
+        <module>ossfile-toolkit-bom</module>
+        <module>ossfile-toolkit-core</module>
+<!--        <module>ossfile-toolkit-starter</module>-->
+        <module>ossfile-toolkit-minio</module>
+    </modules>
+
+    <name>ossfile-toolkit-parent</name>
+    <packaging>pom</packaging>
+    <description>OSS file toolkit parent project for Spring Boot</description>
+    <url>https://github.com/NicheToolkit/ossfile-toolkit</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License (Apache-2.0)</name>
+            <url>https://github.com/NicheToolkit/ossfile-toolkit/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Cyan</name>
+            <email>snow22314@outlook.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:NicheToolkit/ossfile-toolkit.git</connection>
+        <developerConnection>scm:git:git@github.com:NicheToolkit/ossfile-toolkit.git</developerConnection>
+        <url>git@github.com:NicheToolkit/ossfile-toolkit.git</url>
+    </scm>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshot</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-deploy</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+
+        <repository>
+            <id>sonatype-nexus-central</id>
+            <name>sonatype maven centrals</name>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>sonatype-nexus-release</id>
+            <name>sonatype maven releases</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>sonatype-nexus-snapshot</id>
+            <name>sonatype maven snapshots</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+    </repositories>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <spring-boot.version>2.7.18</spring-boot.version>
+
+        <rest-toolkit.version>1.1.2-SNAPSHOT</rest-toolkit.version>
+        <rice-toolkit.version>1.1.2-SNAPSHOT</rice-toolkit.version>
+        <mybatis-toolkit.version>1.1.2-SNAPSHOT</mybatis-toolkit.version>
+
+        <spring-boot-maven-plugin.version>2.7.18</spring-boot-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.5</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+
+        <ossfile-toolkit.version>1.1.2-SNAPSHOT</ossfile-toolkit.version>
+
+        <thumbnailator.version>0.4.20</thumbnailator.version>
+        <minio.version>8.4.6</minio.version>
+        <mybatis-spring.version>2.3.2</mybatis-spring.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>rest-toolkit-bom</artifactId>
+                <version>${rest-toolkit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>rice-toolkit-bom</artifactId>
+                <version>${rice-toolkit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>mybatis-toolkit-bom</artifactId>
+                <version>${mybatis-toolkit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>ossfile-toolkit-core</artifactId>
+                <version>${ossfile-toolkit.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>io.github.nichetoolkit</groupId>-->
+<!--                <artifactId>ossfile-toolkit-minio</artifactId>-->
+<!--                <version>${ossfile-toolkit.version}</version>-->
+<!--            </dependency>-->
+
+<!--            <dependency>-->
+<!--                <groupId>io.github.nichetoolkit</groupId>-->
+<!--                <artifactId>ossfile-toolkit-starter</artifactId>-->
+<!--                <version>${ossfile-toolkit.version}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${nexus-staging-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>sonatype-nexus-central</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>true</useReleaseProfile>
+                    <releaseProfiles>sonatype-nexus-release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
