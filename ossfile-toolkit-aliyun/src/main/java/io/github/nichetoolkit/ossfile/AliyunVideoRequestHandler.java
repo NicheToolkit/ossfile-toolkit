@@ -2,7 +2,6 @@ package io.github.nichetoolkit.ossfile;
 
 import com.aliyun.oss.model.OSSObject;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
-import io.minio.GetObjectResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
