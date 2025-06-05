@@ -88,6 +88,18 @@
       "sourceType": "java.lang.Double",
       "defaultValue": 0.5,
       "description": "the image scale size on oss image configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.allowed.origins",
+      "type": "java.lang.String[]",
+      "sourceType": "java.lang.String[]",
+      "description": "the allowed origins on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.allowed.headers",
+      "type": "java.lang.Long",
+      "sourceType": "java.lang.Long",
+      "description": "the allowed headers on oss file configuration."
     }
   ],
   "hints": [

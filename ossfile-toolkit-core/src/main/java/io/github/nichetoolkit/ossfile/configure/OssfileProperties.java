@@ -1,11 +1,15 @@
 package io.github.nichetoolkit.ossfile.configure;
 
 import io.github.nichetoolkit.ossfile.OssfileProviderType;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <code>OssfileProperties</code>
@@ -89,7 +93,65 @@ public class OssfileProperties {
      * @see org.springframework.boot.context.properties.NestedConfigurationProperty
      */
     @NestedConfigurationProperty
-    private OssImage image;
+    private OssImage image = new OssImage();
+
+    /**
+     * <code>allowed</code>
+     * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties.OssAllowed} <p>The <code>allowed</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties.OssAllowed
+     * @see org.springframework.boot.context.properties.NestedConfigurationProperty
+     */
+    @NestedConfigurationProperty
+    private OssAllowed allowed = new OssAllowed();
+
+    /**
+     * <code>OssAllowed</code>
+     * <p>The oss allowed class.</p>
+     * @author Cyan (snow22314@outlook.com)
+     * @see lombok.Setter
+     * @since Jdk1.8
+     */
+    @Setter
+    public static class OssAllowed {
+        /**
+         * <code>origins</code>
+         * {@link java.lang.String} <p>The <code>origins</code> field.</p>
+         * @see java.lang.String
+         */
+        private String[] origins;
+        /**
+         * <code>headers</code>
+         * {@link java.lang.String} <p>The <code>headers</code> field.</p>
+         * @see java.lang.String
+         */
+        private String[] headers;
+
+        /**
+         * <code>getOrigins</code>
+         * <p>The get origins getter method.</p>
+         * @return {@link java.util.Set} <p>The get origins return object is <code>Set</code> type.</p>
+         * @see java.util.Set
+         */
+        public Set<String> getOrigins() {
+            if (GeneralUtils.isEmpty(this.origins)) {
+                return Collections.emptySet();
+            }
+            return Arrays.stream(this.origins).collect(Collectors.toSet());
+        }
+
+        /**
+         * <code>getHeaders</code>
+         * <p>The get headers getter method.</p>
+         * @return {@link java.util.Set} <p>The get headers return object is <code>Set</code> type.</p>
+         * @see java.util.Set
+         */
+        public Set<String> getHeaders() {
+            if (GeneralUtils.isEmpty(this.headers)) {
+                return Collections.emptySet();
+            }
+            return Arrays.stream(this.headers).collect(Collectors.toSet());
+        }
+    }
 
     /**
      * <code>OssImage</code>

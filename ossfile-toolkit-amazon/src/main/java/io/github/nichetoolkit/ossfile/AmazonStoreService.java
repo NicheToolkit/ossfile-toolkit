@@ -2,9 +2,7 @@ package io.github.nichetoolkit.ossfile;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.model.InitiateMultipartUploadResult;
-import com.amazonaws.services.s3.model.PartETag;
-import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
 import com.amazonaws.services.securitytoken.model.AssumeRoleRequest;
@@ -17,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +24,28 @@ public class AmazonStoreService extends OssfileStoreService {
 
     public AmazonStoreService(OssfileProperties properties) {
         super(properties);
+    }
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        List<CORSRule.AllowedMethods> allowedMethods = new ArrayList<>();
+        allowedMethods.add(CORSRule.AllowedMethods.GET);
+        allowedMethods.add(CORSRule.AllowedMethods.PUT);
+        allowedMethods.add(CORSRule.AllowedMethods.POST);
+        allowedMethods.add(CORSRule.AllowedMethods.DELETE);
+        allowedMethods.add(CORSRule.AllowedMethods.HEAD);
+        OssfileProperties.OssAllowed ossAllowed = properties.getAllowed();
+        Set<String> origins = ossAllowed.getOrigins();
+        origins.add("*");
+        Set<String> headers = ossAllowed.getHeaders();
+        CORSRule rule = new CORSRule()
+                .withId("CORSAccessRule")
+                .withAllowedOrigins(new ArrayList<>(origins))
+                .withAllowedHeaders(new ArrayList<>(headers))
+                .withAllowedMethods(allowedMethods);
+        AmazonContextHolder.defaultClient().setBucketCrossOriginConfiguration(properties.getBucket(),
+                new BucketCrossOriginConfiguration().withRules(rule));
     }
 
     @Override
@@ -53,7 +71,7 @@ public class AmazonStoreService extends OssfileStoreService {
     }
 
     @Override
-    public OssfileProviderType providerType() throws RestException {
+    public OssfileProviderType providerType() {
         return OssfileProviderType.AMAZON;
     }
 
@@ -142,4 +160,5 @@ public class AmazonStoreService extends OssfileStoreService {
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
         AmazonHelper.deleteObjects(bucket, objectKeyList);
     }
+
 }

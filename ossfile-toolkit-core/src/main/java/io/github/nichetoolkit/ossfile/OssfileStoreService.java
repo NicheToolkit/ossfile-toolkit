@@ -2,20 +2,24 @@ package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <code>OssfileStoreService</code>
  * <p>The ossfile store service class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.ossfile.OssfileService
+ * @see org.springframework.beans.factory.InitializingBean
  * @since Jdk1.8
  */
-public abstract class OssfileStoreService implements OssfileService {
+public abstract class OssfileStoreService implements OssfileService, InitializingBean {
 
     /**
      * <code>properties</code>
@@ -32,6 +36,10 @@ public abstract class OssfileStoreService implements OssfileService {
      */
     public OssfileStoreService(OssfileProperties properties) {
         this.properties = properties;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
     }
 
     /**
@@ -56,12 +64,8 @@ public abstract class OssfileStoreService implements OssfileService {
      * <code>providerType</code>
      * <p>The provider type method.</p>
      * @return {@link io.github.nichetoolkit.ossfile.OssfileProviderType} <p>The provider type return object is <code>OssfileProviderType</code> type.</p>
-     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.OssfileProviderType
-     * @see io.github.nichetoolkit.rest.RestException
      */
-    public abstract OssfileProviderType providerType() throws RestException;
-
-
+    public abstract OssfileProviderType providerType();
 
 }

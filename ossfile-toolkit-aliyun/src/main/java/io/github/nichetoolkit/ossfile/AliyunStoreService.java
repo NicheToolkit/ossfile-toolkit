@@ -1,8 +1,10 @@
 package io.github.nichetoolkit.ossfile;
 
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.InitiateMultipartUploadResult;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PartETag;
+import com.aliyun.oss.model.SetBucketCORSRequest;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
@@ -17,9 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,6 +46,26 @@ public class AliyunStoreService extends OssfileStoreService {
     }
 
     @Override
+    public void afterPropertiesSet() throws Exception {
+        try {
+            OssfileProperties.OssAllowed ossAllowed = properties.getAllowed();
+            Set<String> origins = ossAllowed.getOrigins();
+            origins.add("*");
+            Set<String> headers = ossAllowed.getHeaders();
+            SetBucketCORSRequest.CORSRule rule = new SetBucketCORSRequest.CORSRule();
+            rule.setAllowedOrigins(new ArrayList<>(origins));
+            rule.setAllowedHeaders(new ArrayList<>(headers));
+            rule.setAllowedMethods(new ArrayList<>(Arrays.asList("GET", "PUT", "DELETE", "POST", "HEAD")));
+            SetBucketCORSRequest setBucketCORSRequest = new SetBucketCORSRequest(properties.getBucket());
+            setBucketCORSRequest.addCorsRule(rule);
+            AliyunContextHolder.defaultClient().setBucketCORS(setBucketCORSRequest);
+        } catch (OSSException exception) {
+            log.error("the aliyun server set bucket cors has error, error: {}", exception.getMessage());
+            throw new ServiceErrorException(OssfileErrorStatus.OSSFILE_BUCKET_CORS_ERROR, exception.getMessage());
+        }
+    }
+
+    @Override
     public OssfileCredentials credentials() throws RestException {
         try {
             DefaultProfile profile = DefaultProfile.getProfile(
@@ -69,7 +89,7 @@ public class AliyunStoreService extends OssfileStoreService {
     }
 
     @Override
-    public OssfileProviderType providerType() throws RestException {
+    public OssfileProviderType providerType() {
         return OssfileProviderType.ALIYUN;
     }
 
@@ -91,18 +111,18 @@ public class AliyunStoreService extends OssfileStoreService {
 
     @Override
     public InputStream getOssfile(String bucket, String objectKey) throws RestException {
-        OSSObject ossObject = AliyunHelper.getObject(bucket,objectKey);
+        OSSObject ossObject = AliyunHelper.getObject(bucket, objectKey);
         return Optional.ofNullable(ossObject).map(OSSObject::getObjectContent).orElse(null);
     }
 
     @Override
     public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
-        AliyunHelper.putObject(objectKey,inputStream);
+        AliyunHelper.putObject(objectKey, inputStream);
     }
 
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
-        AliyunHelper.putObject(bucket,objectKey,inputStream);
+        AliyunHelper.putObject(bucket, objectKey, inputStream);
     }
 
     @Override
@@ -146,7 +166,7 @@ public class AliyunStoreService extends OssfileStoreService {
 
     @Override
     public void deleteOssfile(String bucket, String objectKey) throws RestException {
-        AliyunHelper.deleteObject(bucket,objectKey);
+        AliyunHelper.deleteObject(bucket, objectKey);
     }
 
     @Override
@@ -156,6 +176,6 @@ public class AliyunStoreService extends OssfileStoreService {
 
     @Override
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
-        AliyunHelper.deleteObjects(bucket,objectKeyList);
+        AliyunHelper.deleteObjects(bucket, objectKeyList);
     }
 }

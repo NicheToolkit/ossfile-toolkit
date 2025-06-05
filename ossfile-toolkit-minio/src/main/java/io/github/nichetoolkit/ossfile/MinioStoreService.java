@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,7 +44,7 @@ public class MinioStoreService extends OssfileStoreService {
     }
 
     @Override
-    public OssfileProviderType providerType() throws RestException {
+    public OssfileProviderType providerType() {
         return OssfileProviderType.MINIO;
     }
 
