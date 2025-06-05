@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -218,29 +219,6 @@ public class MinioUtils {
     }
 
     /**
-     * <code>isFolderExist</code>
-     * <p>The is folder exist method.</p>
-     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
-     * @return boolean <p>The is folder exist return object is <code>boolean</code> type.</p>
-     * @see java.lang.String
-     */
-    public static boolean isFolderExist(String objectName) {
-        return isFolderExist(MinioContextHolder.defaultBucket(), objectName);
-    }
-
-    /**
-     * <code>isFolderExist</code>
-     * <p>The is folder exist method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
-     * @return boolean <p>The is folder exist return object is <code>boolean</code> type.</p>
-     * @see java.lang.String
-     */
-    public static boolean isFolderExist(String bucketName, String objectName) {
-        return MinioHelper.isFolderExist(bucketName, objectName);
-    }
-
-    /**
      * <code>listObjects</code>
      * <p>The list objects method.</p>
      * @param prefix    {@link java.lang.String} <p>The prefix parameter is <code>String</code> type.</p>
@@ -305,12 +283,10 @@ public class MinioUtils {
      * <p>The get object getter method.</p>
      * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
      * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
-     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see io.minio.GetObjectResponse
-     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
-    public static GetObjectResponse getObject(String objectName) throws FileErrorException {
+    public static GetObjectResponse getObject(String objectName) {
         return getObject(MinioContextHolder.defaultBucket(), objectName);
     }
 
@@ -340,12 +316,10 @@ public class MinioUtils {
      * @param offset     long <p>The offset parameter is <code>long</code> type.</p>
      * @param length     long <p>The length parameter is <code>long</code> type.</p>
      * @return {@link io.minio.GetObjectResponse} <p>The get object return object is <code>GetObjectResponse</code> type.</p>
-     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see io.minio.GetObjectResponse
-     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
-    public static GetObjectResponse getObject(String objectName, long offset, long length) throws FileErrorException {
+    public static GetObjectResponse getObject(String objectName, long offset, long length) {
         return getObject(MinioContextHolder.defaultBucket(), objectName, offset, length);
     }
 
@@ -471,37 +445,6 @@ public class MinioUtils {
             return MinioHelper.putObject(bucketName,objectName,inputStream);
         } catch (FileErrorException exception) {
             log.error("the minio server put object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
-            GeneralUtils.printStackTrace(exception);
-            return null;
-        }
-    }
-
-    /**
-     * <code>putFolder</code>
-     * <p>The put folder method.</p>
-     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
-     * @return {@link io.minio.ObjectWriteResponse} <p>The put folder return object is <code>ObjectWriteResponse</code> type.</p>
-     * @see java.lang.String
-     * @see io.minio.ObjectWriteResponse
-     */
-    public static ObjectWriteResponse putFolder(String objectName) {
-        return putFolder(MinioContextHolder.defaultBucket(), objectName);
-    }
-
-    /**
-     * <code>putFolder</code>
-     * <p>The put folder method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
-     * @return {@link io.minio.ObjectWriteResponse} <p>The put folder return object is <code>ObjectWriteResponse</code> type.</p>
-     * @see java.lang.String
-     * @see io.minio.ObjectWriteResponse
-     */
-    public static ObjectWriteResponse putFolder(String bucketName, String objectName) {
-        try {
-            return MinioHelper.putObject(bucketName,objectName);
-        } catch (FileErrorException exception) {
-            log.error("the minio server put folder has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
             return null;
         }
@@ -698,13 +641,11 @@ public class MinioUtils {
      * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
      * @param objects    {@link java.util.Collection} <p>The objects parameter is <code>Collection</code> type.</p>
      * @return {@link io.minio.ObjectWriteResponse} <p>The upload snowball objects return object is <code>ObjectWriteResponse</code> type.</p>
-     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see java.util.Collection
      * @see io.minio.ObjectWriteResponse
-     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
-    public static ObjectWriteResponse uploadSnowballObjects(String bucketName, String objectName, Collection<SnowballObject> objects) throws FileErrorException {
+    public static ObjectWriteResponse uploadSnowballObjects(String bucketName, String objectName, Collection<SnowballObject> objects) {
         try {
             return MinioHelper.uploadSnowballObjects(bucketName,objectName,objects);
         } catch (FileErrorException exception) {
@@ -720,12 +661,10 @@ public class MinioUtils {
      * @param sourceObjectName {@link java.lang.String} <p>The source object name parameter is <code>String</code> type.</p>
      * @param targetObjectName {@link java.lang.String} <p>The target object name parameter is <code>String</code> type.</p>
      * @return {@link io.minio.ObjectWriteResponse} <p>The copy object return object is <code>ObjectWriteResponse</code> type.</p>
-     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see io.minio.ObjectWriteResponse
-     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
-    public static ObjectWriteResponse copyObject(String sourceObjectName, String targetObjectName) throws FileErrorException {
+    public static ObjectWriteResponse copyObject(String sourceObjectName, String targetObjectName) {
         return copyObject(MinioContextHolder.defaultBucket(), sourceObjectName, MinioContextHolder.defaultBucket(), targetObjectName);
     }
 
@@ -737,12 +676,10 @@ public class MinioUtils {
      * @param targetBucketName {@link java.lang.String} <p>The target bucket name parameter is <code>String</code> type.</p>
      * @param targetObjectName {@link java.lang.String} <p>The target object name parameter is <code>String</code> type.</p>
      * @return {@link io.minio.ObjectWriteResponse} <p>The copy object return object is <code>ObjectWriteResponse</code> type.</p>
-     * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see io.minio.ObjectWriteResponse
-     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
-    public static ObjectWriteResponse copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) throws FileErrorException {
+    public static ObjectWriteResponse copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) {
         try {
             return MinioHelper.copyObject(sourceBucketName,sourceObjectName,targetBucketName,targetObjectName);
         } catch (FileErrorException exception) {
@@ -801,61 +738,35 @@ public class MinioUtils {
     }
 
     /**
-     * <code>objectUri</code>
-     * <p>The object uri method.</p>
+     * <code>objectUrl</code>
+     * <p>The object url method.</p>
      * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
      * @param expire     {@link java.lang.Integer} <p>The expire parameter is <code>Integer</code> type.</p>
-     * @return {@link java.lang.String} <p>The object uri return object is <code>String</code> type.</p>
+     * @return {@link java.net.URL} <p>The object url return object is <code>URL</code> type.</p>
      * @see java.lang.String
      * @see java.lang.Integer
+     * @see java.net.URL
      */
-    public static String objectUri(String objectName, Integer expire) {
-        return objectUri(MinioContextHolder.defaultBucket(), objectName, expire);
+    public static URL objectUrl(String objectName, Integer expire) {
+        return objectUrl(MinioContextHolder.defaultBucket(), objectName, expire);
     }
 
     /**
-     * <code>objectUri</code>
-     * <p>The object uri method.</p>
+     * <code>objectUrl</code>
+     * <p>The object url method.</p>
      * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
      * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
      * @param expire     {@link java.lang.Integer} <p>The expire parameter is <code>Integer</code> type.</p>
-     * @return {@link java.lang.String} <p>The object uri return object is <code>String</code> type.</p>
+     * @return {@link java.net.URL} <p>The object url return object is <code>URL</code> type.</p>
      * @see java.lang.String
      * @see java.lang.Integer
+     * @see java.net.URL
      */
-    public static String objectUri(String bucketName, String objectName, Integer expire) {
+    public static URL objectUrl(String bucketName, String objectName, Integer expire) {
         try {
-            return MinioHelper.objectUri(bucketName,objectName,expire);
+            return MinioHelper.objectUrl(bucketName,objectName,expire);
         } catch (FileErrorException exception) {
             log.error("the minio server presigned object url has error, expire: {}, object: {}, bucket: {}, error: {}", expire, objectName, bucketName, exception.getMessage());
-            GeneralUtils.printStackTrace(exception);
-            return null;
-        }
-    }
-
-    /**
-     * <code>objectUris</code>
-     * <p>The object uris method.</p>
-     * @return {@link java.util.Map} <p>The object uris return object is <code>Map</code> type.</p>
-     * @see java.util.Map
-     */
-    public static Map<String, String> objectUris() {
-        return objectUris(MinioContextHolder.defaultBucket());
-    }
-
-    /**
-     * <code>objectUris</code>
-     * <p>The object uris method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @return {@link java.util.Map} <p>The object uris return object is <code>Map</code> type.</p>
-     * @see java.lang.String
-     * @see java.util.Map
-     */
-    public static Map<String, String> objectUris(String bucketName) {
-        try {
-            return MinioHelper.objectUris(bucketName);
-        } catch (FileErrorException exception) {
-            log.error("the minio server presigned object urls has error, bucket: {}, error: {}", bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
             return null;
         }

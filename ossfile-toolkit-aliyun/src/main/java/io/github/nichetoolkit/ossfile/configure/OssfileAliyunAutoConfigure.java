@@ -1,6 +1,6 @@
 package io.github.nichetoolkit.ossfile.configure;
 
-import io.github.nichetoolkit.ossfile.MinioVideoRequestHandler;
+import io.github.nichetoolkit.ossfile.AliyunVideoRequestHandler;
 import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <code>OssfileMinioAutoConfigure</code>
- * <p>The ossfile minio auto configure class.</p>
+ * <code>OssfileAliyunAutoConfigure</code>
+ * <p>The ossfile aliyun auto configure class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
  * @see org.springframework.context.annotation.Configuration
@@ -20,13 +20,13 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @ComponentScan(basePackages = {"io.github.nichetoolkit.ossfile"})
-public class OssfileMinioAutoConfigure {
+public class OssfileAliyunAutoConfigure {
     /**
-     * <code>OssfileMinioAutoConfigure</code>
-     * <p>Instantiates a new ossfile minio auto configure.</p>
+     * <code>OssfileAliyunAutoConfigure</code>
+     * <p>Instantiates a new ossfile aliyun auto configure.</p>
      */
-    public OssfileMinioAutoConfigure() {
-        log.debug("The auto configuration for [ossfile-minio] initiated");
+    public OssfileAliyunAutoConfigure() {
+        log.debug("The auto configuration for [ossfile-aliyun] initiated");
     }
 
     /**
@@ -40,6 +40,6 @@ public class OssfileMinioAutoConfigure {
     @Bean
     @ConditionalOnMissingBean(value = OssfileVideoRequestHandler.class)
     public OssfileVideoRequestHandler minioVideoRequestHandler() {
-        return new MinioVideoRequestHandler();
+        return new AliyunVideoRequestHandler();
     }
 }

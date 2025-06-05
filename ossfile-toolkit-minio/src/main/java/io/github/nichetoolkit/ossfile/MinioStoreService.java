@@ -64,46 +64,36 @@ public class MinioStoreService extends OssfileStoreService {
 
     @Override
     public InputStream getOssfile(String bucket, String objectKey) throws RestException {
-        return MinioHelper.getObject(bucket,objectKey);
+        return MinioHelper.getObject(bucket, objectKey);
     }
 
     @Override
     public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
-        MinioHelper.putObject(objectKey,inputStream);
+        MinioHelper.putObject(objectKey, inputStream);
     }
 
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
-        MinioHelper.putObject(bucket,objectKey,inputStream);
-    }
-
-    @Override
-    public void margeOssfile(String objectKey, Collection<String> objectKeyList) throws RestException {
-        MinioHelper.composeObject(objectKey,objectKeyList);
-    }
-
-    @Override
-    public void margeOssfile(String bucket, String objectKey, Collection<String> objectKeyList) throws RestException {
-        MinioHelper.composeObject(bucket,objectKey,objectKeyList);
+        MinioHelper.putObject(bucket, objectKey, inputStream);
     }
 
     @Override
     public void deleteOssfile(String objectKey) throws RestException {
-
+        MinioHelper.removeObject(objectKey);
     }
 
     @Override
     public void deleteOssfile(String bucket, String objectKey) throws RestException {
-
+        MinioHelper.removeObject(bucket, objectKey);
     }
 
     @Override
     public void deleteOssfile(Collection<String> objectKeyList) throws RestException {
-
+        MinioHelper.removeObjects(objectKeyList);
     }
 
     @Override
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
-
+        MinioHelper.removeObjects(bucket, objectKeyList);
     }
 }

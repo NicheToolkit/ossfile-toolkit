@@ -90,31 +90,6 @@ public interface OssfileService {
     void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException;
 
     /**
-     * <code>margeOssfile</code>
-     * <p>The marge ossfile method.</p>
-     * @param objectKey     {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
-     * @param objectKeyList {@link java.util.Collection} <p>The object key list parameter is <code>Collection</code> type.</p>
-     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
-     * @see java.lang.String
-     * @see java.util.Collection
-     * @see io.github.nichetoolkit.rest.RestException
-     */
-    void margeOssfile(String objectKey, Collection<String> objectKeyList) throws RestException;
-
-    /**
-     * <code>margeOssfile</code>
-     * <p>The marge ossfile method.</p>
-     * @param bucket        {@link java.lang.String} <p>The bucket parameter is <code>String</code> type.</p>
-     * @param objectKey     {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
-     * @param objectKeyList {@link java.util.Collection} <p>The object key list parameter is <code>Collection</code> type.</p>
-     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
-     * @see java.lang.String
-     * @see java.util.Collection
-     * @see io.github.nichetoolkit.rest.RestException
-     */
-    void margeOssfile(String bucket, String objectKey, Collection<String> objectKeyList) throws RestException;
-
-    /**
      * <code>deleteOssfile</code>
      * <p>The delete ossfile method.</p>
      * @param objectKey {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
