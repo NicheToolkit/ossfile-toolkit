@@ -1,15 +1,16 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.support.SpringFactoriesLoader;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -61,17 +62,9 @@ public class OssfileStoreServiceHolder implements RestFulfilledFitter<OssfileSto
      */
     static void cacheStoreServices() {
         List<OssfileStoreService> storeServices = ApplicationContextHolder.beansOfType(OssfileStoreService.class);
-        if (GeneralUtils.isNotEmpty(storeServices)) {
-            return;
-        }
-        storeServices = SpringFactoriesLoader.loadFactories(OssfileStoreService.class, null);
-        if (GeneralUtils.isEmpty(storeServices)) {
-            return;
-        }
-        storeServices.forEach(storeService -> {
-            OSSFILE_STORE_SERVICE_CACHE.putIfAbsent(storeService.providerType(),storeService);
-        });
-        log.debug("There are {} store service beans has be initiated.", storeServices.size());
+        RestOptional.ofEmptyable(storeServices).orElseThrow(() -> new InstanceLackError("There are no any store service has been initiated."));
+        storeServices.forEach(storeService -> OSSFILE_STORE_SERVICE_CACHE.putIfAbsent(storeService.providerType(),storeService));
+        log.debug("There are {} store service beans has been initiated.", storeServices.size());
     }
 
     /**
@@ -83,6 +76,17 @@ public class OssfileStoreServiceHolder implements RestFulfilledFitter<OssfileSto
      */
     public static OssfileStoreService storeService(OssfileProviderType providerType) {
         return OSSFILE_STORE_SERVICE_CACHE.get(providerType);
+    }
+
+    /**
+     * <code>anyoneStoreService</code>
+     * <p>The anyone store service method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileStoreService} <p>The anyone store service return object is <code>OssfileStoreService</code> type.</p>
+     */
+    public static OssfileStoreService anyoneStoreService() {
+        Optional<OssfileStoreService>  anyoneStoreServiceOptional = OSSFILE_STORE_SERVICE_CACHE.values().stream().findAny();
+        assert anyoneStoreServiceOptional.isPresent();
+        return anyoneStoreServiceOptional.get();
     }
 
     /**
