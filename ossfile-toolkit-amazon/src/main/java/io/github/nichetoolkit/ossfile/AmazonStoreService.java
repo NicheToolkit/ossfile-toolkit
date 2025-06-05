@@ -2,6 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.model.InitiateMultipartUploadResult;
+import com.amazonaws.services.s3.model.PartETag;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -50,7 +54,7 @@ public class AmazonStoreService extends OssfileStoreService {
 
     @Override
     public OssfileProviderType providerType() throws RestException {
-        return OssfileProviderType.ALIYUN;
+        return OssfileProviderType.AMAZON;
     }
 
     @Override
@@ -83,6 +87,40 @@ public class AmazonStoreService extends OssfileStoreService {
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
         AmazonHelper.putObject(bucket, objectKey, inputStream);
+    }
+
+    @Override
+    public String startMultipart(String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = AmazonHelper.initiateMultipart(objectKey, null);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+    }
+
+    @Override
+    public String startMultipart(String bucket, String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = AmazonHelper.initiateMultipart(bucket, objectKey, null);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+    }
+
+    @Override
+    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        AmazonHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    }
+
+    @Override
+    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        AmazonHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+    }
+
+    @Override
+    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        AmazonHelper.completeMultipart(objectKey, uploadId, partETagList);
+    }
+
+    @Override
+    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        AmazonHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
     }
 
     @Override

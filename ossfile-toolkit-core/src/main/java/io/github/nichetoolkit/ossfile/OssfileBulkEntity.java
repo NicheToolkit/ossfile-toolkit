@@ -114,6 +114,13 @@ public class OssfileBulkEntity<E extends OssfileBulkEntity<E, M>, M extends Ossf
     protected Boolean merge;
 
     /**
+     * <code>uploadId</code>
+     * {@link java.lang.String} <p>The <code>uploadId</code> field.</p>
+     * @see java.lang.String
+     */
+    protected String uploadId;
+
+    /**
      * <code>etag</code>
      * {@link java.lang.String} <p>The <code>etag</code> field.</p>
      * @see java.lang.String

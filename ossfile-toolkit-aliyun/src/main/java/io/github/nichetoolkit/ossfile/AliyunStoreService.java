@@ -1,6 +1,8 @@
 package io.github.nichetoolkit.ossfile;
 
+import com.aliyun.oss.model.InitiateMultipartUploadResult;
 import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.PartETag;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * <code>AliyunStoreService</code>
@@ -99,6 +103,40 @@ public class AliyunStoreService extends OssfileStoreService {
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
         AliyunHelper.putObject(bucket,objectKey,inputStream);
+    }
+
+    @Override
+    public String startMultipart(String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = AliyunHelper.initiateMultipart(objectKey, null);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+    }
+
+    @Override
+    public String startMultipart(String bucket, String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = AliyunHelper.initiateMultipart(bucket, objectKey, null);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+    }
+
+    @Override
+    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        AliyunHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    }
+
+    @Override
+    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        AliyunHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+    }
+
+    @Override
+    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        AliyunHelper.completeMultipart(objectKey, uploadId, partETagList);
+    }
+
+    @Override
+    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        AliyunHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
     }
 
     @Override

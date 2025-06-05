@@ -40,12 +40,21 @@ public class OssfilePartEntity<E extends OssfilePartEntity<E,M>,M extends Ossfil
      * @see java.lang.String
      */
     protected String filename;
+
+    protected String uploadId;
     /**
      * <code>partIndex</code>
      * {@link java.lang.Integer} <p>The <code>partIndex</code> field.</p>
      * @see java.lang.Integer
      */
     protected Integer partIndex;
+
+    /**
+     * <code>partEtag</code>
+     * {@link java.lang.String} <p>The <code>partEtag</code> field.</p>
+     * @see java.lang.String
+     */
+    protected String partEtag;
     /**
      * <code>partSize</code>
      * {@link java.lang.Long} <p>The <code>partSize</code> field.</p>

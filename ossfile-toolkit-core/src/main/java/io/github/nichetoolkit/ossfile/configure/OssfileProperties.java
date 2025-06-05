@@ -47,11 +47,6 @@ public class OssfileProperties {
      */
     private String secretKey;
     /**
-     * <code>secure</code>
-     * <p>The <code>secure</code> field.</p>
-     */
-    private boolean secure = false;
-    /**
      * <code>region</code>
      * {@link java.lang.String} <p>The <code>region</code> field.</p>
      * @see java.lang.String

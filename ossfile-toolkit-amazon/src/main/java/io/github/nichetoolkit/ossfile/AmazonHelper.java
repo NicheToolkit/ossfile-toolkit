@@ -98,7 +98,7 @@ public class AmazonHelper {
 
     public static ObjectMetadata statObject(String bucketName, String objectName) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().getObjectMetadata(bucketName,objectName);
+            return AmazonContextHolder.defaultClient().getObjectMetadata(bucketName, objectName);
         } catch (SdkClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_STAT_OBJECT_ERROR, exception.getMessage());
         }
@@ -207,7 +207,7 @@ public class AmazonHelper {
 
     public static PutObjectResult putObject(String bucketName, String objectName, InputStream inputStream) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().putObject(bucketName, objectName, inputStream,null);
+            return AmazonContextHolder.defaultClient().putObject(bucketName, objectName, inputStream, null);
         } catch (SdkClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_PUT_OBJECT_ERROR, exception.getMessage());
         }
@@ -223,7 +223,7 @@ public class AmazonHelper {
             Optional.ofNullable(metadata).ifPresent(initiateMultipartUploadRequest::setObjectMetadata);
             return AmazonContextHolder.defaultClient().initiateMultipartUpload(initiateMultipartUploadRequest);
         } catch (SdkClientException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_COMPOSE_OBJECT_ERROR, exception.getMessage());
+            throw new FileErrorException(OssfileErrorStatus.OSSFILE_INITIATE_MULTIPART_ERROR, exception.getMessage());
         }
     }
 
@@ -235,14 +235,13 @@ public class AmazonHelper {
         try {
             return AmazonContextHolder.defaultClient().completeMultipartUpload(new CompleteMultipartUploadRequest(bucketName, objectName, uploadId, new ArrayList<>(partETags)));
         } catch (SdkClientException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_COMPOSE_OBJECT_ERROR, exception.getMessage());
+            throw new FileErrorException(OssfileErrorStatus.OSSFILE_COMPLETE_MULTIPART_ERROR, exception.getMessage());
         }
     }
 
     public static UploadPartResult uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
         return uploadMultipart(AmazonContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
     }
-
 
     public static UploadPartResult uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
         try {
@@ -255,7 +254,7 @@ public class AmazonHelper {
             uploadPartRequest.setPartSize(partSize);
             return AmazonContextHolder.defaultClient().uploadPart(uploadPartRequest);
         } catch (SdkClientException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_COMPOSE_OBJECT_ERROR, exception.getMessage());
+            throw new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_MULTIPART_ERROR, exception.getMessage());
         }
     }
 
@@ -265,7 +264,7 @@ public class AmazonHelper {
 
     public static PutObjectResult putObject(String bucketName, String objectName, String filename) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().putObject(bucketName,objectName,filename);
+            return AmazonContextHolder.defaultClient().putObject(bucketName, objectName, filename);
         } catch (Throwable exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_OBJECT_ERROR, exception.getMessage());
         }
@@ -277,9 +276,9 @@ public class AmazonHelper {
 
     public static PutObjectResult appendObject(String bucketName, String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().putObject(bucketName,objectName,inputStream,metadata);
+            return AmazonContextHolder.defaultClient().putObject(bucketName, objectName, inputStream, metadata);
         } catch (SdkClientException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_SNOWBALL_OBJECT_ERROR, exception.getMessage());
+            throw new FileErrorException(OssfileErrorStatus.OSSFILE_APPEND_OBJECT_ERROR, exception.getMessage());
         }
     }
 

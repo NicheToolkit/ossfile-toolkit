@@ -1,19 +1,22 @@
 package io.github.nichetoolkit.ossfile;
 
+import com.google.common.collect.Multimap;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.error.natives.UnsupportedErrorException;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.*;
+import io.minio.errors.InsufficientDataException;
+import io.minio.errors.InternalException;
 import io.minio.errors.MinioException;
+import io.minio.errors.XmlParserException;
 import io.minio.http.Method;
-import io.minio.messages.Bucket;
-import io.minio.messages.Item;
+import io.minio.messages.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -21,14 +24,23 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Slf4j
 public class MinioHelper {
 
+    public static MinioAsyncClient createAsyncClient(OssfileProperties ossfileProperties) {
+        MinioAsyncClient.Builder builder = MinioAsyncClient.builder();
+        return builder
+                .endpoint(ossfileProperties.getEndpoint())
+                .credentials(ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey())
+                .build();
+    }
+
     public static MinioClient createMinioClient(OssfileProperties ossfileProperties) {
-        return MinioClient.builder()
+        MinioClient.Builder builder = MinioClient.builder();
+        Optional.ofNullable(ossfileProperties.getRegion()).ifPresent(builder::region);
+        return builder
                 .endpoint(ossfileProperties.getEndpoint())
                 .credentials(ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey())
                 .build();
@@ -188,18 +200,6 @@ public class MinioHelper {
         }
     }
 
-    public static ObjectWriteResponse putObject(String objectName, String fileName) throws FileErrorException {
-        return putObject(MinioContextHolder.defaultBucket(), objectName, fileName);
-    }
-
-    public static ObjectWriteResponse putObject(String bucketName, String objectName, String fileName) throws FileErrorException {
-        try {
-            return MinioContextHolder.defaultClient().uploadObject(UploadObjectArgs.builder().bucket(bucketName).object(objectName).filename(fileName).build());
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_PUT_OBJECT_ERROR, exception.getMessage());
-        }
-    }
-
     public static ObjectWriteResponse putObject(String objectName, InputStream inputStream) throws FileErrorException {
         return putObject(MinioContextHolder.defaultBucket(), objectName, inputStream);
     }
@@ -211,6 +211,30 @@ public class MinioHelper {
         } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_PUT_OBJECT_ERROR, exception.getMessage());
         }
+    }
+
+    public static InitiateMultipartUploadResult initiateMultipart(String objectName) throws FileErrorException {
+        return initiateMultipart(MinioContextHolder.defaultBucket(), objectName, null, null);
+    }
+
+    public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
+        return MinioContextHolder.multipartClient().initiateMultipart(bucketName,objectName,headers,extraQueryParams);
+    }
+
+    public static ObjectWriteResponse completeMultipart(String objectName, String uploadId, Collection<Part> parts) throws FileErrorException {
+        return completeMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, parts,null,null);
+    }
+
+    public static ObjectWriteResponse completeMultipart(String bucketName, String objectName, String uploadId, Collection<Part> parts, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
+        return MinioContextHolder.multipartClient().completeMultipart(bucketName,objectName,uploadId,parts,headers,extraQueryParams);
+    }
+
+    public static UploadPartResponse uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
+        return uploadMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize,null,null);
+    }
+
+    public static UploadPartResponse uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
+        return MinioContextHolder.multipartClient().uploadMultipart(bucketName, objectName, uploadId, partIndex, inputStream, partSize,headers,extraQueryParams);
     }
 
     public static ObjectWriteResponse composeSource(String objectName, Collection<ComposeSource> composeSources) throws FileErrorException {
@@ -271,12 +295,24 @@ public class MinioHelper {
         }
     }
 
-    public static ObjectWriteResponse uploadSnowballObjects(String bucketName, String objectName, Collection<SnowballObject> objects) throws FileErrorException {
+    public static ObjectWriteResponse appendObject(String objectName, SnowballObject object) throws FileErrorException {
+        return appendObjects(MinioContextHolder.defaultBucket(),objectName,Collections.singletonList(object));
+    }
+
+    public static ObjectWriteResponse appendObject(String bucketName, String objectName, SnowballObject object) throws FileErrorException {
+        return appendObjects(bucketName,objectName,Collections.singletonList(object));
+    }
+
+    public static ObjectWriteResponse appendObjects(String objectName, Collection<SnowballObject> objects) throws FileErrorException {
+        return appendObjects(MinioContextHolder.defaultBucket(),objectName,objects);
+    }
+
+    public static ObjectWriteResponse appendObjects(String bucketName, String objectName, Collection<SnowballObject> objects) throws FileErrorException {
         try {
             return MinioContextHolder.defaultClient().uploadSnowballObjects(UploadSnowballObjectsArgs.builder().bucket(bucketName)
                     .object(objectName).objects(objects).build());
         } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException exception) {
-            throw new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_SNOWBALL_OBJECT_ERROR, exception.getMessage());
+            throw new FileErrorException(OssfileErrorStatus.OSSFILE_APPEND_OBJECT_ERROR, exception.getMessage());
         }
     }
 

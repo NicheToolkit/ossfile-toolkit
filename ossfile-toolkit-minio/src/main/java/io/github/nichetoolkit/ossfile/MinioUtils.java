@@ -1,13 +1,14 @@
 package io.github.nichetoolkit.ossfile;
 
+import com.google.common.collect.Multimap;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.error.natives.UnsupportedErrorException;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.*;
-import io.minio.messages.Bucket;
-import io.minio.messages.Item;
+import io.minio.messages.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -336,7 +337,7 @@ public class MinioUtils {
      */
     public static GetObjectResponse getObject(String bucketName, String objectName, long offset, long length) {
         try {
-            return MinioHelper.getObject(bucketName,objectName,offset,length);
+            return MinioHelper.getObject(bucketName, objectName, offset, length);
         } catch (FileErrorException exception) {
             log.error("the minio server get object with offset and length has error, range: [ {} , {} ], object: {}, bucket: {} error: {}", offset, length, objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -373,7 +374,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse putObject(String bucketName, MultipartFile file, String objectName, String contentType) {
         try {
-            return MinioHelper.putObject(bucketName,file,objectName,contentType);
+            return MinioHelper.putObject(bucketName, file, objectName, contentType);
         } catch (FileErrorException exception) {
             log.error("the minio server put object has error, contentType: {}, object: {}, bucket: {}, error: {}", contentType, objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -406,7 +407,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse putObject(String bucketName, String objectName, String fileName) {
         try {
-            return MinioHelper.uploadObject(bucketName,objectName,fileName);
+            return MinioHelper.uploadObject(bucketName, objectName, fileName);
         } catch (FileErrorException exception) {
             log.error("the minio server upload object has error, fileName: {}, object: {}, bucket: {}, error: {}", fileName, objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -442,7 +443,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse putObject(String bucketName, String objectName, InputStream inputStream) {
         try {
-            return MinioHelper.putObject(bucketName,objectName,inputStream);
+            return MinioHelper.putObject(bucketName, objectName, inputStream);
         } catch (FileErrorException exception) {
             log.error("the minio server put object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -478,7 +479,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse composeSource(String bucketName, String objectName, Collection<ComposeSource> composeSources) {
         try {
-            return MinioHelper.composeSource(bucketName,objectName, composeSources);
+            return MinioHelper.composeSource(bucketName, objectName, composeSources);
         } catch (FileErrorException exception) {
             log.error("the minio server compose collection source object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -499,7 +500,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse composeSource(String bucketName, String objectName, Map<String, Collection<String>> sourcesMap) {
         try {
-            return MinioHelper.composeSource(bucketName,objectName, sourcesMap);
+            return MinioHelper.composeSource(bucketName, objectName, sourcesMap);
         } catch (FileErrorException exception) {
             log.error("the minio server compose map source object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -520,7 +521,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse composeObject(String bucketName, String objectName, Collection<String> composeSources) {
         try {
-            return MinioHelper.composeObject(bucketName,objectName,composeSources);
+            return MinioHelper.composeObject(bucketName, objectName, composeSources);
         } catch (FileErrorException exception) {
             log.error("the minio server compose object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -569,6 +570,127 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse composeObject(String bucketName, String objectName, Map<String, Collection<String>> sourcesMap) {
         return composeSource(bucketName, objectName, sourcesMap);
+    }
+
+    /**
+     * <code>initiateMultipart</code>
+     * <p>The initiate multipart method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @return {@link io.minio.messages.InitiateMultipartUploadResult} <p>The initiate multipart return object is <code>InitiateMultipartUploadResult</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.messages.InitiateMultipartUploadResult
+     */
+    public static InitiateMultipartUploadResult initiateMultipart(String objectName) {
+        return initiateMultipart(MinioContextHolder.defaultBucket(), objectName, null, null);
+    }
+
+    /**
+     * <code>initiateMultipart</code>
+     * <p>The initiate multipart method.</p>
+     * @param bucketName       {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName       {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param headers          {@link com.google.common.collect.Multimap} <p>The headers parameter is <code>Multimap</code> type.</p>
+     * @param extraQueryParams {@link com.google.common.collect.Multimap} <p>The extra query params parameter is <code>Multimap</code> type.</p>
+     * @return {@link io.minio.messages.InitiateMultipartUploadResult} <p>The initiate multipart return object is <code>InitiateMultipartUploadResult</code> type.</p>
+     * @see java.lang.String
+     * @see com.google.common.collect.Multimap
+     * @see org.springframework.lang.Nullable
+     * @see io.minio.messages.InitiateMultipartUploadResult
+     */
+    public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {
+        try {
+            return MinioHelper.initiateMultipart(bucketName, objectName, headers, extraQueryParams);
+        } catch (FileErrorException exception) {
+            log.error("the minio ossfile server initiate multipart has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>uploadMultipart</code>
+     * <p>The upload multipart method.</p>
+     * @param objectName  {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param uploadId    {@link java.lang.String} <p>The upload id parameter is <code>String</code> type.</p>
+     * @param partIndex   int <p>The part index parameter is <code>int</code> type.</p>
+     * @param inputStream {@link java.io.InputStream} <p>The input stream parameter is <code>InputStream</code> type.</p>
+     * @param partSize    long <p>The part size parameter is <code>long</code> type.</p>
+     * @return {@link io.minio.UploadPartResponse} <p>The upload multipart return object is <code>UploadPartResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.io.InputStream
+     * @see io.minio.UploadPartResponse
+     */
+    public static UploadPartResponse uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) {
+        return uploadMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize, null, null);
+    }
+
+    /**
+     * <code>uploadMultipart</code>
+     * <p>The upload multipart method.</p>
+     * @param bucketName       {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName       {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param uploadId         {@link java.lang.String} <p>The upload id parameter is <code>String</code> type.</p>
+     * @param partIndex        int <p>The part index parameter is <code>int</code> type.</p>
+     * @param inputStream      {@link java.io.InputStream} <p>The input stream parameter is <code>InputStream</code> type.</p>
+     * @param partSize         long <p>The part size parameter is <code>long</code> type.</p>
+     * @param headers          {@link com.google.common.collect.Multimap} <p>The headers parameter is <code>Multimap</code> type.</p>
+     * @param extraQueryParams {@link com.google.common.collect.Multimap} <p>The extra query params parameter is <code>Multimap</code> type.</p>
+     * @return {@link io.minio.UploadPartResponse} <p>The upload multipart return object is <code>UploadPartResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.io.InputStream
+     * @see com.google.common.collect.Multimap
+     * @see org.springframework.lang.Nullable
+     * @see io.minio.UploadPartResponse
+     */
+    public static UploadPartResponse uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {
+        try {
+            return MinioHelper.uploadMultipart(bucketName, objectName, uploadId, partIndex, inputStream, partSize, headers, extraQueryParams);
+        } catch (FileErrorException exception) {
+            log.error("the minio ossfile server upload multipart has error, uploadId: {}, object: {}, bucket: {}, error: {}", uploadId, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>completeMultipart</code>
+     * <p>The complete multipart method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param uploadId   {@link java.lang.String} <p>The upload id parameter is <code>String</code> type.</p>
+     * @param parts      {@link java.util.Collection} <p>The parts parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The complete multipart return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse completeMultipart(String objectName, String uploadId, Collection<Part> parts) {
+        return completeMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, parts, null, null);
+    }
+
+    /**
+     * <code>completeMultipart</code>
+     * <p>The complete multipart method.</p>
+     * @param bucketName       {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName       {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param uploadId         {@link java.lang.String} <p>The upload id parameter is <code>String</code> type.</p>
+     * @param parts            {@link java.util.Collection} <p>The parts parameter is <code>Collection</code> type.</p>
+     * @param headers          {@link com.google.common.collect.Multimap} <p>The headers parameter is <code>Multimap</code> type.</p>
+     * @param extraQueryParams {@link com.google.common.collect.Multimap} <p>The extra query params parameter is <code>Multimap</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The complete multipart return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see com.google.common.collect.Multimap
+     * @see org.springframework.lang.Nullable
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse completeMultipart(String bucketName, String objectName, String uploadId, Collection<Part> parts, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {
+        try {
+            return MinioHelper.completeMultipart(bucketName, objectName, uploadId, parts, headers, extraQueryParams);
+        } catch (FileErrorException exception) {
+            log.error("the minio ossfile server complete multipart has error, uploadId：{}, object: {}, bucket: {}, error: {}", uploadId, objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
     }
 
 
@@ -626,7 +748,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse uploadObject(String bucketName, String objectName, String filename, long partSize) {
         try {
-            return MinioHelper.uploadObject(bucketName,objectName,filename,partSize);
+            return MinioHelper.uploadObject(bucketName, objectName, filename, partSize);
         } catch (FileErrorException exception) {
             log.error("the minio server upload object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -635,21 +757,70 @@ public class MinioUtils {
     }
 
     /**
-     * <code>uploadSnowballObjects</code>
-     * <p>The upload snowball objects method.</p>
+     * <code>appendObject</code>
+     * <p>The append object method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param object     {@link io.minio.SnowballObject} <p>The object parameter is <code>SnowballObject</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The append object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.SnowballObject
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse appendObject(String objectName, SnowballObject object) {
+        return appendObject(MinioContextHolder.defaultBucket(), objectName, object);
+    }
+
+    /**
+     * <code>appendObject</code>
+     * <p>The append object method.</p>
      * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
      * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param object     {@link io.minio.SnowballObject} <p>The object parameter is <code>SnowballObject</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The append object return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see io.minio.SnowballObject
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse appendObject(String bucketName, String objectName, SnowballObject object) {
+        try {
+            return MinioHelper.appendObject(bucketName, objectName, object);
+        } catch (FileErrorException exception) {
+            log.error("the minio server upload append object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            GeneralUtils.printStackTrace(exception);
+            return null;
+        }
+    }
+
+    /**
+     * <code>appendObjects</code>
+     * <p>The append objects method.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
      * @param objects    {@link java.util.Collection} <p>The objects parameter is <code>Collection</code> type.</p>
-     * @return {@link io.minio.ObjectWriteResponse} <p>The upload snowball objects return object is <code>ObjectWriteResponse</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The append objects return object is <code>ObjectWriteResponse</code> type.</p>
      * @see java.lang.String
      * @see java.util.Collection
      * @see io.minio.ObjectWriteResponse
      */
-    public static ObjectWriteResponse uploadSnowballObjects(String bucketName, String objectName, Collection<SnowballObject> objects) {
+    public static ObjectWriteResponse appendObjects(String objectName, Collection<SnowballObject> objects) {
+        return appendObjects(MinioContextHolder.defaultBucket(), objectName, objects);
+    }
+
+    /**
+     * <code>appendObjects</code>
+     * <p>The append objects method.</p>
+     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
+     * @param objectName {@link java.lang.String} <p>The object name parameter is <code>String</code> type.</p>
+     * @param objects    {@link java.util.Collection} <p>The objects parameter is <code>Collection</code> type.</p>
+     * @return {@link io.minio.ObjectWriteResponse} <p>The append objects return object is <code>ObjectWriteResponse</code> type.</p>
+     * @see java.lang.String
+     * @see java.util.Collection
+     * @see io.minio.ObjectWriteResponse
+     */
+    public static ObjectWriteResponse appendObjects(String bucketName, String objectName, Collection<SnowballObject> objects) {
         try {
-            return MinioHelper.uploadSnowballObjects(bucketName,objectName,objects);
+            return MinioHelper.appendObjects(bucketName, objectName, objects);
         } catch (FileErrorException exception) {
-            log.error("the minio server upload snowball objects has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
+            log.error("the minio server upload append objects has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
             return null;
         }
@@ -681,7 +852,7 @@ public class MinioUtils {
      */
     public static ObjectWriteResponse copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) {
         try {
-            return MinioHelper.copyObject(sourceBucketName,sourceObjectName,targetBucketName,targetObjectName);
+            return MinioHelper.copyObject(sourceBucketName, sourceObjectName, targetBucketName, targetObjectName);
         } catch (FileErrorException exception) {
             log.error("the minio server copy object has error, target object: {}, target bucket: {}, source object: {}, source bucket: {}, error: {}", targetObjectName, targetBucketName, sourceObjectName, sourceBucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -708,7 +879,7 @@ public class MinioUtils {
      */
     public static void removeObject(String bucketName, String objectName) {
         try {
-            MinioHelper.removeObject(bucketName,objectName);
+            MinioHelper.removeObject(bucketName, objectName);
         } catch (FileErrorException exception) {
             log.error("the minio server remove object has error, object: {}, bucket: {}, error: {}", objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);
@@ -764,7 +935,7 @@ public class MinioUtils {
      */
     public static URL objectUrl(String bucketName, String objectName, Integer expire) {
         try {
-            return MinioHelper.objectUrl(bucketName,objectName,expire);
+            return MinioHelper.objectUrl(bucketName, objectName, expire);
         } catch (FileErrorException exception) {
             log.error("the minio server presigned object url has error, expire: {}, object: {}, bucket: {}, error: {}", expire, objectName, bucketName, exception.getMessage());
             GeneralUtils.printStackTrace(exception);

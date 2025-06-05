@@ -32,13 +32,6 @@
       "description": "the secret key on oss file configuration."
     },
     {
-      "name": "nichetoolkit.ossfile.secure",
-      "type": "java.lang.Boolean",
-      "sourceType": "java.lang.Boolean",
-      "defaultValue": false,
-      "description": "the switch of secure on oss file configuration."
-    },
-    {
       "name": "nichetoolkit.ossfile.region",
       "type": "java.lang.String",
       "sourceType": "java.lang.String",
@@ -112,18 +105,6 @@
         {
           "value": "AMAZON",
           "description": "the provider type amazon on oss file configuration."
-        }
-      ]
-    },{
-      "name": "nichetoolkit.ossfile.secure",
-      "values": [
-        {
-          "value": false,
-          "description": "the switch of secure is closed on mybatis configuration."
-        },
-        {
-          "value": true,
-          "description": "the switch of secure is opened on mybatis configuration."
         }
       ]
     }

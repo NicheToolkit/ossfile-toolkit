@@ -57,12 +57,26 @@ public class OssfilePartModel<M extends OssfilePartModel<M,E>,E extends OssfileP
      * @see java.lang.String
      */
     protected String filename;
+
+    /**
+     * <code>uploadId</code>
+     * {@link java.lang.String} <p>The <code>uploadId</code> field.</p>
+     * @see java.lang.String
+     */
+    protected String uploadId;
     /**
      * <code>partIndex</code>
      * {@link java.lang.Integer} <p>The <code>partIndex</code> field.</p>
      * @see java.lang.Integer
      */
     protected Integer partIndex;
+
+    /**
+     * <code>partEtag</code>
+     * {@link java.lang.String} <p>The <code>partEtag</code> field.</p>
+     * @see java.lang.String
+     */
+    protected String partEtag;
     /**
      * <code>partSize</code>
      * {@link java.lang.Long} <p>The <code>partSize</code> field.</p>

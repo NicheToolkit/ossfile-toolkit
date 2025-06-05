@@ -2,6 +2,7 @@ package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
+import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
 
 import javax.annotation.Resource;
@@ -23,11 +24,32 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     private MinioClient minioClient;
 
     /**
+     * <code>asyncClient</code>
+     * {@link io.minio.MinioAsyncClient} <p>The <code>asyncClient</code> field.</p>
+     * @see io.minio.MinioAsyncClient
+     */
+    private MinioAsyncClient asyncClient;
+
+    /**
+     * <code>multipartClient</code>
+     * {@link io.github.nichetoolkit.ossfile.MinioMultipartClient} <p>The <code>multipartClient</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.MinioMultipartClient
+     */
+    private MinioMultipartClient multipartClient;
+
+    /**
      * <code>defaultBucket</code>
      * {@link java.lang.String} <p>The <code>defaultBucket</code> field.</p>
      * @see java.lang.String
      */
     private String defaultBucket;
+
+    /**
+     * <code>defaultRegion</code>
+     * {@link java.lang.String} <p>The <code>defaultRegion</code> field.</p>
+     * @see java.lang.String
+     */
+    private String defaultRegion;
 
     /**
      * <code>ossfileProperties</code>
@@ -51,8 +73,11 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
 
     @Override
     public void afterAutowirePropertiesSet() {
+        this.asyncClient = MinioHelper.createAsyncClient(this.ossfileProperties);
         this.minioClient = MinioHelper.createMinioClient(this.ossfileProperties);
+        this.multipartClient = new MinioMultipartClient(this.asyncClient);
         this.defaultBucket = ossfileProperties.getBucket();
+        this.defaultRegion = ossfileProperties.getRegion();
     }
 
     /**
@@ -91,6 +116,36 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      */
     public static MinioClient defaultClient() {
         return INSTANCE.minioClient;
+    }
+
+    /**
+     * <code>multipartClient</code>
+     * <p>The multipart client method.</p>
+     * @return {@link io.minio.MinioClient} <p>The multipart client return object is <code>MinioClient</code> type.</p>
+     * @see io.minio.MinioClient
+     */
+    public static MinioMultipartClient multipartClient() {
+        return INSTANCE.multipartClient;
+    }
+
+    /**
+     * <code>asyncClient</code>
+     * <p>The async client method.</p>
+     * @return {@link io.minio.MinioAsyncClient} <p>The async client return object is <code>MinioAsyncClient</code> type.</p>
+     * @see io.minio.MinioAsyncClient
+     */
+    public static MinioAsyncClient asyncClient() {
+        return INSTANCE.asyncClient;
+    }
+
+    /**
+     * <code>defaultRegion</code>
+     * <p>The default region method.</p>
+     * @return {@link java.lang.String} <p>The default region return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    public static String defaultRegion() {
+        return INSTANCE.defaultRegion;
     }
 
 

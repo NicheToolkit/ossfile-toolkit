@@ -2,11 +2,11 @@ package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.credentials.AssumeRoleProvider;
 import io.minio.credentials.Credentials;
+import io.minio.messages.InitiateMultipartUploadResult;
+import io.minio.messages.Part;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -75,6 +78,40 @@ public class MinioStoreService extends OssfileStoreService {
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
         MinioHelper.putObject(bucket, objectKey, inputStream);
+    }
+
+    @Override
+    public String startMultipart(String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(objectKey);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null);
+    }
+
+    @Override
+    public String startMultipart(String bucket, String objectKey) throws RestException {
+        InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(bucket, objectKey, null, null);
+        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null);
+    }
+
+    @Override
+    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        MinioHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    }
+
+    @Override
+    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        MinioHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize, null, null);
+    }
+
+    @Override
+    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<Part> partETagList = partETags.stream().map(partETag -> new Part(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        MinioHelper.completeMultipart(objectKey, uploadId, partETagList);
+    }
+
+    @Override
+    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+        List<Part> partETagList = partETags.stream().map(partETag -> new Part(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
+        MinioHelper.completeMultipart(bucket, objectKey, uploadId, partETagList, null, null);
     }
 
     @Override
