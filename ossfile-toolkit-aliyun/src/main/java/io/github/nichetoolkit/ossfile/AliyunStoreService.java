@@ -66,7 +66,7 @@ public class AliyunStoreService extends OssfileStoreService {
 
     @Override
     public OssfileProviderType providerType() throws RestException {
-        return OssfileProviderType.MINIO;
+        return OssfileProviderType.ALIYUN;
     }
 
     @Override

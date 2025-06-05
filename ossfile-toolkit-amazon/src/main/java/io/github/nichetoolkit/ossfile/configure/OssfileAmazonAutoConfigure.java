@@ -1,6 +1,6 @@
 package io.github.nichetoolkit.ossfile.configure;
 
-import io.github.nichetoolkit.ossfile.AliyunVideoRequestHandler;
+import io.github.nichetoolkit.ossfile.AmazonVideoRequestHandler;
 import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <code>OssfileAliyunAutoConfigure</code>
- * <p>The ossfile aliyun auto configure class.</p>
+ * <code>OssfileAmazonAutoConfigure</code>
+ * <p>The ossfile amazon auto configure class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
  * @see org.springframework.context.annotation.Configuration
@@ -20,26 +20,26 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @ComponentScan(basePackages = {"io.github.nichetoolkit.ossfile"})
-public class OssfileAliyunAutoConfigure {
+public class OssfileAmazonAutoConfigure {
     /**
-     * <code>OssfileAliyunAutoConfigure</code>
-     * <p>Instantiates a new ossfile aliyun auto configure.</p>
+     * <code>OssfileAmazonAutoConfigure</code>
+     * <p>Instantiates a new ossfile amazon auto configure.</p>
      */
-    public OssfileAliyunAutoConfigure() {
-        log.debug("The auto configuration for [ossfile-aliyun] initiated");
+    public OssfileAmazonAutoConfigure() {
+        log.debug("The auto configuration for [ossfile-amazon] initiated");
     }
 
     /**
-     * <code>aliyunVideoRequestHandler</code>
-     * <p>The aliyun video request handler method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler} <p>The aliyun video request handler return object is <code>OssfileVideoRequestHandler</code> type.</p>
+     * <code>amazonVideoRequestHandler</code>
+     * <p>The amazon video request handler method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler} <p>The amazon video request handler return object is <code>OssfileVideoRequestHandler</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
      * @see org.springframework.context.annotation.Bean
      * @see org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
      */
     @Bean
     @ConditionalOnMissingBean(value = OssfileVideoRequestHandler.class)
-    public OssfileVideoRequestHandler aliyunVideoRequestHandler() {
-        return new AliyunVideoRequestHandler();
+    public OssfileVideoRequestHandler amazonVideoRequestHandler() {
+        return new AmazonVideoRequestHandler();
     }
 }

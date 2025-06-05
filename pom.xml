@@ -14,6 +14,7 @@
 <!--        <module>ossfile-toolkit-starter</module>-->
         <module>ossfile-toolkit-minio</module>
         <module>ossfile-toolkit-aliyun</module>
+        <module>ossfile-toolkit-amazon</module>
     </modules>
 
     <name>ossfile-toolkit-parent</name>
@@ -131,6 +132,8 @@
         <minio.version>8.4.6</minio.version>
         <aliyun-sts.version>3.1.0</aliyun-sts.version>
         <aliyun-oss.version>3.12.0</aliyun-oss.version>
+        <amazon-sts.version>1.12.261</amazon-sts.version>
+        <amazon-oss.version>1.12.261</amazon-oss.version>
         <mybatis-spring.version>2.3.2</mybatis-spring.version>
 
     </properties>
@@ -201,6 +204,18 @@
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-oss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${amazon-oss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-sts</artifactId>
+                <version>${amazon-sts.version}</version>
             </dependency>
 
             <dependency>
