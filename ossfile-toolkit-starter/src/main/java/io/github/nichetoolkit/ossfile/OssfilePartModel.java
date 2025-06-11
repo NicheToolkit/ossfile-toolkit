@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.rice.DefaultIdModel;
 import io.github.nichetoolkit.rice.RestId;
 import lombok.Data;
@@ -14,6 +15,7 @@ import org.springframework.lang.NonNull;
 import java.io.ByteArrayInputStream;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -43,6 +45,8 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date partTime;
+
+    protected List<RestFickle<?>> metas;
 
     @JsonIgnore
     protected byte[] bytes;

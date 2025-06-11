@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.identity.IdentityUtils;
 import io.github.nichetoolkit.rest.util.FileUtils;
@@ -70,6 +71,8 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
 
     protected String etag;
     protected String version;
+
+    protected List<RestFickle<?>> metas;
 
     @JsonIgnore
     protected byte[] bytes;

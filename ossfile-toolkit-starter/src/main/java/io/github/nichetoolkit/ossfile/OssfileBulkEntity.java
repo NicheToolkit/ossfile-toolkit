@@ -1,12 +1,15 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.mybatis.column.RestAlertKey;
+import io.github.nichetoolkit.mybatis.column.RestFickleEntry;
 import io.github.nichetoolkit.mybatis.column.RestLinkKey;
+import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -40,6 +43,9 @@ public class OssfileBulkEntity extends DefaultIdEntity<OssfileBulkEntity, Ossfil
 
     protected String etag;
     protected String version;
+
+    @RestFickleEntry
+    private List<RestFickle<?>> metas;
 
 
     public OssfileBulkEntity() {
