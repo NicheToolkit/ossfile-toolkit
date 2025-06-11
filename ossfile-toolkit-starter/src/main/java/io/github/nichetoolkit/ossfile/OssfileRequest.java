@@ -14,10 +14,6 @@ import java.util.Map;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OssfileRequest implements Serializable {
-    protected RestId<String> user;
-    protected RestId<String> project;
-    protected RestId<String> bulk;
-
     protected String userId;
     protected String projectId;
     protected String bulkId;
@@ -32,14 +28,42 @@ public class OssfileRequest implements Serializable {
     protected int height;
 
     protected boolean isPart;
-    protected int partSize;
+    protected long partSize;
 
     protected boolean isSignature;
-    protected boolean isFinish;
+    protected boolean isFinish = true;
     protected boolean isCompress;
     protected boolean isPreview;
 
     protected Map<String,Object> properties;
 
+    public OssfileRequest() {}
 
+    public void setUser(RestId<String> user) {
+        this.userId = user.getId();
+    }
+
+    public void setProject(RestId<String> project) {
+        this.projectId = project.getId();
+    }
+
+    public void setBulk(RestId<String> bulk) {
+        this.bulkId = bulk.getId();
+    }
+
+    public OssfileBulkModel toBulkModel() {
+        OssfileBulkModel bulkModel = new OssfileBulkModel();
+        bulkModel.setUserId(this.userId);
+        bulkModel.setProjectId(this.projectId);
+        bulkModel.setUploadId(this.uploadId);
+        bulkModel.setFilename(this.filename);
+        bulkModel.setFileSize(this.fileSize);
+        bulkModel.setFileType(this.fileType);
+        bulkModel.setPartState(this.isPart);
+        bulkModel.setPartSize(this.partSize);
+        bulkModel.setFinishState(this.isFinish);
+        bulkModel.setCompressState(this.isCompress);
+        bulkModel.setPreviewState(this.isPreview);
+        return bulkModel;
+    }
 }

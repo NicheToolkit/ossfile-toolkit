@@ -7,9 +7,11 @@ import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
+import java.io.File;
 
 /**
  * <code>OssfileServiceHolder</code>
@@ -133,6 +135,18 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
         return INSTANCE.videoHandler;
     }
 
+    public static void ofBulkPreview(OssfileBulkModel bulkModel) {
+        String previewPath = RestOptional.ofEmptyable(bulkModel.getPreviewPath()).orElseGet(() -> {
+            String previewPrefix = OssfileStoreHolder.previewPrefix();
+            String projectId = bulkModel.getProjectId();
+            if (GeneralUtils.isNotEmpty(projectId)) {
+                return previewPrefix + File.separator + projectId + File.separator + bulkModel.getFilename();
+            } else {
+                return previewPrefix + File.separator + bulkModel.getFilename();
+            }
+        });
+        bulkModel.setPreviewPath(previewPath);
+    }
 
 
 }

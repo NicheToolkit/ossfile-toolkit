@@ -1,10 +1,7 @@
 package io.github.nichetoolkit.ossfile;
 
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.InitiateMultipartUploadResult;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.PartETag;
-import com.aliyun.oss.model.SetBucketCORSRequest;
+import com.aliyun.oss.model.*;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -98,75 +94,81 @@ public class AliyunStoreService extends OssfileStoreService {
     }
 
     @Override
-    public URL getOssfileUrl(String objectKey) throws RestException {
-        return AliyunHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String objectKey) throws RestException {
+        return AsyncResult.forValue(AliyunHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public URL getOssfileUrl(String bucket, String objectKey) throws RestException {
-        return AliyunHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String bucket, String objectKey) throws RestException {
+        return AsyncResult.forValue(AliyunHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public InputStream getOssfile(String objectKey) throws RestException {
+    public Future<InputStream> getOssfile(String objectKey) throws RestException {
         OSSObject ossObject = AliyunHelper.getObject(objectKey);
-        return Optional.ofNullable(ossObject).map(OSSObject::getObjectContent).orElse(null);
+        return AsyncResult.forValue(ossObject.getObjectContent());
     }
 
     @Override
-    public InputStream getOssfile(String bucket, String objectKey) throws RestException {
+    public Future<InputStream> getOssfile(String bucket, String objectKey) throws RestException {
         OSSObject ossObject = AliyunHelper.getObject(bucket, objectKey);
-        return Optional.ofNullable(ossObject).map(OSSObject::getObjectContent).orElse(null);
+        return AsyncResult.forValue(ossObject.getObjectContent());
     }
 
     @Async
     @Override
-    public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
-        AliyunHelper.putObject(objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String objectKey, InputStream inputStream) throws RestException {
+        PutObjectResult putObjectResult = AliyunHelper.putObject(objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(putObjectResult.getETag(),putObjectResult.getVersionId()));
     }
 
     @Async
     @Override
-    public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
-        AliyunHelper.putObject(bucket, objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
+        PutObjectResult putObjectResult = AliyunHelper.putObject(bucket, objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(putObjectResult.getETag(),putObjectResult.getVersionId()));
     }
 
     @Override
-    public String startMultipart(String objectKey) throws RestException {
+    public Future<String> startMultipart(String objectKey) throws RestException {
         InitiateMultipartUploadResult result = AliyunHelper.initiateMultipart(objectKey, null);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+        return AsyncResult.forValue(result.getUploadId());
     }
 
     @Override
-    public String startMultipart(String bucket, String objectKey) throws RestException {
+    public Future<String> startMultipart(String bucket, String objectKey) throws RestException {
         InitiateMultipartUploadResult result = AliyunHelper.initiateMultipart(bucket, objectKey, null);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+        return AsyncResult.forValue(result.getUploadId());
     }
 
     @Async
     @Override
-    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        AliyunHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    public Future<OssfilePartETag> uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResult uploadPartResult = AliyunHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResult.getPartNumber(),uploadPartResult.getETag()));
     }
 
     @Async
     @Override
-    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        AliyunHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+    public Future<OssfilePartETag> uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResult uploadPartResult = AliyunHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResult.getPartNumber(),uploadPartResult.getETag()));
     }
 
     @Async
     @Override
-    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        AliyunHelper.completeMultipart(objectKey, uploadId, partETagList);
+        CompleteMultipartUploadResult uploadResult = AliyunHelper.completeMultipart(objectKey, uploadId, partETagList);
+        return AsyncResult.forValue(new OssfileETagVersion(uploadResult.getETag(),uploadResult.getVersionId()));
     }
 
     @Async
     @Override
-    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        AliyunHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
+        CompleteMultipartUploadResult uploadResult = AliyunHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
+        return AsyncResult.forValue(new OssfileETagVersion(uploadResult.getETag(),uploadResult.getVersionId()));
     }
 
     @Async

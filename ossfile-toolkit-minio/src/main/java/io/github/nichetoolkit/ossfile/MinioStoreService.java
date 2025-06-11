@@ -3,6 +3,8 @@ package io.github.nichetoolkit.ossfile;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
+import io.minio.ObjectWriteResponse;
+import io.minio.UploadPartResponse;
 import io.minio.credentials.AssumeRoleProvider;
 import io.minio.credentials.Credentials;
 import io.minio.messages.InitiateMultipartUploadResult;
@@ -15,7 +17,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -52,67 +53,73 @@ public class MinioStoreService extends OssfileStoreService {
     }
 
     @Override
-    public URL getOssfileUrl(String objectKey) throws RestException {
-        return MinioHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String objectKey) throws RestException {
+        return AsyncResult.forValue(MinioHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public URL getOssfileUrl(String bucket, String objectKey) throws RestException {
-        return MinioHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String bucket, String objectKey) throws RestException {
+        return AsyncResult.forValue(MinioHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public InputStream getOssfile(String objectKey) throws RestException {
-        return MinioHelper.getObject(objectKey);
+    public Future<InputStream> getOssfile(String objectKey) throws RestException {
+        return AsyncResult.forValue(MinioHelper.getObject(objectKey));
     }
 
     @Override
-    public InputStream getOssfile(String bucket, String objectKey) throws RestException {
-        return MinioHelper.getObject(bucket, objectKey);
+    public Future<InputStream> getOssfile(String bucket, String objectKey) throws RestException {
+        return AsyncResult.forValue(MinioHelper.getObject(bucket, objectKey));
     }
 
     @Override
-    public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
-        MinioHelper.putObject(objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String objectKey, InputStream inputStream) throws RestException {
+        ObjectWriteResponse writeResponse = MinioHelper.putObject(objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(writeResponse.etag(),writeResponse.versionId()));
     }
 
     @Override
-    public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
-        MinioHelper.putObject(bucket, objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
+        ObjectWriteResponse writeResponse = MinioHelper.putObject(bucket, objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(writeResponse.etag(),writeResponse.versionId()));
     }
 
     @Override
-    public CompletableFuture<String> startMultipart(String objectKey) throws RestException {
+    public Future<String> startMultipart(String objectKey) throws RestException {
         InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(objectKey);
-        return CompletableFuture.completedFuture(Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null));
+        return AsyncResult.forValue(result.uploadId());
     }
 
     @Override
     public Future<String> startMultipart(String bucket, String objectKey) throws RestException {
         InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(bucket, objectKey, null, null);
-        return AsyncResult.forValue(Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null));
+        return AsyncResult.forValue(result.uploadId());
     }
 
     @Override
-    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        MinioHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    public Future<OssfilePartETag> uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResponse uploadPartResponse = MinioHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResponse.partNumber(),uploadPartResponse.etag()));
     }
 
     @Override
-    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        MinioHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize, null, null);
+    public Future<OssfilePartETag> uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResponse uploadPartResponse = MinioHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize, null, null);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResponse.partNumber(),uploadPartResponse.etag()));
     }
 
     @Override
-    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<Part> partETagList = partETags.stream().map(partETag -> new Part(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        MinioHelper.completeMultipart(objectKey, uploadId, partETagList);
+        ObjectWriteResponse writeResponse = MinioHelper.completeMultipart(objectKey, uploadId, partETagList);
+        return AsyncResult.forValue(new OssfileETagVersion(writeResponse.etag(),writeResponse.versionId()));
     }
 
     @Override
-    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<Part> partETagList = partETags.stream().map(partETag -> new Part(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        MinioHelper.completeMultipart(bucket, objectKey, uploadId, partETagList, null, null);
+        ObjectWriteResponse writeResponse = MinioHelper.completeMultipart(bucket, objectKey, uploadId, partETagList, null, null);
+        return AsyncResult.forValue(new OssfileETagVersion(writeResponse.etag(),writeResponse.versionId()));
     }
 
     @Override

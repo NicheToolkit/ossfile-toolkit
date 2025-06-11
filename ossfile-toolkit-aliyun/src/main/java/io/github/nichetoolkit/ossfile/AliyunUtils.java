@@ -47,7 +47,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.GetBucketPolicyResult
      */
     public static GetBucketPolicyResult bucketPolicy() {
-        return bucketPolicy(AliyunContextHolder.defaultBucket());
+        return bucketPolicy(OssfileStoreHolder.defaultBucket());
     }
 
     /**
@@ -91,7 +91,7 @@ public class AliyunUtils {
      * @see java.util.Optional
      */
     public static Optional<Bucket> getBucket() {
-        return getBucket(AliyunContextHolder.defaultBucket());
+        return getBucket(OssfileStoreHolder.defaultBucket());
     }
 
     /**
@@ -166,7 +166,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.SimplifiedObjectMeta
      */
     public static SimplifiedObjectMeta statObject(String objectName) {
-        return statObject(AliyunContextHolder.defaultBucket(), objectName);
+        return statObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -196,7 +196,7 @@ public class AliyunUtils {
      * @see java.lang.String
      */
     public static boolean isObjectExist(String objectName) {
-        return isObjectExist(AliyunContextHolder.defaultBucket(), objectName);
+        return isObjectExist(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -226,7 +226,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.ObjectListing
      */
     public static ObjectListing listObjects(String prefix) {
-        return listObjects(AliyunContextHolder.defaultBucket(), prefix);
+        return listObjects(OssfileStoreHolder.defaultBucket(), prefix);
     }
 
     /**
@@ -257,7 +257,7 @@ public class AliyunUtils {
      * @see java.util.List
      */
     public static List<OSSObjectSummary> allObjects(String prefix) {
-        return allObjects(AliyunContextHolder.defaultBucket(), prefix);
+        return allObjects(OssfileStoreHolder.defaultBucket(), prefix);
     }
 
     /**
@@ -288,7 +288,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.OSSObject
      */
     public static OSSObject getObject(String objectName) {
-        return getObject(AliyunContextHolder.defaultBucket(), objectName);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -321,7 +321,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.OSSObject
      */
     public static OSSObject getObject(String objectName, long start, long end) {
-        return getObject(AliyunContextHolder.defaultBucket(), objectName, start, end);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName, start, end);
     }
 
     /**
@@ -358,7 +358,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.PutObjectResult
      */
     public static PutObjectResult putObject(MultipartFile file, String objectName, ObjectMetadata objectMetadata) {
-        return putObject(AliyunContextHolder.defaultBucket(), file, objectName, objectMetadata);
+        return putObject(OssfileStoreHolder.defaultBucket(), file, objectName, objectMetadata);
     }
 
     /**
@@ -395,7 +395,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.PutObjectResult
      */
     public static PutObjectResult putObject(String objectName, InputStream inputStream) {
-        return putObject(AliyunContextHolder.defaultBucket(), objectName, inputStream);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream);
     }
 
     /**
@@ -431,7 +431,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.InitiateMultipartUploadResult
      */
     public static InitiateMultipartUploadResult initiateMultipart(String objectName, @Nullable ObjectMetadata metadata) {
-        return initiateMultipart(AliyunContextHolder.defaultBucket(), objectName, metadata);
+        return initiateMultipart(OssfileStoreHolder.defaultBucket(), objectName, metadata);
     }
 
     /**
@@ -470,7 +470,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.UploadPartResult
      */
     public static UploadPartResult uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) {
-        return uploadMultipart(AliyunContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
+        return uploadMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
     }
 
     /**
@@ -509,7 +509,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.CompleteMultipartUploadResult
      */
     public static CompleteMultipartUploadResult completeMultipart(String objectName, String uploadId, Collection<PartETag> partETags) {
-        return completeMultipart(AliyunContextHolder.defaultBucket(), objectName, uploadId, partETags);
+        return completeMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partETags);
     }
 
     /**
@@ -544,7 +544,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.UploadFileResult
      */
     public static UploadFileResult uploadObject(String objectName, String filename) {
-        return uploadObject(AliyunContextHolder.defaultBucket(),objectName, filename);
+        return uploadObject(OssfileStoreHolder.defaultBucket(),objectName, filename);
     }
 
     /**
@@ -597,7 +597,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.AppendObjectResult
      */
     public static AppendObjectResult appendObject(String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) {
-        return appendObject(AliyunContextHolder.defaultBucket(), objectName, inputStream, metadata);
+        return appendObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream, metadata);
     }
 
     /**
@@ -634,7 +634,7 @@ public class AliyunUtils {
      * @see com.aliyun.oss.model.CopyObjectResult
      */
     public static CopyObjectResult copyObject(String sourceObjectName, String targetObjectName) {
-        return copyObject(AliyunContextHolder.defaultBucket(), sourceObjectName, AliyunContextHolder.defaultBucket(), targetObjectName);
+        return copyObject(OssfileStoreHolder.defaultBucket(), sourceObjectName, OssfileStoreHolder.defaultBucket(), targetObjectName);
     }
 
     /**
@@ -665,7 +665,7 @@ public class AliyunUtils {
      * @see java.lang.String
      */
     public static void deleteObject(String objectName) {
-        deleteObject(AliyunContextHolder.defaultBucket(), objectName);
+        deleteObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -691,7 +691,7 @@ public class AliyunUtils {
      * @see java.util.Collection
      */
     public static void removeObjects(Collection<String> objectNames) {
-        deleteObjects(AliyunContextHolder.defaultBucket(), objectNames);
+        deleteObjects(OssfileStoreHolder.defaultBucket(), objectNames);
     }
 
     /**
@@ -717,7 +717,7 @@ public class AliyunUtils {
      * @see java.net.URL
      */
     public static URL objectUrl(String objectName, Integer expire) {
-        return objectUrl(AliyunContextHolder.defaultBucket(), objectName, expire);
+        return objectUrl(OssfileStoreHolder.defaultBucket(), objectName, expire);
     }
 
     /**

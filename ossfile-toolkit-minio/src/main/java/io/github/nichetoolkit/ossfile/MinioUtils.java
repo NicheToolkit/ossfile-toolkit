@@ -49,7 +49,7 @@ public class MinioUtils {
      * @see java.lang.String
      */
     public static String bucketPolicy() {
-        return bucketPolicy(MinioContextHolder.defaultBucket());
+        return bucketPolicy(OssfileStoreHolder.defaultBucket());
     }
 
     /**
@@ -92,7 +92,7 @@ public class MinioUtils {
      * @see java.util.Optional
      */
     public static Optional<Bucket> getBucket() {
-        return getBucket(MinioContextHolder.defaultBucket());
+        return getBucket(OssfileStoreHolder.defaultBucket());
     }
 
     /**
@@ -168,7 +168,7 @@ public class MinioUtils {
      * @see io.minio.StatObjectResponse
      */
     public static StatObjectResponse statObject(String objectName) {
-        return statObject(MinioContextHolder.defaultBucket(), objectName);
+        return statObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -198,7 +198,7 @@ public class MinioUtils {
      * @see java.lang.String
      */
     public static boolean isObjectExist(String objectName) {
-        return isObjectExist(MinioContextHolder.defaultBucket(), objectName);
+        return isObjectExist(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -229,7 +229,7 @@ public class MinioUtils {
      * @see java.lang.Iterable
      */
     public static Iterable<Result<Item>> listObjects(String prefix, boolean recursive) {
-        return listObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+        return listObjects(OssfileStoreHolder.defaultBucket(), prefix, recursive);
     }
 
     /**
@@ -256,7 +256,7 @@ public class MinioUtils {
      * @see java.util.List
      */
     public static List<Item> allObjects(String prefix, boolean recursive) {
-        return allObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+        return allObjects(OssfileStoreHolder.defaultBucket(), prefix, recursive);
     }
 
     /**
@@ -288,7 +288,7 @@ public class MinioUtils {
      * @see io.minio.GetObjectResponse
      */
     public static GetObjectResponse getObject(String objectName) {
-        return getObject(MinioContextHolder.defaultBucket(), objectName);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -321,7 +321,7 @@ public class MinioUtils {
      * @see io.minio.GetObjectResponse
      */
     public static GetObjectResponse getObject(String objectName, long offset, long length) {
-        return getObject(MinioContextHolder.defaultBucket(), objectName, offset, length);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName, offset, length);
     }
 
     /**
@@ -357,7 +357,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse putObject(MultipartFile file, String objectName, String contentType) {
-        return putObject(MinioContextHolder.defaultBucket(), file, objectName, contentType);
+        return putObject(OssfileStoreHolder.defaultBucket(), file, objectName, contentType);
     }
 
     /**
@@ -392,7 +392,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse putObject(String objectName, String fileName) {
-        return putObject(MinioContextHolder.defaultBucket(), objectName, fileName);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, fileName);
     }
 
     /**
@@ -427,7 +427,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse putObject(String objectName, InputStream inputStream) {
-        return putObject(MinioContextHolder.defaultBucket(), objectName, inputStream);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream);
     }
 
     /**
@@ -462,7 +462,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse composeSource(String objectName, Collection<ComposeSource> composeSources) {
-        return composeSource(MinioContextHolder.defaultBucket(), objectName, composeSources);
+        return composeSource(OssfileStoreHolder.defaultBucket(), objectName, composeSources);
     }
 
 
@@ -540,7 +540,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse composeObject(String objectName, Collection<String> sources) {
-        return composeObject(MinioContextHolder.defaultBucket(), objectName, Collections.singletonMap(MinioContextHolder.defaultBucket(), sources));
+        return composeObject(OssfileStoreHolder.defaultBucket(), objectName, Collections.singletonMap(OssfileStoreHolder.defaultBucket(), sources));
     }
 
     /**
@@ -554,7 +554,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse composeObject(String objectName, Map<String, Collection<String>> sourcesMap) {
-        return composeSource(MinioContextHolder.defaultBucket(), objectName, sourcesMap);
+        return composeSource(OssfileStoreHolder.defaultBucket(), objectName, sourcesMap);
     }
 
     /**
@@ -581,7 +581,7 @@ public class MinioUtils {
      * @see io.minio.messages.InitiateMultipartUploadResult
      */
     public static InitiateMultipartUploadResult initiateMultipart(String objectName) {
-        return initiateMultipart(MinioContextHolder.defaultBucket(), objectName, null, null);
+        return initiateMultipart(OssfileStoreHolder.defaultBucket(), objectName, null, null);
     }
 
     /**
@@ -621,7 +621,7 @@ public class MinioUtils {
      * @see io.minio.UploadPartResponse
      */
     public static UploadPartResponse uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) {
-        return uploadMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize, null, null);
+        return uploadMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize, null, null);
     }
 
     /**
@@ -664,7 +664,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse completeMultipart(String objectName, String uploadId, Collection<Part> parts) {
-        return completeMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, parts, null, null);
+        return completeMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, parts, null, null);
     }
 
     /**
@@ -718,7 +718,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse uploadObject(String objectName, String filename, long partSize) {
-        return uploadObject(MinioContextHolder.defaultBucket(), objectName, filename, partSize);
+        return uploadObject(OssfileStoreHolder.defaultBucket(), objectName, filename, partSize);
     }
 
     /**
@@ -767,7 +767,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse appendObject(String objectName, SnowballObject object) {
-        return appendObject(MinioContextHolder.defaultBucket(), objectName, object);
+        return appendObject(OssfileStoreHolder.defaultBucket(), objectName, object);
     }
 
     /**
@@ -802,7 +802,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse appendObjects(String objectName, Collection<SnowballObject> objects) {
-        return appendObjects(MinioContextHolder.defaultBucket(), objectName, objects);
+        return appendObjects(OssfileStoreHolder.defaultBucket(), objectName, objects);
     }
 
     /**
@@ -836,7 +836,7 @@ public class MinioUtils {
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse copyObject(String sourceObjectName, String targetObjectName) {
-        return copyObject(MinioContextHolder.defaultBucket(), sourceObjectName, MinioContextHolder.defaultBucket(), targetObjectName);
+        return copyObject(OssfileStoreHolder.defaultBucket(), sourceObjectName, OssfileStoreHolder.defaultBucket(), targetObjectName);
     }
 
     /**
@@ -867,7 +867,7 @@ public class MinioUtils {
      * @see java.lang.String
      */
     public static void removeObject(String objectName) {
-        removeObject(MinioContextHolder.defaultBucket(), objectName);
+        removeObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     /**
@@ -893,7 +893,7 @@ public class MinioUtils {
      * @see java.util.Collection
      */
     public static void removeObjects(Collection<String> objectNames) {
-        removeObjects(MinioContextHolder.defaultBucket(), objectNames);
+        removeObjects(OssfileStoreHolder.defaultBucket(), objectNames);
     }
 
     /**
@@ -919,7 +919,7 @@ public class MinioUtils {
      * @see java.net.URL
      */
     public static URL objectUrl(String objectName, Integer expire) {
-        return objectUrl(MinioContextHolder.defaultBucket(), objectName, expire);
+        return objectUrl(OssfileStoreHolder.defaultBucket(), objectName, expire);
     }
 
     /**

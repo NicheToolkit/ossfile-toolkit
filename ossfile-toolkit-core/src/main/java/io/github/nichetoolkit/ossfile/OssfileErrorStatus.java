@@ -62,6 +62,12 @@ public enum OssfileErrorStatus implements RestStatus {
      */
     OSSFILE_CONDENSE_ERROR(11009, "The ossfile server has encountered an error with file compression."),
     /**
+     * <code>OSSFILE_HANDLE_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_HANDLE_ERROR</code> field.</p>
+     */
+    OSSFILE_HANDLE_ERROR(11010, "The ossfile server has encountered an error with file handle."),
+
+    /**
      * <code>OSSFILE_UNSUPPORTED_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_UNSUPPORTED_ERROR</code> field.</p>
      */

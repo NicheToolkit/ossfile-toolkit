@@ -2,10 +2,15 @@ package io.github.nichetoolkit.ossfile;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
+import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.error.natives.FileErrorException;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -47,7 +52,7 @@ public enum OssfileFileType implements RestKey<String> {
      * <code>UNKNOWN</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileFileType} <p>The <code>UNKNOWN</code> field.</p>
      */
-    UNKNOWN( "unknown", new String[0]),
+    UNKNOWN("unknown", new String[0]),
     ;
 
     /**
@@ -94,5 +99,30 @@ public enum OssfileFileType implements RestKey<String> {
     public static OssfileFileType parseKey(@NonNull String key) {
         OssfileFileType typeEnum = RestKey.parseKey(OssfileFileType.class, key);
         return Optional.ofNullable(typeEnum).orElse(OssfileFileType.UNKNOWN);
+    }
+
+    /**
+     * <code>parseSuffix</code>
+     * <p>The parse suffix method.</p>
+     * @param suffixType {@link java.lang.String} <p>The suffix type parameter is <code>String</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileFileType} <p>The parse suffix return object is <code>OssfileFileType</code> type.</p>
+     * @see java.lang.String
+     */
+    public static OssfileFileType parseSuffix(String suffixType) {
+        return RestOptional.ofEmptyable(suffixType).map(suffix -> {
+            if (Arrays.asList(OssfileConstants.IMAGE_SUFFIX).contains(suffix)) {
+                return OssfileFileType.IMAGE;
+            } else if (Arrays.asList(OssfileConstants.DOCUMENT_SUFFIX).contains(suffix)) {
+                return OssfileFileType.DOCUMENT;
+            } else if (Arrays.asList(OssfileConstants.VIDEO_SUFFIX).contains(suffix)) {
+                return OssfileFileType.VIDEO;
+            } else if (Arrays.asList(OssfileConstants.EXECUTABLE_SUFFIX).contains(suffix)) {
+                return OssfileFileType.EXECUTABLE;
+            } else if (Arrays.asList(OssfileConstants.COMPRESSED_SUFFIX).contains(suffix)) {
+                return OssfileFileType.COMPRESSED;
+            } else {
+                return OssfileFileType.UNKNOWN;
+            }
+        }).orElse(OssfileFileType.UNKNOWN);
     }
 }

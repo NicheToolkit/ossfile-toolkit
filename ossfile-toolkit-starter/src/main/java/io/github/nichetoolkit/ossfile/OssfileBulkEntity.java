@@ -34,7 +34,7 @@ public class OssfileBulkEntity extends DefaultIdEntity<OssfileBulkEntity, Ossfil
     protected String fileMd5;
     protected Long fileSize;
     protected Integer fileType;
-    protected Integer partSize;
+    protected Long partSize;
 
     protected String properties;
 

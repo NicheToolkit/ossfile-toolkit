@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -204,4 +205,24 @@ public class OssfileProperties {
         private Double scale = 0.5d;
     }
 
+    public String bulkPrefix() {
+       if (GeneralUtils.isEmpty(this.prefix)) {
+           return this.prefix + File.separator + this.bulkPrefix;
+       }
+        return this.bulkPrefix;
+    }
+
+    public String previewPrefix() {
+        if (GeneralUtils.isEmpty(this.prefix)) {
+            return this.prefix + File.separator + this.previewPrefix;
+        }
+        return this.previewPrefix;
+    }
+
+    public String partPrefix() {
+        if (GeneralUtils.isEmpty(this.prefix)) {
+            return this.prefix + File.separator + this.partPrefix;
+        }
+        return this.partPrefix;
+    }
 }

@@ -10,7 +10,6 @@ import io.github.nichetoolkit.ossfile.helper.FileServiceHelper;
 import io.github.nichetoolkit.ossfile.OssfileRequest;
 import io.github.nichetoolkit.ossfile.service.OssfilePartService;
 import io.github.nichetoolkit.ossfile.service.OssfileBulkService;
-import io.github.nichetoolkit.ossfile.service.FileService;
 import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;

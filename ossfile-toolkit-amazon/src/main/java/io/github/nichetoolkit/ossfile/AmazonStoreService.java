@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -80,75 +79,81 @@ public class AmazonStoreService extends OssfileStoreService {
     }
 
     @Override
-    public URL getOssfileUrl(String objectKey) throws RestException {
-        return AmazonHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String objectKey) throws RestException {
+        return AsyncResult.forValue(AmazonHelper.objectUrl(objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public URL getOssfileUrl(String bucket, String objectKey) throws RestException {
-        return AmazonHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire()));
+    public Future<URL> getOssfileUrl(String bucket, String objectKey) throws RestException {
+        return AsyncResult.forValue(AmazonHelper.objectUrl(bucket, objectKey, Math.toIntExact(properties.getExpire())));
     }
 
     @Override
-    public InputStream getOssfile(String objectKey) throws RestException {
+    public Future<InputStream> getOssfile(String objectKey) throws RestException {
         S3Object ossObject = AmazonHelper.getObject(objectKey);
-        return Optional.ofNullable(ossObject).map(S3Object::getObjectContent).orElse(null);
+        return AsyncResult.forValue(ossObject.getObjectContent());
     }
 
     @Override
-    public InputStream getOssfile(String bucket, String objectKey) throws RestException {
+    public Future<InputStream> getOssfile(String bucket, String objectKey) throws RestException {
         S3Object ossObject = AmazonHelper.getObject(bucket, objectKey);
-        return Optional.ofNullable(ossObject).map(S3Object::getObjectContent).orElse(null);
+        return AsyncResult.forValue(ossObject.getObjectContent());
     }
 
     @Async
     @Override
-    public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
-        AmazonHelper.putObject(objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String objectKey, InputStream inputStream) throws RestException {
+        PutObjectResult putObjectResult = AmazonHelper.putObject(objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(putObjectResult.getETag(),putObjectResult.getVersionId()));
     }
 
     @Async
     @Override
-    public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
-        AmazonHelper.putObject(bucket, objectKey, inputStream);
+    public Future<OssfileETagVersion> putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
+        PutObjectResult putObjectResult = AmazonHelper.putObject(bucket, objectKey, inputStream);
+        return AsyncResult.forValue(new OssfileETagVersion(putObjectResult.getETag(),putObjectResult.getVersionId()));
     }
 
     @Override
-    public String startMultipart(String objectKey) throws RestException {
+    public Future<String> startMultipart(String objectKey) throws RestException {
         InitiateMultipartUploadResult result = AmazonHelper.initiateMultipart(objectKey, null);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+        return AsyncResult.forValue(result.getUploadId());
     }
 
     @Override
-    public String startMultipart(String bucket, String objectKey) throws RestException {
+    public Future<String> startMultipart(String bucket, String objectKey) throws RestException {
         InitiateMultipartUploadResult result = AmazonHelper.initiateMultipart(bucket, objectKey, null);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
+        return AsyncResult.forValue(result.getUploadId());
     }
 
     @Async
     @Override
-    public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        AmazonHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+    public Future<OssfilePartETag> uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResult uploadPartResult = AmazonHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResult.getPartNumber(),uploadPartResult.getETag()));
     }
 
     @Async
     @Override
-    public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
-        AmazonHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+    public Future<OssfilePartETag> uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
+        UploadPartResult uploadPartResult = AmazonHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
+        return AsyncResult.forValue(new OssfilePartETag(uploadPartResult.getPartNumber(),uploadPartResult.getETag()));
     }
 
     @Async
     @Override
-    public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        AmazonHelper.completeMultipart(objectKey, uploadId, partETagList);
+        CompleteMultipartUploadResult uploadResult = AmazonHelper.completeMultipart(objectKey, uploadId, partETagList);
+        return AsyncResult.forValue(new OssfileETagVersion(uploadResult.getETag(),uploadResult.getVersionId()));
     }
 
     @Async
     @Override
-    public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
+    public Future<OssfileETagVersion> finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
-        AmazonHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
+        CompleteMultipartUploadResult uploadResult = AmazonHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
+        return AsyncResult.forValue(new OssfileETagVersion(uploadResult.getETag(),uploadResult.getVersionId()));
     }
 
     @Async

@@ -22,4 +22,8 @@ public abstract class DefaultBulkService extends DefaultIdService<OssfileBulkMod
                 .toIdSql().addSorts("update_time").toSql();
     }
 
+    @Override
+    protected boolean isIdentityOfInvade() {
+        return true;
+    }
 }
