@@ -4,8 +4,6 @@ public interface OssfileConstants {
 
     String OSS_VIDEO_RESOURCE = "Oss-Video-Resource";
 
-    String DEFAULT_IMAGE_SUFFIX = "png";
-
     String[] IMAGE_SUFFIX = new String[]
             {"jpg", "jpeg", "png", "bpm", "gif", "svg", "icon", "tfw", "psd", "tif", "tiff", "raw", "tag"};
     String[] DOCUMENT_SUFFIX = new String[]
@@ -26,18 +24,14 @@ public interface OssfileConstants {
     String ATTACHMENT_FILENAME_VALUE = "attachment; filename=";
 
     String SUFFIX_REGEX = ".";
-    String IMAGE_JPG_SUFFIX = "jpg";
+    String IMAGE_JPEG_SUFFIX = "jpeg";
     String IMAGE_PNG_SUFFIX = "png";
 
-    String FILE_ZIP_SUFFIX = "zip";
+    String FILE_ZIP_SUFFIX = ".zip";
 
-    String IMAGE_CONDENSE_WIDTH_PROPERTY = "condenseWidth";
-    String IMAGE_CONDENSE_HEIGHT_PROPERTY = "condenseHeight";
-    String IMAGE_CONDENSE_QUALITY_PROPERTY = "condenseQuality";
-    String IMAGE_CONDENSE_SCALE_PROPERTY = "condenseScale";
-    String ORIGINAL_SUFFIX_PROPERTY = "originalSuffix";
-    String ORIGINAL_SIZE_PROPERTY = "originalSize";
-    String ORIGINAL_MD5_PROPERTY = "originalMd5";
-    String ORIGINAL_NAME_PROPERTY = "originalName";
+    String BULK_PREFIX = "bulk";
+
+    String PREVIEW_PREFIX = "preview";
+    String PART_PREFIX = "part";
 
 }

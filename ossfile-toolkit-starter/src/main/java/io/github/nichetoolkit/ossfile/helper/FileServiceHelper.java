@@ -1,16 +1,10 @@
 package io.github.nichetoolkit.ossfile.helper;
 
+import io.github.nichetoolkit.ossfile.*;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
-import io.github.nichetoolkit.ossfile.OssfileConstants;
-import io.github.nichetoolkit.ossfile.OssfileBulkEntity;
-import io.github.nichetoolkit.ossfile.OssfileFileType;
 import io.github.nichetoolkit.ossfile.image.OssfileErrorStatus;
-import io.github.nichetoolkit.ossfile.OssfileFilter;
-import io.github.nichetoolkit.ossfile.OssfilePartModel;
-import io.github.nichetoolkit.ossfile.OssfileBulkModel;
-import io.github.nichetoolkit.ossfile.OssfileRequest;
-import io.github.nichetoolkit.ossfile.service.FileChunkService;
-import io.github.nichetoolkit.ossfile.service.FileIndexService;
+import io.github.nichetoolkit.ossfile.service.OssfilePartService;
+import io.github.nichetoolkit.ossfile.service.OssfileBulkService;
 import io.github.nichetoolkit.ossfile.util.Md5Utils;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
@@ -19,6 +13,7 @@ import io.github.nichetoolkit.rest.util.*;
 import io.github.nichetoolkit.rice.RestPage;
 import io.github.nichetoolkit.rice.helper.PropertyHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,10 +38,10 @@ public class FileServiceHelper implements InitializingBean {
     private OssfileProperties commonProperties;
 
     @Autowired
-    private FileIndexService fileIndexService;
+    private OssfileBulkService fileIndexService;
 
     @Autowired
-    private FileChunkService fileChunkService;
+    private OssfilePartService fileChunkService;
 
     private static FileServiceHelper INSTANCE = null;
 
@@ -179,7 +174,7 @@ public class FileServiceHelper implements InitializingBean {
             throw new FileErrorException(OssfileErrorStatus.FILE_READ_BYTE_NULL);
         }
         fileIndex.setBytes(bytes);
-        String md5 = Md5Utils.md5(bytes);
+        String md5 = DigestUtils.md2Hex(bytes);
         fileIndex.setFileMd5(md5);
     }
 

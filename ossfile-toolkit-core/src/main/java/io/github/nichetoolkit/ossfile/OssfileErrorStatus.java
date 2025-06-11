@@ -23,12 +23,23 @@ public enum OssfileErrorStatus implements RestStatus {
      * <code>OSSFILE_FINISHED_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_FINISHED_ERROR</code> field.</p>
      */
-    OSSFILE_FINISHED_ERROR(11002, "The file cannot be downloaded as it has not been uploaded or merged."),
+    OSSFILE_FINISHED_ERROR(11002, "The file cannot be downloaded as it has not been uploaded or finished."),
     /**
      * <code>OSSFILE_CONTENT_RANGE_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_CONTENT_RANGE_ERROR</code> field.</p>
      */
     OSSFILE_CONTENT_RANGE_ERROR(11003, "The fragment upload request header Content-Range parsing error."),
+
+    /**
+     * <code>OSSFILE_NO_FOUND_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_NO_FOUND_ERROR</code> field.</p>
+     */
+    OSSFILE_NO_FOUND_ERROR(11004, "The file cannot be downloaded because of no found."),
+    /**
+     * <code>OSSFILE_UPLOAD_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_UPLOAD_ERROR</code> field.</p>
+     */
+    OSSFILE_UPLOAD_ERROR(11005, "The server has encountered an error with file upload."),
 
     /**
      * <code>OSSFILE_READ_STREAM_ERROR</code>
@@ -92,7 +103,7 @@ public enum OssfileErrorStatus implements RestStatus {
      * <code>OSSFILE_CONFIG_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_CONFIG_ERROR</code> field.</p>
      */
-    OSSFILE_CONFIG_ERROR(110101, "The ossfile server has encountered an error with ossfile configuration."),
+    OSSFILE_CONFIG_ERROR(11101, "The ossfile server has encountered an error with ossfile configuration."),
     /**
      * <code>OSSFILE_BUCKET_POLICY_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_BUCKET_POLICY_ERROR</code> field.</p>

@@ -17,19 +17,19 @@ public abstract class OssfileVideoRequestHandler extends ResourceHttpRequestHand
 
     @Override
     protected Resource getResource(HttpServletRequest request) throws IOException {
-        final OssfileBulkModel<?,?> ossfileBulkModel = (OssfileBulkModel<?,?>) request.getAttribute(OssfileConstants.OSS_VIDEO_RESOURCE);
-        return ossfileResource(ossfileBulkModel);
+        final OssfileResource resource = (OssfileResource) request.getAttribute(OssfileConstants.OSS_VIDEO_RESOURCE);
+        return videoResource(resource);
     }
 
     /**
-     * <code>ossfileResource</code>
-     * <p>The ossfile resource method.</p>
-     * @param ossfileBulkModel {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The ossfile bulk model parameter is <code>OssfileBulkModel</code> type.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.OssfileVideoResource} <p>The ossfile resource return object is <code>OssfileVideoResource</code> type.</p>
+     * <code>videoResource</code>
+     * <p>The video resource method.</p>
+     * @param resource {@link io.github.nichetoolkit.ossfile.OssfileResource} <p>The resource parameter is <code>OssfileResource</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileVideoResource} <p>The video resource return object is <code>OssfileVideoResource</code> type.</p>
      * @throws IOException {@link java.io.IOException} <p>The io exception is <code>IOException</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.OssfileBulkModel
+     * @see io.github.nichetoolkit.ossfile.OssfileResource
      * @see io.github.nichetoolkit.ossfile.OssfileVideoResource
      * @see java.io.IOException
      */
-    abstract public OssfileVideoResource ossfileResource(OssfileBulkModel<?,?> ossfileBulkModel) throws IOException;
+    abstract public OssfileVideoResource videoResource(OssfileResource resource) throws IOException;
 }

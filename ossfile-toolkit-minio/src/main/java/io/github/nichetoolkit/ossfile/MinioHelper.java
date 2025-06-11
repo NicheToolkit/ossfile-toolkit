@@ -7,10 +7,7 @@ import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.error.natives.UnsupportedErrorException;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.*;
-import io.minio.errors.InsufficientDataException;
-import io.minio.errors.InternalException;
 import io.minio.errors.MinioException;
-import io.minio.errors.XmlParserException;
 import io.minio.http.Method;
 import io.minio.messages.*;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +55,7 @@ public class MinioHelper {
     }
 
     public static String bucketPolicy() throws ServiceErrorException {
-        return bucketPolicy(MinioContextHolder.defaultBucket());
+        return bucketPolicy(OssfileStoreHolder.defaultBucket());
     }
 
     public static String bucketPolicy(String bucketName) throws ServiceErrorException {
@@ -78,7 +75,7 @@ public class MinioHelper {
     }
 
     public static Optional<Bucket> getBucket() throws ServiceErrorException {
-        return getBucket(MinioContextHolder.defaultBucket());
+        return getBucket(OssfileStoreHolder.defaultBucket());
     }
 
     public static Optional<Bucket> getBucket(String bucketName) throws ServiceErrorException {
@@ -86,7 +83,7 @@ public class MinioHelper {
     }
 
     public static void switchBucket(String bucketName) throws ServiceErrorException {
-        MinioContextHolder.switchBucket(bucketName);
+        OssfileStoreHolder.switchBucket(bucketName);
         initDefaultBucket(MinioContextHolder.defaultClient(), bucketName);
     }
 
@@ -107,7 +104,7 @@ public class MinioHelper {
     }
 
     public static StatObjectResponse statObject(String objectName) throws FileErrorException {
-        return statObject(MinioContextHolder.defaultBucket(), objectName);
+        return statObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static StatObjectResponse statObject(String bucketName, String objectName) throws FileErrorException {
@@ -119,7 +116,7 @@ public class MinioHelper {
     }
 
     public static boolean isObjectExist(String objectName) {
-        return isObjectExist(MinioContextHolder.defaultBucket(), objectName);
+        return isObjectExist(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static boolean isObjectExist(String bucketName, String objectName) {
@@ -133,7 +130,7 @@ public class MinioHelper {
     }
 
     public static Iterable<Result<Item>> listObjects(String prefix, boolean recursive) {
-        return listObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+        return listObjects(OssfileStoreHolder.defaultBucket(), prefix, recursive);
     }
 
     public static Iterable<Result<Item>> listObjects(String bucketName, String prefix, boolean recursive) {
@@ -142,7 +139,7 @@ public class MinioHelper {
 
 
     public static List<Item> allObjects(String prefix, boolean recursive) throws FileErrorException {
-        return allObjects(MinioContextHolder.defaultBucket(), prefix, recursive);
+        return allObjects(OssfileStoreHolder.defaultBucket(), prefix, recursive);
     }
 
     public static List<Item> allObjects(String bucketName, String prefix, boolean recursive) throws FileErrorException {
@@ -161,7 +158,7 @@ public class MinioHelper {
     }
 
     public static GetObjectResponse getObject(String objectName) throws FileErrorException {
-        return getObject(MinioContextHolder.defaultBucket(), objectName);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static GetObjectResponse getObject(String bucketName, String objectName) throws FileErrorException {
@@ -173,7 +170,7 @@ public class MinioHelper {
     }
 
     public static GetObjectResponse getObject(String objectName, long offset, long length) throws FileErrorException {
-        return getObject(MinioContextHolder.defaultBucket(), objectName, offset, length);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName, offset, length);
     }
 
     public static GetObjectResponse getObject(String bucketName, String objectName, long offset, long length) throws FileErrorException {
@@ -186,7 +183,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse putObject(MultipartFile file, String objectName, String contentType) throws FileErrorException {
-        return putObject(MinioContextHolder.defaultBucket(), file, objectName, contentType);
+        return putObject(OssfileStoreHolder.defaultBucket(), file, objectName, contentType);
     }
 
     public static ObjectWriteResponse putObject(String bucketName, MultipartFile file, String objectName, String contentType) throws FileErrorException {
@@ -201,7 +198,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse putObject(String objectName, InputStream inputStream) throws FileErrorException {
-        return putObject(MinioContextHolder.defaultBucket(), objectName, inputStream);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream);
     }
 
     public static ObjectWriteResponse putObject(String bucketName, String objectName, InputStream inputStream) throws FileErrorException {
@@ -214,7 +211,7 @@ public class MinioHelper {
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String objectName) throws FileErrorException {
-        return initiateMultipart(MinioContextHolder.defaultBucket(), objectName, null, null);
+        return initiateMultipart(OssfileStoreHolder.defaultBucket(), objectName, null, null);
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
@@ -222,7 +219,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse completeMultipart(String objectName, String uploadId, Collection<Part> parts) throws FileErrorException {
-        return completeMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, parts,null,null);
+        return completeMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, parts,null,null);
     }
 
     public static ObjectWriteResponse completeMultipart(String bucketName, String objectName, String uploadId, Collection<Part> parts, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
@@ -230,7 +227,7 @@ public class MinioHelper {
     }
 
     public static UploadPartResponse uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
-        return uploadMultipart(MinioContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize,null,null);
+        return uploadMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize,null,null);
     }
 
     public static UploadPartResponse uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) throws FileErrorException {
@@ -238,7 +235,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse composeSource(String objectName, Collection<ComposeSource> composeSources) throws FileErrorException {
-        return composeSource(MinioContextHolder.defaultBucket(), objectName, composeSources);
+        return composeSource(OssfileStoreHolder.defaultBucket(), objectName, composeSources);
     }
 
     public static ObjectWriteResponse composeSource(String bucketName, String objectName, Collection<ComposeSource> composeSources) throws FileErrorException {
@@ -263,7 +260,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse composeObject(String objectName, Collection<String> sources) throws FileErrorException {
-        return composeObject(MinioContextHolder.defaultBucket(), objectName, Collections.singletonMap(MinioContextHolder.defaultBucket(), sources));
+        return composeObject(OssfileStoreHolder.defaultBucket(), objectName, Collections.singletonMap(OssfileStoreHolder.defaultBucket(), sources));
     }
 
     public static ObjectWriteResponse composeObject(String bucketName, String objectName, Map<String, Collection<String>> sourcesMap) throws FileErrorException {
@@ -271,7 +268,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse composeObject(String objectName, Map<String, Collection<String>> sourcesMap) throws FileErrorException {
-        return composeObject(MinioContextHolder.defaultBucket(), objectName, sourcesMap);
+        return composeObject(OssfileStoreHolder.defaultBucket(), objectName, sourcesMap);
     }
 
     public static ObjectWriteResponse uploadObject(String objectName, String filename) throws FileErrorException {
@@ -279,7 +276,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse uploadObject(String objectName, String filename, long partSize) throws FileErrorException {
-        return uploadObject(MinioContextHolder.defaultBucket(), objectName, filename, partSize);
+        return uploadObject(OssfileStoreHolder.defaultBucket(), objectName, filename, partSize);
     }
 
     public static ObjectWriteResponse uploadObject(String bucketName, String objectName, String filename) throws FileErrorException {
@@ -296,7 +293,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse appendObject(String objectName, SnowballObject object) throws FileErrorException {
-        return appendObjects(MinioContextHolder.defaultBucket(),objectName,Collections.singletonList(object));
+        return appendObjects(OssfileStoreHolder.defaultBucket(),objectName,Collections.singletonList(object));
     }
 
     public static ObjectWriteResponse appendObject(String bucketName, String objectName, SnowballObject object) throws FileErrorException {
@@ -304,7 +301,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse appendObjects(String objectName, Collection<SnowballObject> objects) throws FileErrorException {
-        return appendObjects(MinioContextHolder.defaultBucket(),objectName,objects);
+        return appendObjects(OssfileStoreHolder.defaultBucket(),objectName,objects);
     }
 
     public static ObjectWriteResponse appendObjects(String bucketName, String objectName, Collection<SnowballObject> objects) throws FileErrorException {
@@ -317,7 +314,7 @@ public class MinioHelper {
     }
 
     public static ObjectWriteResponse copyObject(String sourceObjectName, String targetObjectName) throws FileErrorException {
-        return copyObject(MinioContextHolder.defaultBucket(), sourceObjectName, MinioContextHolder.defaultBucket(), targetObjectName);
+        return copyObject(OssfileStoreHolder.defaultBucket(), sourceObjectName, OssfileStoreHolder.defaultBucket(), targetObjectName);
     }
 
     public static ObjectWriteResponse copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) throws FileErrorException {
@@ -330,7 +327,7 @@ public class MinioHelper {
     }
 
     public static void removeObject(String objectName) throws FileErrorException {
-        removeObject(MinioContextHolder.defaultBucket(), objectName);
+        removeObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static void removeObject(String bucketName, String objectName) throws FileErrorException {
@@ -342,7 +339,7 @@ public class MinioHelper {
     }
 
     public static void removeObjects(Collection<String> objectNames) throws FileErrorException {
-        removeObjects(MinioContextHolder.defaultBucket(), objectNames);
+        removeObjects(OssfileStoreHolder.defaultBucket(), objectNames);
     }
 
     public static void removeObjects(String bucketName, Collection<String> objectNames) throws FileErrorException {
@@ -352,7 +349,7 @@ public class MinioHelper {
     }
 
     public static URL objectUrl(String objectName, Integer expire) throws FileErrorException {
-        return objectUrl(MinioContextHolder.defaultBucket(),objectName, expire);
+        return objectUrl(OssfileStoreHolder.defaultBucket(),objectName, expire);
     }
 
     public static URL objectUrl(String bucketName, String objectName, Integer expire) throws FileErrorException {

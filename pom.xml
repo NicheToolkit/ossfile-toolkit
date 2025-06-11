@@ -11,7 +11,7 @@
 <!--        <module>ossfile-toolkit-example</module>-->
         <module>ossfile-toolkit-bom</module>
         <module>ossfile-toolkit-core</module>
-<!--        <module>ossfile-toolkit-starter</module>-->
+        <module>ossfile-toolkit-starter</module>
         <module>ossfile-toolkit-minio</module>
         <module>ossfile-toolkit-aliyun</module>
         <module>ossfile-toolkit-amazon</module>

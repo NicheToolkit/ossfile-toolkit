@@ -69,6 +69,27 @@
       "description": "the prefix on oss file configuration."
     },
     {
+      "name": "nichetoolkit.ossfile.bulk-prefix",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "defaultValue": "bulk",
+      "description": "the bulk prefix on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.preview-prefix",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "defaultValue": "preview",
+      "description": "the preview prefix on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.part-prefix",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "defaultValue": "part",
+      "description": "the part prefix on oss file configuration."
+    },
+    {
       "name": "nichetoolkit.ossfile.image.compress",
       "type": "java.lang.Long",
       "sourceType": "java.lang.Long",

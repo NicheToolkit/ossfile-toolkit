@@ -7,6 +7,15 @@ package io.github.nichetoolkit.ossfile;
  * @since Jdk1.8
  */
 public interface OssfileResource {
+
+    /**
+     * <code>getBucket</code>
+     * <p>The get bucket getter method.</p>
+     * @return {@link java.lang.String} <p>The get bucket return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
+    String getBucket();
+
     /**
      * <code>getObjectKey</code>
      * <p>The get object key getter method.</p>

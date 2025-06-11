@@ -1,6 +1,5 @@
 package io.github.nichetoolkit.ossfile;
 
-import com.aliyun.oss.model.OSSObject;
 import com.amazonaws.services.s3.model.S3Object;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import org.springframework.stereotype.Component;
@@ -19,10 +18,10 @@ import java.io.IOException;
 public class AmazonVideoRequestHandler extends OssfileVideoRequestHandler {
 
     @Override
-    public OssfileVideoResource ossfileResource(OssfileBulkModel<?, ?> ossfileBulkModel) throws IOException {
+    public OssfileVideoResource videoResource(OssfileResource resource) throws IOException {
         try {
-            S3Object ossObject = AmazonHelper.getObject(ossfileBulkModel.getObjectKey());
-            return new AmazonVideoResource(ossObject, ossfileBulkModel);
+            S3Object ossObject = AmazonHelper.getObject(resource.getBucket(),resource.getObjectKey());
+            return new AmazonVideoResource(ossObject, resource);
         } catch (FileErrorException exception) {
             throw new IOException(exception.getMessage(), exception);
         }

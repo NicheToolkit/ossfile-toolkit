@@ -15,11 +15,15 @@ import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -115,11 +119,13 @@ public class AliyunStoreService extends OssfileStoreService {
         return Optional.ofNullable(ossObject).map(OSSObject::getObjectContent).orElse(null);
     }
 
+    @Async
     @Override
     public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
         AliyunHelper.putObject(objectKey, inputStream);
     }
 
+    @Async
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
         AliyunHelper.putObject(bucket, objectKey, inputStream);
@@ -137,43 +143,51 @@ public class AliyunStoreService extends OssfileStoreService {
         return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
     }
 
+    @Async
     @Override
     public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
         AliyunHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
     }
 
+    @Async
     @Override
     public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
         AliyunHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
     }
 
+    @Async
     @Override
     public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
         AliyunHelper.completeMultipart(objectKey, uploadId, partETagList);
     }
 
+    @Async
     @Override
     public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
         AliyunHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String objectKey) throws RestException {
         AliyunHelper.deleteObject(objectKey);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String bucket, String objectKey) throws RestException {
         AliyunHelper.deleteObject(bucket, objectKey);
     }
 
+    @Async
     @Override
     public void deleteOssfile(Collection<String> objectKeyList) throws RestException {
         AliyunHelper.deleteObjects(objectKeyList);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
         AliyunHelper.deleteObjects(bucket, objectKeyList);

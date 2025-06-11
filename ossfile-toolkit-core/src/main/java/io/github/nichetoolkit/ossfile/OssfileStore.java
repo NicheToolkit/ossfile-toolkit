@@ -1,19 +1,19 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.rest.RestException;
+import org.springframework.scheduling.annotation.Async;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Map;
 
 /**
- * <code>OssfileService</code>
- * <p>The ossfile service interface.</p>
+ * <code>OssfileStore</code>
+ * <p>The ossfile store interface.</p>
  * @author Cyan (snow22314@outlook.com)
  * @since Jdk1.8
  */
-public interface OssfileService {
+public interface OssfileStore {
 
     /**
      * <code>getOssfileUrl</code>
@@ -73,8 +73,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.io.InputStream
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void putOssfile(String objectKey, InputStream inputStream) throws RestException;
 
     /**
@@ -86,8 +88,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.io.InputStream
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException;
 
     /**
@@ -124,8 +128,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.io.InputStream
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException;
 
     /**
@@ -140,8 +146,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.io.InputStream
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException;
 
     /**
@@ -153,8 +161,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.util.Collection
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException;
 
     /**
@@ -167,8 +177,10 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.util.Collection
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException;
 
     /**
@@ -177,8 +189,10 @@ public interface OssfileService {
      * @param objectKey {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void deleteOssfile(String objectKey) throws RestException;
 
     /**
@@ -188,8 +202,10 @@ public interface OssfileService {
      * @param objectKey {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void deleteOssfile(String bucket, String objectKey) throws RestException;
 
     /**
@@ -198,8 +214,10 @@ public interface OssfileService {
      * @param objectKeyList {@link java.util.Collection} <p>The object key list parameter is <code>Collection</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.util.Collection
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void deleteOssfile(Collection<String> objectKeyList) throws RestException;
 
     /**
@@ -210,7 +228,9 @@ public interface OssfileService {
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
      * @see java.util.Collection
+     * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
+    @Async
     void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException;
 }

@@ -18,10 +18,10 @@ import java.io.IOException;
 public class AliyunVideoRequestHandler extends OssfileVideoRequestHandler {
 
     @Override
-    public OssfileVideoResource ossfileResource(OssfileBulkModel<?, ?> ossfileBulkModel) throws IOException {
+    public OssfileVideoResource videoResource(OssfileResource resource) throws IOException {
         try {
-            OSSObject ossObject = AliyunHelper.getObject(ossfileBulkModel.getObjectKey());
-            return new AliyunVideoResource(ossObject, ossfileBulkModel);
+            OSSObject ossObject = AliyunHelper.getObject(resource.getBucket(),resource.getObjectKey());
+            return new AliyunVideoResource(ossObject, resource);
         } catch (FileErrorException exception) {
             throw new IOException(exception.getMessage(), exception);
         }

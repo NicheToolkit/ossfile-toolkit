@@ -8,12 +8,15 @@ import io.minio.credentials.Credentials;
 import io.minio.messages.InitiateMultipartUploadResult;
 import io.minio.messages.Part;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -79,15 +82,15 @@ public class MinioStoreService extends OssfileStoreService {
     }
 
     @Override
-    public String startMultipart(String objectKey) throws RestException {
+    public CompletableFuture<String> startMultipart(String objectKey) throws RestException {
         InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(objectKey);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null);
+        return CompletableFuture.completedFuture(Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null));
     }
 
     @Override
-    public String startMultipart(String bucket, String objectKey) throws RestException {
+    public Future<String> startMultipart(String bucket, String objectKey) throws RestException {
         InitiateMultipartUploadResult result = MinioHelper.initiateMultipart(bucket, objectKey, null, null);
-        return Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null);
+        return AsyncResult.forValue(Optional.ofNullable(result).map(InitiateMultipartUploadResult::uploadId).orElse(null));
     }
 
     @Override

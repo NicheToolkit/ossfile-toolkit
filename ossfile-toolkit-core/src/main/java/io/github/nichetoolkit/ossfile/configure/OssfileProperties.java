@@ -1,5 +1,6 @@
 package io.github.nichetoolkit.ossfile.configure;
 
+import io.github.nichetoolkit.ossfile.OssfileConstants;
 import io.github.nichetoolkit.ossfile.OssfileProviderType;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Getter;
@@ -86,6 +87,25 @@ public class OssfileProperties {
      * @see java.lang.String
      */
     private String prefix;
+
+    /**
+     * <code>bulkPrefix</code>
+     * {@link java.lang.String} <p>The <code>bulkPrefix</code> field.</p>
+     * @see java.lang.String
+     */
+    private String bulkPrefix = OssfileConstants.BULK_PREFIX;
+    /**
+     * <code>previewPrefix</code>
+     * {@link java.lang.String} <p>The <code>previewPrefix</code> field.</p>
+     * @see java.lang.String
+     */
+    private String previewPrefix = OssfileConstants.PREVIEW_PREFIX;
+    /**
+     * <code>partPrefix</code>
+     * {@link java.lang.String} <p>The <code>partPrefix</code> field.</p>
+     * @see java.lang.String
+     */
+    private String partPrefix = OssfileConstants.PART_PREFIX;
     /**
      * <code>image</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties.OssImage} <p>The <code>image</code> field.</p>

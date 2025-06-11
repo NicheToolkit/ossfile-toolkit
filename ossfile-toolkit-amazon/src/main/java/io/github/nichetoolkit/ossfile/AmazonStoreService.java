@@ -11,11 +11,15 @@ import com.amazonaws.services.securitytoken.model.Credentials;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -97,11 +101,13 @@ public class AmazonStoreService extends OssfileStoreService {
         return Optional.ofNullable(ossObject).map(S3Object::getObjectContent).orElse(null);
     }
 
+    @Async
     @Override
     public void putOssfile(String objectKey, InputStream inputStream) throws RestException {
         AmazonHelper.putObject(objectKey, inputStream);
     }
 
+    @Async
     @Override
     public void putOssfile(String bucket, String objectKey, InputStream inputStream) throws RestException {
         AmazonHelper.putObject(bucket, objectKey, inputStream);
@@ -119,43 +125,51 @@ public class AmazonStoreService extends OssfileStoreService {
         return Optional.ofNullable(result).map(InitiateMultipartUploadResult::getUploadId).orElse(null);
     }
 
+    @Async
     @Override
     public void uploadMultipart(String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
         AmazonHelper.uploadMultipart(objectKey, uploadId, partIndex, inputStream, partSize);
     }
 
+    @Async
     @Override
     public void uploadMultipart(String bucket, String objectKey, String uploadId, InputStream inputStream, int partIndex, long partSize) throws RestException {
         AmazonHelper.uploadMultipart(bucket, objectKey, uploadId, partIndex, inputStream, partSize);
     }
 
+    @Async
     @Override
     public void finishMultipart(String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
         AmazonHelper.completeMultipart(objectKey, uploadId, partETagList);
     }
 
+    @Async
     @Override
     public void finishMultipart(String bucket, String objectKey, String uploadId, Collection<OssfilePartETag> partETags) throws RestException {
         List<PartETag> partETagList = partETags.stream().map(partETag -> new PartETag(partETag.getPartIndex(), partETag.getPartEtag())).collect(Collectors.toList());
         AmazonHelper.completeMultipart(bucket, objectKey, uploadId, partETagList);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String objectKey) throws RestException {
         AmazonHelper.deleteObject(objectKey);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String bucket, String objectKey) throws RestException {
         AmazonHelper.deleteObject(bucket, objectKey);
     }
 
+    @Async
     @Override
     public void deleteOssfile(Collection<String> objectKeyList) throws RestException {
         AmazonHelper.deleteObjects(objectKeyList);
     }
 
+    @Async
     @Override
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
         AmazonHelper.deleteObjects(bucket, objectKeyList);

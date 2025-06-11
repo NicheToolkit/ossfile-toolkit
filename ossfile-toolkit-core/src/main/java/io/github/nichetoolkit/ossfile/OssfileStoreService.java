@@ -3,23 +3,16 @@ package io.github.nichetoolkit.ossfile;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.support.SpringFactoriesLoader;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * <code>OssfileStoreService</code>
  * <p>The ossfile store service class.</p>
  * @author Cyan (snow22314@outlook.com)
- * @see io.github.nichetoolkit.ossfile.OssfileService
+ * @see OssfileStore
  * @see org.springframework.beans.factory.InitializingBean
  * @since Jdk1.8
  */
-public abstract class OssfileStoreService implements OssfileService, InitializingBean {
+public abstract class OssfileStoreService implements OssfileStore, InitializingBean {
 
     /**
      * <code>properties</code>

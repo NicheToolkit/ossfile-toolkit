@@ -11,12 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +37,7 @@ public class AliyunHelper {
     }
 
     public static GetBucketPolicyResult bucketPolicy() throws ServiceErrorException {
-        return bucketPolicy(AliyunContextHolder.defaultBucket());
+        return bucketPolicy(OssfileStoreHolder.defaultBucket());
     }
 
     public static GetBucketPolicyResult bucketPolicy(String bucketName) throws ServiceErrorException {
@@ -60,7 +57,7 @@ public class AliyunHelper {
     }
 
     public static Optional<Bucket> getBucket() throws ServiceErrorException {
-        return getBucket(AliyunContextHolder.defaultBucket());
+        return getBucket(OssfileStoreHolder.defaultBucket());
     }
 
     public static Optional<Bucket> getBucket(String bucketName) throws ServiceErrorException {
@@ -68,7 +65,7 @@ public class AliyunHelper {
     }
 
     public static void switchBucket(String bucketName) throws ServiceErrorException {
-        AliyunContextHolder.switchBucket(bucketName);
+        OssfileStoreHolder.switchBucket(bucketName);
         initDefaultBucket(AliyunContextHolder.defaultClient(), bucketName);
     }
 
@@ -89,7 +86,7 @@ public class AliyunHelper {
     }
 
     public static SimplifiedObjectMeta statObject(String objectName) throws FileErrorException {
-        return statObject(AliyunContextHolder.defaultBucket(), objectName);
+        return statObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static SimplifiedObjectMeta statObject(String bucketName, String objectName) throws FileErrorException {
@@ -102,7 +99,7 @@ public class AliyunHelper {
 
 
     public static boolean isObjectExist(String objectName) throws FileErrorException {
-        return isObjectExist(AliyunContextHolder.defaultBucket(), objectName);
+        return isObjectExist(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static boolean isObjectExist(String bucketName, String objectName) throws FileErrorException {
@@ -115,7 +112,7 @@ public class AliyunHelper {
 
     public static ObjectListing listObjects(String prefix) throws FileErrorException {
         try {
-            return AliyunContextHolder.defaultClient().listObjects(AliyunContextHolder.defaultBucket(), prefix);
+            return AliyunContextHolder.defaultClient().listObjects(OssfileStoreHolder.defaultBucket(), prefix);
         } catch (OSSException | ClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_LIST_ALL_BUCKETS_ERROR, exception.getMessage());
         }
@@ -131,7 +128,7 @@ public class AliyunHelper {
 
     public static ObjectListing listObjects(String prefix, String marker, String delimiter, Integer maxKeys) throws FileErrorException {
         try {
-            return AliyunContextHolder.defaultClient().listObjects(new ListObjectsRequest(AliyunContextHolder.defaultBucket(), prefix, marker, delimiter, maxKeys));
+            return AliyunContextHolder.defaultClient().listObjects(new ListObjectsRequest(OssfileStoreHolder.defaultBucket(), prefix, marker, delimiter, maxKeys));
         } catch (OSSException | ClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_LIST_ALL_BUCKETS_ERROR, exception.getMessage());
         }
@@ -147,7 +144,7 @@ public class AliyunHelper {
 
 
     public static List<OSSObjectSummary> allObjects(String prefix) throws FileErrorException {
-        return allObjects(AliyunContextHolder.defaultBucket(), prefix);
+        return allObjects(OssfileStoreHolder.defaultBucket(), prefix);
     }
 
     public static List<OSSObjectSummary> allObjects(String bucketName, String prefix) throws FileErrorException {
@@ -159,7 +156,7 @@ public class AliyunHelper {
     }
 
     public static OSSObject getObject(String objectName) throws FileErrorException {
-        return getObject(AliyunContextHolder.defaultBucket(), objectName);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static OSSObject getObject(String bucketName, String objectName) throws FileErrorException {
@@ -171,7 +168,7 @@ public class AliyunHelper {
     }
 
     public static OSSObject getObject(String objectName, long start, long end) throws FileErrorException {
-        return getObject(AliyunContextHolder.defaultBucket(), objectName, start, end);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName, start, end);
     }
 
     public static OSSObject getObject(String bucketName, String objectName, long start, long end) throws FileErrorException {
@@ -185,7 +182,7 @@ public class AliyunHelper {
     }
 
     public static PutObjectResult putObject(MultipartFile file, String objectName, ObjectMetadata objectMetadata) throws FileErrorException {
-        return putObject(AliyunContextHolder.defaultBucket(), file, objectName, objectMetadata);
+        return putObject(OssfileStoreHolder.defaultBucket(), file, objectName, objectMetadata);
     }
 
     public static PutObjectResult putObject(String bucketName, MultipartFile file, String objectName, ObjectMetadata objectMetadata) throws FileErrorException {
@@ -199,7 +196,7 @@ public class AliyunHelper {
 
 
     public static PutObjectResult putObject(String objectName, InputStream inputStream) throws FileErrorException {
-        return putObject(AliyunContextHolder.defaultBucket(), objectName, inputStream);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream);
     }
 
     public static PutObjectResult putObject(String bucketName, String objectName, InputStream inputStream) throws FileErrorException {
@@ -211,7 +208,7 @@ public class AliyunHelper {
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String objectName, @Nullable ObjectMetadata metadata) throws FileErrorException {
-        return initiateMultipart(AliyunContextHolder.defaultBucket(), objectName, metadata);
+        return initiateMultipart(OssfileStoreHolder.defaultBucket(), objectName, metadata);
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable ObjectMetadata metadata) throws FileErrorException {
@@ -225,7 +222,7 @@ public class AliyunHelper {
     }
 
     public static CompleteMultipartUploadResult completeMultipart(String objectName, String uploadId, Collection<PartETag> partETags) throws FileErrorException {
-        return completeMultipart(AliyunContextHolder.defaultBucket(), objectName, uploadId, partETags);
+        return completeMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partETags);
     }
 
     public static CompleteMultipartUploadResult completeMultipart(String bucketName, String objectName, String uploadId, Collection<PartETag> partETags) throws FileErrorException {
@@ -237,7 +234,7 @@ public class AliyunHelper {
     }
 
     public static UploadPartResult uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
-        return uploadMultipart(AliyunContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
+        return uploadMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
     }
 
 
@@ -250,7 +247,7 @@ public class AliyunHelper {
     }
 
     public static UploadFileResult uploadObject(String objectName, String filename) throws FileErrorException {
-        return uploadObject(AliyunContextHolder.defaultBucket(), objectName, filename, 0L, 0);
+        return uploadObject(OssfileStoreHolder.defaultBucket(), objectName, filename, 0L, 0);
     }
 
     public static UploadFileResult uploadObject(String bucketName, String objectName, String filename) throws FileErrorException {
@@ -270,7 +267,7 @@ public class AliyunHelper {
     }
 
     public static AppendObjectResult appendObject(String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) throws FileErrorException {
-        return appendObject(AliyunContextHolder.defaultBucket(), objectName, inputStream, metadata);
+        return appendObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream, metadata);
     }
 
     public static AppendObjectResult appendObject(String bucketName, String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) throws FileErrorException {
@@ -284,7 +281,7 @@ public class AliyunHelper {
     }
 
     public static CopyObjectResult copyObject(String sourceObjectName, String targetObjectName) throws FileErrorException {
-        return copyObject(AliyunContextHolder.defaultBucket(), sourceObjectName, AliyunContextHolder.defaultBucket(), targetObjectName);
+        return copyObject(OssfileStoreHolder.defaultBucket(), sourceObjectName, OssfileStoreHolder.defaultBucket(), targetObjectName);
     }
 
     public static CopyObjectResult copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) throws FileErrorException {
@@ -296,7 +293,7 @@ public class AliyunHelper {
     }
 
     public static void deleteObject(String objectName) throws FileErrorException {
-        deleteObject(AliyunContextHolder.defaultBucket(), objectName);
+        deleteObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static void deleteObject(String bucketName, String objectName) throws FileErrorException {
@@ -308,7 +305,7 @@ public class AliyunHelper {
     }
 
     public static void deleteObjects(Collection<String> objectNames) throws FileErrorException {
-        deleteObjects(AliyunContextHolder.defaultBucket(), objectNames);
+        deleteObjects(OssfileStoreHolder.defaultBucket(), objectNames);
     }
 
     public static void deleteObjects(String bucketName, Collection<String> objectNames) throws FileErrorException {
@@ -318,7 +315,7 @@ public class AliyunHelper {
     }
 
     public static URL objectUrl(String objectName, @Nullable Integer expire) throws FileErrorException {
-        return objectUrl(AliyunContextHolder.defaultBucket(), objectName, expire);
+        return objectUrl(OssfileStoreHolder.defaultBucket(), objectName, expire);
     }
 
     public static URL objectUrl(String bucketName, String objectName, @Nullable Integer expire) throws FileErrorException {

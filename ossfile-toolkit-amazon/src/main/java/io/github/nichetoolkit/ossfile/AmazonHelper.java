@@ -44,7 +44,7 @@ public class AmazonHelper {
     }
 
     public static BucketPolicy bucketPolicy() throws ServiceErrorException {
-        return bucketPolicy(AmazonContextHolder.defaultBucket());
+        return bucketPolicy(OssfileStoreHolder.defaultBucket());
     }
 
     public static BucketPolicy bucketPolicy(String bucketName) throws ServiceErrorException {
@@ -64,7 +64,7 @@ public class AmazonHelper {
     }
 
     public static Optional<Bucket> getBucket() throws ServiceErrorException {
-        return getBucket(AmazonContextHolder.defaultBucket());
+        return getBucket(OssfileStoreHolder.defaultBucket());
     }
 
     public static Optional<Bucket> getBucket(String bucketName) throws ServiceErrorException {
@@ -72,7 +72,7 @@ public class AmazonHelper {
     }
 
     public static void switchBucket(String bucketName) throws ServiceErrorException {
-        AmazonContextHolder.switchBucket(bucketName);
+        OssfileStoreHolder.switchBucket(bucketName);
         initDefaultBucket(AmazonContextHolder.defaultClient(), bucketName);
     }
 
@@ -93,7 +93,7 @@ public class AmazonHelper {
     }
 
     public static ObjectMetadata statObject(String objectName) throws FileErrorException {
-        return statObject(AmazonContextHolder.defaultBucket(), objectName);
+        return statObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static ObjectMetadata statObject(String bucketName, String objectName) throws FileErrorException {
@@ -106,7 +106,7 @@ public class AmazonHelper {
 
 
     public static boolean isObjectExist(String objectName) throws FileErrorException {
-        return isObjectExist(AmazonContextHolder.defaultBucket(), objectName);
+        return isObjectExist(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static boolean isObjectExist(String bucketName, String objectName) throws FileErrorException {
@@ -119,7 +119,7 @@ public class AmazonHelper {
 
     public static ObjectListing listObjects(String prefix) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().listObjects(AmazonContextHolder.defaultBucket(), prefix);
+            return AmazonContextHolder.defaultClient().listObjects(OssfileStoreHolder.defaultBucket(), prefix);
         } catch (SdkClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_LIST_ALL_BUCKETS_ERROR, exception.getMessage());
         }
@@ -135,7 +135,7 @@ public class AmazonHelper {
 
     public static ObjectListing listObjects(String prefix, String marker, String delimiter, Integer maxKeys) throws FileErrorException {
         try {
-            return AmazonContextHolder.defaultClient().listObjects(new ListObjectsRequest(AmazonContextHolder.defaultBucket(), prefix, marker, delimiter, maxKeys));
+            return AmazonContextHolder.defaultClient().listObjects(new ListObjectsRequest(OssfileStoreHolder.defaultBucket(), prefix, marker, delimiter, maxKeys));
         } catch (SdkClientException exception) {
             throw new FileErrorException(OssfileErrorStatus.OSSFILE_LIST_ALL_BUCKETS_ERROR, exception.getMessage());
         }
@@ -151,7 +151,7 @@ public class AmazonHelper {
 
 
     public static List<S3ObjectSummary> allObjects(String prefix) throws FileErrorException {
-        return allObjects(AmazonContextHolder.defaultBucket(), prefix);
+        return allObjects(OssfileStoreHolder.defaultBucket(), prefix);
     }
 
     public static List<S3ObjectSummary> allObjects(String bucketName, String prefix) throws FileErrorException {
@@ -163,7 +163,7 @@ public class AmazonHelper {
     }
 
     public static S3Object getObject(String objectName) throws FileErrorException {
-        return getObject(AmazonContextHolder.defaultBucket(), objectName);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static S3Object getObject(String bucketName, String objectName) throws FileErrorException {
@@ -175,7 +175,7 @@ public class AmazonHelper {
     }
 
     public static S3Object getObject(String objectName, long start, long end) throws FileErrorException {
-        return getObject(AmazonContextHolder.defaultBucket(), objectName, start, end);
+        return getObject(OssfileStoreHolder.defaultBucket(), objectName, start, end);
     }
 
     public static S3Object getObject(String bucketName, String objectName, long start, long end) throws FileErrorException {
@@ -189,7 +189,7 @@ public class AmazonHelper {
     }
 
     public static PutObjectResult putObject(MultipartFile file, String objectName, ObjectMetadata objectMetadata) throws FileErrorException {
-        return putObject(AmazonContextHolder.defaultBucket(), file, objectName, objectMetadata);
+        return putObject(OssfileStoreHolder.defaultBucket(), file, objectName, objectMetadata);
     }
 
     public static PutObjectResult putObject(String bucketName, MultipartFile file, String objectName, ObjectMetadata objectMetadata) throws FileErrorException {
@@ -202,7 +202,7 @@ public class AmazonHelper {
     }
 
     public static PutObjectResult putObject(String objectName, InputStream inputStream) throws FileErrorException {
-        return putObject(AmazonContextHolder.defaultBucket(), objectName, inputStream);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream);
     }
 
     public static PutObjectResult putObject(String bucketName, String objectName, InputStream inputStream) throws FileErrorException {
@@ -214,7 +214,7 @@ public class AmazonHelper {
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String objectName, @Nullable ObjectMetadata metadata) throws FileErrorException {
-        return initiateMultipart(AmazonContextHolder.defaultBucket(), objectName, metadata);
+        return initiateMultipart(OssfileStoreHolder.defaultBucket(), objectName, metadata);
     }
 
     public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable ObjectMetadata metadata) throws FileErrorException {
@@ -228,7 +228,7 @@ public class AmazonHelper {
     }
 
     public static CompleteMultipartUploadResult completeMultipart(String objectName, String uploadId, Collection<PartETag> partETags) throws FileErrorException {
-        return completeMultipart(AmazonContextHolder.defaultBucket(), objectName, uploadId, partETags);
+        return completeMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partETags);
     }
 
     public static CompleteMultipartUploadResult completeMultipart(String bucketName, String objectName, String uploadId, Collection<PartETag> partETags) throws FileErrorException {
@@ -240,7 +240,7 @@ public class AmazonHelper {
     }
 
     public static UploadPartResult uploadMultipart(String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
-        return uploadMultipart(AmazonContextHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
+        return uploadMultipart(OssfileStoreHolder.defaultBucket(), objectName, uploadId, partIndex, inputStream, partSize);
     }
 
     public static UploadPartResult uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize) throws FileErrorException {
@@ -259,7 +259,7 @@ public class AmazonHelper {
     }
 
     public static PutObjectResult putObject(String objectName, String filename) throws FileErrorException {
-        return putObject(AmazonContextHolder.defaultBucket(), objectName, filename);
+        return putObject(OssfileStoreHolder.defaultBucket(), objectName, filename);
     }
 
     public static PutObjectResult putObject(String bucketName, String objectName, String filename) throws FileErrorException {
@@ -271,7 +271,7 @@ public class AmazonHelper {
     }
 
     public static PutObjectResult appendObject(String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) throws FileErrorException {
-        return appendObject(AmazonContextHolder.defaultBucket(), objectName, inputStream, metadata);
+        return appendObject(OssfileStoreHolder.defaultBucket(), objectName, inputStream, metadata);
     }
 
     public static PutObjectResult appendObject(String bucketName, String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) throws FileErrorException {
@@ -283,7 +283,7 @@ public class AmazonHelper {
     }
 
     public static CopyObjectResult copyObject(String sourceObjectName, String targetObjectName) throws FileErrorException {
-        return copyObject(AmazonContextHolder.defaultBucket(), sourceObjectName, AmazonContextHolder.defaultBucket(), targetObjectName);
+        return copyObject(OssfileStoreHolder.defaultBucket(), sourceObjectName, OssfileStoreHolder.defaultBucket(), targetObjectName);
     }
 
     public static CopyObjectResult copyObject(String sourceBucketName, String sourceObjectName, String targetBucketName, String targetObjectName) throws FileErrorException {
@@ -295,7 +295,7 @@ public class AmazonHelper {
     }
 
     public static void deleteObject(String objectName) throws FileErrorException {
-        deleteObject(AmazonContextHolder.defaultBucket(), objectName);
+        deleteObject(OssfileStoreHolder.defaultBucket(), objectName);
     }
 
     public static void deleteObject(String bucketName, String objectName) throws FileErrorException {
@@ -307,7 +307,7 @@ public class AmazonHelper {
     }
 
     public static void deleteObjects(Collection<String> objectNames) throws FileErrorException {
-        deleteObjects(AmazonContextHolder.defaultBucket(), objectNames);
+        deleteObjects(OssfileStoreHolder.defaultBucket(), objectNames);
     }
 
     public static void deleteObjects(String bucketName, Collection<String> objectNames) throws FileErrorException {
@@ -317,7 +317,7 @@ public class AmazonHelper {
     }
 
     public static URL objectUrl(String objectName, @Nullable Integer expire) throws FileErrorException {
-        return objectUrl(AmazonContextHolder.defaultBucket(), objectName, expire);
+        return objectUrl(OssfileStoreHolder.defaultBucket(), objectName, expire);
     }
 
     public static URL objectUrl(String bucketName, String objectName, @Nullable Integer expire) throws FileErrorException {

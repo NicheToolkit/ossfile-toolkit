@@ -7,12 +7,9 @@ import io.github.nichetoolkit.ossfile.image.OssfileErrorStatus;
 import io.github.nichetoolkit.ossfile.OssfileFilter;
 import io.github.nichetoolkit.ossfile.OssfileStoreService;
 import io.github.nichetoolkit.ossfile.helper.FileServiceHelper;
-import io.github.nichetoolkit.ossfile.OssfilePartModel;
-import io.github.nichetoolkit.ossfile.OssfileBulkModel;
 import io.github.nichetoolkit.ossfile.OssfileRequest;
-import io.github.nichetoolkit.ossfile.service.FileChunkService;
-import io.github.nichetoolkit.ossfile.service.FileHandleService;
-import io.github.nichetoolkit.ossfile.service.FileIndexService;
+import io.github.nichetoolkit.ossfile.service.OssfilePartService;
+import io.github.nichetoolkit.ossfile.service.OssfileBulkService;
 import io.github.nichetoolkit.ossfile.service.FileService;
 import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import io.github.nichetoolkit.rest.RestException;
@@ -55,10 +52,10 @@ public class FileServiceImpl implements FileService {
     protected OssfileProperties commonProperties;
 
     @Autowired
-    protected FileIndexService fileIndexService;
+    protected OssfileBulkService fileIndexService;
 
     @Autowired
-    protected FileChunkService fileChunkService;
+    protected OssfilePartService fileChunkService;
 
     @Autowired
     protected FileHandleService fileHandleService;

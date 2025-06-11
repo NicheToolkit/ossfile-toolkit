@@ -2,7 +2,6 @@ package io.github.nichetoolkit.ossfile.service;
 
 import io.github.nichetoolkit.ossfile.OssfileFileType;
 import io.github.nichetoolkit.ossfile.OssfileFilter;
-import io.github.nichetoolkit.ossfile.OssfileBulkModel;
 import io.github.nichetoolkit.ossfile.OssfileRequest;
 import io.github.nichetoolkit.rest.RestException;
 import org.springframework.web.multipart.MultipartFile;

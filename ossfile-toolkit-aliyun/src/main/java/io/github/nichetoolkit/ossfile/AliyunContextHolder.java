@@ -23,13 +23,6 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
     private OSS aliyunClient;
 
     /**
-     * <code>defaultBucket</code>
-     * {@link java.lang.String} <p>The <code>defaultBucket</code> field.</p>
-     * @see java.lang.String
-     */
-    private String defaultBucket;
-
-    /**
      * <code>ossfileProperties</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
@@ -52,7 +45,6 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
     @Override
     public void afterAutowirePropertiesSet() {
         this.aliyunClient = AliyunHelper.createAliyunClient(this.ossfileProperties);
-        this.defaultBucket = ossfileProperties.getBucket();
     }
 
     /**
@@ -61,26 +53,6 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      */
     static void refreshClient() {
         INSTANCE.aliyunClient = AliyunHelper.createAliyunClient(INSTANCE.ossfileProperties);
-    }
-
-    /**
-     * <code>switchBucket</code>
-     * <p>The switch bucket method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    static void switchBucket(String bucketName) {
-        INSTANCE.defaultBucket = bucketName;
-    }
-
-    /**
-     * <code>defaultBucket</code>
-     * <p>The default bucket method.</p>
-     * @return {@link java.lang.String} <p>The default bucket return object is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    public static String defaultBucket() {
-        return INSTANCE.defaultBucket;
     }
 
     /**

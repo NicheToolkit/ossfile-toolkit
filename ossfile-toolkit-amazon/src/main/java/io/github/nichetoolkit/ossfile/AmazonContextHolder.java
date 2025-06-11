@@ -23,13 +23,6 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
     private AmazonS3 amazonClient;
 
     /**
-     * <code>defaultBucket</code>
-     * {@link java.lang.String} <p>The <code>defaultBucket</code> field.</p>
-     * @see java.lang.String
-     */
-    private String defaultBucket;
-
-    /**
      * <code>ossfileProperties</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
@@ -52,7 +45,6 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
     @Override
     public void afterAutowirePropertiesSet() {
         this.amazonClient = AmazonHelper.createAmazonClient(this.ossfileProperties);
-        this.defaultBucket = ossfileProperties.getBucket();
     }
 
     /**
@@ -64,26 +56,6 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
     }
 
     /**
-     * <code>switchBucket</code>
-     * <p>The switch bucket method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    static void switchBucket(String bucketName) {
-        INSTANCE.defaultBucket = bucketName;
-    }
-
-    /**
-     * <code>defaultBucket</code>
-     * <p>The default bucket method.</p>
-     * @return {@link java.lang.String} <p>The default bucket return object is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    public static String defaultBucket() {
-        return INSTANCE.defaultBucket;
-    }
-
-    /**
      * <code>defaultClient</code>
      * <p>The default client method.</p>
      * @return {@link com.amazonaws.services.s3.AmazonS3} <p>The default client return object is <code>AmazonS3</code> type.</p>
@@ -92,7 +64,5 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
     public static AmazonS3 defaultClient() {
         return INSTANCE.amazonClient;
     }
-
-
 
 }

@@ -38,13 +38,6 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     private MinioMultipartClient multipartClient;
 
     /**
-     * <code>defaultBucket</code>
-     * {@link java.lang.String} <p>The <code>defaultBucket</code> field.</p>
-     * @see java.lang.String
-     */
-    private String defaultBucket;
-
-    /**
      * <code>defaultRegion</code>
      * {@link java.lang.String} <p>The <code>defaultRegion</code> field.</p>
      * @see java.lang.String
@@ -76,7 +69,6 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
         this.asyncClient = MinioHelper.createAsyncClient(this.ossfileProperties);
         this.minioClient = MinioHelper.createMinioClient(this.ossfileProperties);
         this.multipartClient = new MinioMultipartClient(this.asyncClient);
-        this.defaultBucket = ossfileProperties.getBucket();
         this.defaultRegion = ossfileProperties.getRegion();
     }
 
@@ -86,26 +78,6 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      */
     static void refreshClient() {
         INSTANCE.minioClient = MinioHelper.createMinioClient(INSTANCE.ossfileProperties);
-    }
-
-    /**
-     * <code>switchBucket</code>
-     * <p>The switch bucket method.</p>
-     * @param bucketName {@link java.lang.String} <p>The bucket name parameter is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    static void switchBucket(String bucketName) {
-        INSTANCE.defaultBucket = bucketName;
-    }
-
-    /**
-     * <code>defaultBucket</code>
-     * <p>The default bucket method.</p>
-     * @return {@link java.lang.String} <p>The default bucket return object is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    public static String defaultBucket() {
-        return INSTANCE.defaultBucket;
     }
 
     /**

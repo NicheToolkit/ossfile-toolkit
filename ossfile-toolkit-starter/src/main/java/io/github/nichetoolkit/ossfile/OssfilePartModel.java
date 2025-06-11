@@ -1,0 +1,72 @@
+package io.github.nichetoolkit.ossfile;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.rice.DefaultIdModel;
+import io.github.nichetoolkit.rice.RestId;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
+
+import java.io.ByteArrayInputStream;
+import java.util.Comparator;
+import java.util.Date;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePartEntity,String> implements Comparator<OssfilePartModel>, Comparable<OssfilePartModel>, OssfileResource {
+    protected RestId<String> bulk;
+    protected RestId<String> project;
+    protected String bulkId;
+    protected String projectId;
+    protected String uploadId;
+
+    protected String filename;
+    protected Integer partIndex;
+    protected String partEtag;
+
+    protected String bucket;
+    protected String objectKey;
+    protected String objectPath;
+
+    protected Long partSize;
+    protected Long partStart;
+    protected Long partEnd;
+    protected String partMd5;
+    protected Boolean lastPart;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    protected Date partTime;
+
+    @JsonIgnore
+    protected byte[] bytes;
+
+    @JsonIgnore
+    public ByteArrayInputStream inputStream() {
+        return new ByteArrayInputStream(this.bytes);
+    }
+
+    public OssfilePartModel() {
+    }
+
+    public OssfilePartModel(String id) {
+        super(id);
+    }
+
+    @Override
+    public int compare(OssfilePartModel source, OssfilePartModel target) {
+        return Integer.compare(source.getPartIndex(), target.getPartIndex());
+    }
+
+    @Override
+    public int compareTo(@NonNull OssfilePartModel target) {
+        return Integer.compare(this.getPartIndex(), target.getPartIndex());
+    }
+
+}
