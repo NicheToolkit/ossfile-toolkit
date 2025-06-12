@@ -8,7 +8,7 @@
     <version>1.1.2-SNAPSHOT</version>
 
     <modules>
-<!--        <module>ossfile-toolkit-example</module>-->
+        <module>ossfile-toolkit-example</module>
         <module>ossfile-toolkit-bom</module>
         <module>ossfile-toolkit-core</module>
         <module>ossfile-toolkit-starter</module>
@@ -132,8 +132,10 @@
         <minio.version>8.4.6</minio.version>
         <aliyun-sts.version>3.1.0</aliyun-sts.version>
         <aliyun-oss.version>3.12.0</aliyun-oss.version>
+
         <amazon-sts.version>1.12.261</amazon-sts.version>
         <amazon-oss.version>1.12.261</amazon-oss.version>
+
         <mybatis-spring.version>2.3.2</mybatis-spring.version>
 
     </properties>
@@ -176,11 +178,11 @@
                 <version>${ossfile-toolkit.version}</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>io.github.nichetoolkit</groupId>-->
-<!--                <artifactId>ossfile-toolkit-starter</artifactId>-->
-<!--                <version>${ossfile-toolkit.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>ossfile-toolkit-starter</artifactId>
+                <version>${ossfile-toolkit.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>net.coobird</groupId>

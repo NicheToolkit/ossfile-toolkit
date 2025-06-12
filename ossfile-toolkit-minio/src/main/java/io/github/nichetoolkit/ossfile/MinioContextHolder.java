@@ -4,6 +4,8 @@ import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
@@ -12,8 +14,11 @@ import javax.annotation.Resource;
  * <p>The minio context holder class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
+ * @see lombok.extern.slf4j.Slf4j
+ * @see lombok.Setter
  * @since Jdk1.8
  */
+@Slf4j
 public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolder> {
 
     /**
@@ -50,6 +55,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      * @see javax.annotation.Resource
      */
+    @Setter
     @Resource
     private OssfileProperties ossfileProperties;
 
@@ -72,6 +78,10 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
         this.defaultRegion = ossfileProperties.getRegion();
     }
 
+    @Override
+    public int getOrder() {
+        return 10;
+    }
     /**
      * <code>refreshClient</code>
      * <p>The refresh client method.</p>
@@ -93,8 +103,8 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     /**
      * <code>multipartClient</code>
      * <p>The multipart client method.</p>
-     * @return {@link io.minio.MinioClient} <p>The multipart client return object is <code>MinioClient</code> type.</p>
-     * @see io.minio.MinioClient
+     * @return {@link io.github.nichetoolkit.ossfile.MinioMultipartClient} <p>The multipart client return object is <code>MinioMultipartClient</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.MinioMultipartClient
      */
     public static MinioMultipartClient multipartClient() {
         return INSTANCE.multipartClient;

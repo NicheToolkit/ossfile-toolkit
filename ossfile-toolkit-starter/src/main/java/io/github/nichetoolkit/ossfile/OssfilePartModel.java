@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
+import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdModel;
 import io.github.nichetoolkit.rice.RestId;
 import lombok.Data;
@@ -22,8 +23,6 @@ import java.util.List;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePartEntity,String> implements Comparator<OssfilePartModel>, Comparable<OssfilePartModel>, OssfileResource {
-    protected RestId<String> bulk;
-    protected RestId<String> project;
     protected String bulkId;
     protected String projectId;
     protected String uploadId;
@@ -61,6 +60,24 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
 
     public OssfilePartModel(String id) {
         super(id);
+    }
+    public void setBulk(RestId<String> bulk) {
+        this.bulkId = bulk.getId();
+    }
+
+    public void setProject(RestId<String> project) {
+        this.projectId = project.getId();
+    }
+
+    @Override
+    public OssfilePartEntity toEntity() {
+        OssfilePartEntity partEntity = new OssfilePartEntity();
+        BeanUtils.copyNonnullProperties(this, partEntity);
+        partEntity.setLinks(OssfilePartLinks.builder()
+                .bulkId(this.bulkId)
+                .projectId(this.projectId)
+                .uploadId(this.uploadId).build());
+        return partEntity;
     }
 
     @Override

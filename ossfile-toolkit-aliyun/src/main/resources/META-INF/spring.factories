@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.nichetoolkit.ossfile.configure.OssfileAmazonAutoConfigure
-io.github.nichetoolkit.rest.fitter.RestFulfilledFitter=io.github.nichetoolkit.ossfile.AmazonContextHolder
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.nichetoolkit.ossfile.configure.OssfileAliyunAutoConfigure
+io.github.nichetoolkit.rest.fitter.RestFulfilledFitter=io.github.nichetoolkit.ossfile.AliyunContextHolder

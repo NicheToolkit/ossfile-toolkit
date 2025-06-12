@@ -3,6 +3,8 @@ package io.github.nichetoolkit.ossfile;
 import com.aliyun.oss.OSS;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
@@ -11,8 +13,11 @@ import javax.annotation.Resource;
  * <p>The aliyun context holder class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
+ * @see lombok.extern.slf4j.Slf4j
+ * @see lombok.Setter
  * @since Jdk1.8
  */
+@Slf4j
 public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHolder> {
 
     /**
@@ -28,6 +33,7 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      * @see javax.annotation.Resource
      */
+    @Setter
     @Resource
     private OssfileProperties ossfileProperties;
 
@@ -45,6 +51,11 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
     @Override
     public void afterAutowirePropertiesSet() {
         this.aliyunClient = AliyunHelper.createAliyunClient(this.ossfileProperties);
+    }
+
+    @Override
+    public int getOrder() {
+        return 10;
     }
 
     /**

@@ -8,15 +8,15 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "io.github.nichetoolkit")
-public class FileToolkitExampleApplication extends SpringBootServletInitializer {
+public class OssfileExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileToolkitExampleApplication.class, args);
+        SpringApplication.run(OssfileExampleApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(FileToolkitExampleApplication.class);
+        return application.sources(OssfileExampleApplication.class);
     }
 
 }

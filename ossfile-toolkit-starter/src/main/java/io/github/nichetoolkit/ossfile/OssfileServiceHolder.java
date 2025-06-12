@@ -8,6 +8,7 @@ import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -36,6 +37,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      * @see javax.annotation.Resource
      */
+    @Setter
     @Resource
     private OssfileProperties properties;
 
@@ -82,6 +84,11 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
         RestOptional.ofEmptyable(this.videoHandler).orElseThrow(() -> new InstanceLackError("It is no video handler service has been initiated."));
         OssfileProviderType ossfileProviderType = OssfileStoreHolder.properties().getProvider();
         this.storeService = OssfileStoreHolder.storeService(ossfileProviderType);
+    }
+
+    @Override
+    public int getOrder() {
+        return 30;
     }
 
 

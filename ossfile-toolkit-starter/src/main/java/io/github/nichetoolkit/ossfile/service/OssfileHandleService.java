@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -33,7 +34,7 @@ public class OssfileHandleService {
         BufferedImage bufferedImage = ImageUtils.read(inputStream);
         BufferedImage binaryImage = ImageUtils.binaryImage(bufferedImage);
         BufferedImage signatureImage = ImageUtils.signature(binaryImage);
-        byte[] bytes = ImageUtils.bytesJpeg(signatureImage);
+        byte[] bytes = ImageUtils.bytesPng(signatureImage);
         bulkModel.ofBytes(bytes).defaultAssert();
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
     }
@@ -76,6 +77,7 @@ public class OssfileHandleService {
         Future<OssfileETagVersion> ossfileFuture = storeService.putOssfile(bulkModel.getBucket(), objectKey, bulkModel.inputStream());
         handleOfFuture(ossfileFuture, eTagVersion -> {
             bulkModel.setETagVersion(eTagVersion);
+            bulkModel.setCompleteTime(new Date());
             OssfileServiceHolder.bulkService().save(bulkModel);
         });
     }

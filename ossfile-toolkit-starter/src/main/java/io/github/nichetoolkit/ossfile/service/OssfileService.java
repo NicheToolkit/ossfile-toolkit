@@ -278,14 +278,16 @@ public class OssfileService {
      * <p>The upload of file method.</p>
      * @param file    {@link org.springframework.web.multipart.MultipartFile} <p>The file parameter is <code>MultipartFile</code> type.</p>
      * @param request {@link io.github.nichetoolkit.ossfile.OssfileRequest} <p>The request parameter is <code>OssfileRequest</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The upload of file return object is <code>OssfileBulkModel</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see org.springframework.web.multipart.MultipartFile
      * @see io.github.nichetoolkit.ossfile.OssfileRequest
+     * @see io.github.nichetoolkit.ossfile.OssfileBulkModel
      * @see io.github.nichetoolkit.rest.RestException
      */
-    public void uploadOfFile(MultipartFile file, OssfileRequest request) throws RestException {
+    public OssfileBulkModel uploadOfFile(MultipartFile file, OssfileRequest request) throws RestException {
         OssfileBulkModel bulkModel = request.toBulkModel().ofFile(file);
-        uploadOfBulk(bulkModel,request);
+       return uploadOfBulk(bulkModel,request);
     }
 
     /**
@@ -293,12 +295,13 @@ public class OssfileService {
      * <p>The upload of bulk method.</p>
      * @param bulkModel {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
      * @param request   {@link io.github.nichetoolkit.ossfile.OssfileRequest} <p>The request parameter is <code>OssfileRequest</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The upload of bulk return object is <code>OssfileBulkModel</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.OssfileBulkModel
      * @see io.github.nichetoolkit.ossfile.OssfileRequest
      * @see io.github.nichetoolkit.rest.RestException
      */
-    public void uploadOfBulk(OssfileBulkModel bulkModel, OssfileRequest request) throws RestException {
+    public OssfileBulkModel uploadOfBulk(OssfileBulkModel bulkModel, OssfileRequest request) throws RestException {
         OptionalUtils.ofFalse(GeneralUtils.isNotEmpty(bulkModel) && GeneralUtils.isNotEmpty(bulkModel.inputStream()),
                 () -> new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_ERROR));
         OssfileFileType fileType = bulkModel.getFileType();
@@ -327,5 +330,6 @@ public class OssfileService {
                 handleService.handleOfFile(bulkModel);
             }
         }
+        return bulkModel;
     }
 }

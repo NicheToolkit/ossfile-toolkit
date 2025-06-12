@@ -5,6 +5,9 @@ import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
+import io.github.nichetoolkit.rice.RestServiceFitter;
+import io.github.nichetoolkit.rice.stereotype.RestService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -22,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since Jdk1.8
  */
 @Slf4j
+@Setter
 public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolder> {
 
     /**
@@ -45,6 +49,11 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      */
     @Resource
     private OssfileProperties properties;
+
+    @Override
+    public int getOrder() {
+        return 20;
+    }
 
     /**
      * <code>defaultBucket</code>

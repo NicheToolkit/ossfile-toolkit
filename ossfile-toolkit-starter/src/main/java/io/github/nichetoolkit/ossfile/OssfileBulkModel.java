@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
+import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.identity.IdentityUtils;
+import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rest.util.FileUtils;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rest.util.IoStreamUtils;
@@ -52,7 +54,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
 
     protected String fileMd5;
     protected Long fileSize;
-    protected OssfileFileType fileType;
+    protected RestKey<String> fileType;
     protected Long partSize;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -92,6 +94,24 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         super(id);
     }
 
+    @Override
+    public OssfileBulkEntity toEntity() {
+        OssfileBulkEntity bulkEntity = new OssfileBulkEntity();
+        BeanUtils.copyNonnullProperties(this, bulkEntity);
+        bulkEntity.setFileType(this.fileType.getKey());
+        bulkEntity.setLinks(OssfileBulkLinks.builder()
+                .userId(this.userId)
+                .projectId(this.projectId)
+                .uploadId(this.uploadId).build());
+        bulkEntity.setStates(OssfileStates.builder()
+                .partState(this.partState)
+                .finishState(this.finishState)
+                .previewState(this.previewState)
+                .compressState(this.compressState)
+                .build());
+        return bulkEntity;
+    }
+
     public void setETagVersion(OssfileETagVersion eTagVersion) {
         this.etag = eTagVersion.getEtag();
         this.version = eTagVersion.getVersion();
@@ -107,7 +127,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
 
     public OssfileBulkModel ofFile(MultipartFile file) {
         RestOptional.ofEmptyable(this.original).orElseGet(() -> this.original = file.getOriginalFilename());
-        RestOptional.ofEmptyable(this.filename).orElseGet(() -> this.filename = file.getName());
+        RestOptional.ofEmptyable(this.filename).orElseGet(() -> this.filename = file.getResource().getFilename());
         RestOptional.ofEmptyable(this.fileSize).orElseGet(() -> this.fileSize = file.getSize());
         RestOptional.ofEmptyable(this.fileType).orElseGet(() -> {
             String suffix = FileUtils.suffix(this.original);
@@ -138,7 +158,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         RestOptional.ofEmptyable(this.beginTime).orElseGet(() -> this.beginTime = new Date());
         RestOptional.ofEmptyable(this.finishState).orElseGet(() -> {
             this.completeTime = new Date();
-           return this.finishState = true;
+            return this.finishState = true;
         });
         RestOptional.ofEmptyable(this.compressState).orElseGet(() -> this.compressState = false);
         RestOptional.ofEmptyable(this.previewState).orElseGet(() -> this.previewState = false);
@@ -204,7 +224,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         return this;
     }
 
-        public OssfileBulkModel previewOfCopy() {
+    public OssfileBulkModel previewOfCopy() {
         assert GeneralUtils.isNotEmpty(this.objectPath);
         assert GeneralUtils.isNotEmpty(this.objectKey);
         this.previewPath = objectPath;

@@ -15,9 +15,6 @@ public class OssfileStates implements Serializable {
     protected Boolean compressState;
     protected Boolean previewState;
 
-    public OssfileStates() {
-    }
-
     public static OssfileStates ofPart(boolean part) {
         return OssfileStates.builder().partState(part).build();
     }

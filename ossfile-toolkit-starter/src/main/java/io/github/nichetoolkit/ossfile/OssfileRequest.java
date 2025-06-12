@@ -22,7 +22,7 @@ public class OssfileRequest implements Serializable {
     protected String filename;
     protected long fileSize;
 
-    protected OssfileFileType fileType;
+    protected String fileType;
 
     protected int width;
     protected int height;
@@ -31,7 +31,7 @@ public class OssfileRequest implements Serializable {
     protected long partSize;
 
     protected boolean isSignature;
-    protected boolean isFinish = true;
+    protected boolean isFinish;
     protected boolean isCompress;
     protected boolean isPreview;
 
@@ -58,7 +58,8 @@ public class OssfileRequest implements Serializable {
         bulkModel.setUploadId(this.uploadId);
         bulkModel.setFilename(this.filename);
         bulkModel.setFileSize(this.fileSize);
-        bulkModel.setFileType(this.fileType);
+        OssfileFileType fileType = OssfileFileType.parseKey(this.fileType);
+        bulkModel.setFileType(fileType != OssfileFileType.UNKNOWN ? fileType : null);
         bulkModel.setPartState(this.isPart);
         bulkModel.setPartSize(this.partSize);
         bulkModel.setFinishState(this.isFinish);

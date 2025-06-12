@@ -20,12 +20,34 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+/**
+ * <code>MinioStoreService</code>
+ * <p>The minio store service class.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see io.github.nichetoolkit.ossfile.OssfileStoreService
+ * @see lombok.extern.slf4j.Slf4j
+ * @see org.springframework.stereotype.Service
+ * @since Jdk1.8
+ */
 @Slf4j
 @Service
-public class MinioStoreService extends OssfileStoreService {
+public class MinioStoreService implements OssfileStoreService {
 
+    /**
+     * <code>properties</code>
+     * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>properties</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     */
+    private final OssfileProperties properties;
+
+    /**
+     * <code>MinioStoreService</code>
+     * <p>Instantiates a new minio store service.</p>
+     * @param properties {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The properties parameter is <code>OssfileProperties</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     */
     public MinioStoreService(OssfileProperties properties) {
-        super(properties);
+        this.properties = properties;
     }
 
     @Override
@@ -141,4 +163,6 @@ public class MinioStoreService extends OssfileStoreService {
     public void deleteOssfile(String bucket, Collection<String> objectKeyList) throws RestException {
         MinioHelper.removeObjects(bucket, objectKeyList);
     }
+
+
 }

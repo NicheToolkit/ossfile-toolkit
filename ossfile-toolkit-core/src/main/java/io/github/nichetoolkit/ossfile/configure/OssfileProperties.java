@@ -205,6 +205,12 @@ public class OssfileProperties {
         private Double scale = 0.5d;
     }
 
+    /**
+     * <code>bulkPrefix</code>
+     * <p>The bulk prefix method.</p>
+     * @return {@link java.lang.String} <p>The bulk prefix return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
     public String bulkPrefix() {
        if (GeneralUtils.isEmpty(this.prefix)) {
            return this.prefix + File.separator + this.bulkPrefix;
@@ -212,6 +218,12 @@ public class OssfileProperties {
         return this.bulkPrefix;
     }
 
+    /**
+     * <code>previewPrefix</code>
+     * <p>The preview prefix method.</p>
+     * @return {@link java.lang.String} <p>The preview prefix return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
     public String previewPrefix() {
         if (GeneralUtils.isEmpty(this.prefix)) {
             return this.prefix + File.separator + this.previewPrefix;
@@ -219,6 +231,12 @@ public class OssfileProperties {
         return this.previewPrefix;
     }
 
+    /**
+     * <code>partPrefix</code>
+     * <p>The part prefix method.</p>
+     * @return {@link java.lang.String} <p>The part prefix return object is <code>String</code> type.</p>
+     * @see java.lang.String
+     */
     public String partPrefix() {
         if (GeneralUtils.isEmpty(this.prefix)) {
             return this.prefix + File.separator + this.partPrefix;

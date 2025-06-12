@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.lang.NonNull;
 
 @Data
-@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

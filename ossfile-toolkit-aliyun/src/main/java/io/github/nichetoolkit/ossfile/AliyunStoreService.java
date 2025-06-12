@@ -33,7 +33,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class AliyunStoreService extends OssfileStoreService {
+public class AliyunStoreService implements OssfileStoreService {
+
+    private final OssfileProperties properties;
 
     /**
      * <code>AliyunStoreService</code>
@@ -42,7 +44,7 @@ public class AliyunStoreService extends OssfileStoreService {
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      */
     public AliyunStoreService(OssfileProperties properties) {
-        super(properties);
+       this.properties = properties;
     }
 
     @Override

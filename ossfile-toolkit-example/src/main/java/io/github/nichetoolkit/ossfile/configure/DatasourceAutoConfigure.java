@@ -18,17 +18,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-/**
- * <p>RiceMybatisDatasourceAutoConfigure</p>
- * @author Cyan (snow22314 @ outlook.com)
- * @version v1.0.0
- */
 @Slf4j
 @Configuration
 @EnableTransactionManagement
 public class DatasourceAutoConfigure {
     public DatasourceAutoConfigure() {
-        log.debug("================= rice-mybatis-datasource-auto-configure initiated ！ ===================");
+        log.debug("the auto configuration for [datasource] rest template initiated");
     }
 
     @Primary
