@@ -1,10 +1,7 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.mybatis.table.RestLinkage;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -21,6 +18,8 @@ import java.io.Serializable;
 @Data
 @Builder
 @RestLinkage
+@NoArgsConstructor
+@AllArgsConstructor
 public class OssfilePartLinks implements Serializable {
     /**
      * <code>bulkId</code>

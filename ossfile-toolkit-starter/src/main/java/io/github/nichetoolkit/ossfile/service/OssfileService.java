@@ -6,7 +6,6 @@ import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
-import io.github.nichetoolkit.rest.identity.IdentityUtils;
 import io.github.nichetoolkit.rest.stream.RestStream;
 import io.github.nichetoolkit.rest.util.*;
 import io.github.nichetoolkit.rice.RestId;
@@ -109,7 +108,7 @@ public class OssfileService {
      */
     public void deleteOfAll(Collection<String> idList) throws RestException {
         List<OssfileBulkModel> bulkModels = OssfileServiceHolder.bulkService().queryAll(idList);
-        RestOptional.ofEmptyable(bulkModels).ifEmptyPresent(this::deleteOfBulks);
+        RestOptional.ofEmptyable(bulkModels).isNotEmpty(this::deleteOfBulks);
     }
 
     /**
@@ -122,15 +121,15 @@ public class OssfileService {
      */
     private void deleteOfBulks(Collection<OssfileBulkModel> bulkModels) throws RestException {
         Map<String, List<OssfileResource>> resourceListMap = bulkModels.stream().collect(Collectors.groupingBy(OssfileResource::getBucket));
-        RestOptional.ofEmptyable(resourceListMap).ifEmptyPresent(resourceMap -> RestStream.stream(resourceMap.entrySet()).forEach(resourceEntry -> {
+        RestOptional.ofEmptyable(resourceListMap).isNotEmpty(resourceMap -> RestStream.stream(resourceMap.entrySet()).forEach(resourceEntry -> {
             String bucket = resourceEntry.getKey();
             List<String> objectKeys = resourceEntry.getValue().stream().map(OssfileResource::getObjectKey).distinct().collect(Collectors.toList());
             OssfileServiceHolder.storeService().deleteOssfile(bucket, objectKeys);
         }));
         List<String> idList = bulkModels.stream().map(RestId::getId).distinct().collect(Collectors.toList());
-        RestOptional.ofEmptyable(idList).ifEmptyPresent(ids -> OssfileServiceHolder.bulkService().deleteAll(ids));
+        RestOptional.ofEmptyable(idList).isNotEmpty(ids -> OssfileServiceHolder.bulkService().deleteAll(ids));
         List<String> bulkIdList = bulkModels.stream().filter(OssfileBulkModel::getPartState).map(RestId::getId).distinct().collect(Collectors.toList());
-        RestOptional.ofEmptyable(bulkIdList).ifEmptyPresent(bulkIds -> OssfileServiceHolder.partService().deleteAllByLinkIds(bulkIds, RestKey.of("bulkId")));
+        RestOptional.ofEmptyable(bulkIdList).isNotEmpty(bulkIds -> OssfileServiceHolder.partService().deleteAllByLinkIds(bulkIds, RestKey.of("bulkId")));
     }
 
     /**
@@ -287,44 +286,53 @@ public class OssfileService {
      */
     public OssfileBulkModel uploadOfFile(MultipartFile file, OssfileRequest request) throws RestException {
         OssfileBulkModel bulkModel = request.toBulkModel().ofFile(file);
-       return uploadOfBulk(bulkModel,request);
+        return uploadOfBulk(bulkModel, request.getWidth(), request.getHeight());
     }
 
     /**
      * <code>uploadOfBulk</code>
      * <p>The upload of bulk method.</p>
      * @param bulkModel {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
-     * @param request   {@link io.github.nichetoolkit.ossfile.OssfileRequest} <p>The request parameter is <code>OssfileRequest</code> type.</p>
+     * @param width     int <p>The width parameter is <code>int</code> type.</p>
+     * @param height    int <p>The height parameter is <code>int</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.OssfileBulkModel} <p>The upload of bulk return object is <code>OssfileBulkModel</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.OssfileBulkModel
-     * @see io.github.nichetoolkit.ossfile.OssfileRequest
      * @see io.github.nichetoolkit.rest.RestException
      */
-    public OssfileBulkModel uploadOfBulk(OssfileBulkModel bulkModel, OssfileRequest request) throws RestException {
+    public OssfileBulkModel uploadOfBulk(OssfileBulkModel bulkModel, int width, int height) throws RestException {
         OptionalUtils.ofFalse(GeneralUtils.isNotEmpty(bulkModel) && GeneralUtils.isNotEmpty(bulkModel.inputStream()),
                 () -> new FileErrorException(OssfileErrorStatus.OSSFILE_UPLOAD_ERROR));
-        OssfileFileType fileType = bulkModel.getFileType();
-        if (fileType == OssfileFileType.IMAGE) {
-            if (request.isSignature()) {
-                handleService.handleOfSignature(bulkModel);
-            } else if (request.isCompress()) {
-                if (request.isPreview()) {
-                    handleService.handleOfImagePreviewAndCompress(bulkModel, request.getWidth(), request.getHeight());
+        RestKey<String> fileType = bulkModel.getFileType();
+        if (OssfileFileType.IMAGE.present(fileType)) {
+            if (bulkModel.getSignatureState()) {
+                if (bulkModel.getPreviewState()) {
+                    bulkModel.ofObjectCopyBuilder();
                 } else {
-                    handleService.handleOfImageCompress(bulkModel, request.getWidth(), request.getHeight());
+                    bulkModel.ofDefaultBuilder();
+                }
+                handleService.handleOfSignature(bulkModel);
+            } else if (bulkModel.getCompressState()) {
+                if (bulkModel.getPreviewState()) {
+                    bulkModel.ofObjectCopyBuilder();
+                    handleService.handleOfImagePreviewAndCompress(bulkModel, width, height);
+                } else {
+                    bulkModel.ofDefaultBuilder();
+                    handleService.handleOfImageCompress(bulkModel, width, height);
                 }
             } else {
-                if (request.isPreview()) {
-                    bulkModel.setId(IdentityUtils.valueOfString());
+                bulkModel.ofDefaultBuilder();
+                if (bulkModel.getPreviewState()) {
                     handleService.handleOfFile(bulkModel);
-                    handleService.handleOfImagePreview(bulkModel, request.getWidth(), request.getHeight());
+                    bulkModel.ofPreviewBuilder();
+                    handleService.handleOfImagePreview(bulkModel, width, height);
                 } else {
                     handleService.handleOfFile(bulkModel);
                 }
             }
         } else {
-            if (request.isCompress()) {
+            bulkModel.ofDefaultBuilder();
+            if (bulkModel.getCompressState()) {
                 handleService.handleOfFileCompress(bulkModel);
             } else {
                 handleService.handleOfFile(bulkModel);

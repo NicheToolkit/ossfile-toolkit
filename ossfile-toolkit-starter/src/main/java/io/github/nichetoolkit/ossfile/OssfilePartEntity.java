@@ -5,7 +5,6 @@ import io.github.nichetoolkit.mybatis.column.RestLinkKey;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.mybatis.table.RestEntity;
 import io.github.nichetoolkit.mybatis.table.RestExcludes;
-import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
 import lombok.Data;
@@ -13,6 +12,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @RestEntity(name = "ossfile_part")
@@ -54,9 +54,11 @@ public class OssfilePartEntity extends DefaultIdEntity<OssfilePartEntity,Ossfile
     public OssfilePartModel toModel() {
         OssfilePartModel partModel = new OssfilePartModel();
         BeanUtils.copyNonnullProperties(this,partModel);
-        partModel.setBulkId(this.links.getBulkId());
-        partModel.setProjectId(this.links.getProjectId());
-        partModel.setUploadId(this.links.getUploadId());
+        Optional.ofNullable(this.links).ifPresent((link) -> {
+            partModel.setBulkId(link.getBulkId());
+            partModel.setProjectId(link.getProjectId());
+            partModel.setUploadId(link.getUploadId());
+        });
         return partModel;
     }
 }

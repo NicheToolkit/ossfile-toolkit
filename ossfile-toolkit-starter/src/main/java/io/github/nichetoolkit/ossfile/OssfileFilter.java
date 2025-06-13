@@ -2,13 +2,13 @@ package io.github.nichetoolkit.ossfile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rice.DefaultFilter;
 import io.github.nichetoolkit.rice.RestId;
 import io.github.nichetoolkit.rice.builder.SqlBuilders;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.springframework.lang.NonNull;
 
 @Data
@@ -21,12 +21,12 @@ public class OssfileFilter extends DefaultFilter<String,String> {
     protected String bulkId;
     protected String uploadId;
     protected String bucket;
-    protected OssfileFileType fileType;
+    protected RestKey<String> fileType;
 
-    protected boolean isPart;
-    protected boolean isFinish;
-    protected boolean isCompress;
-    protected boolean isPreview;
+    protected Boolean part;
+    protected Boolean finish;
+    protected Boolean compress;
+    protected Boolean preview;
 
     public OssfileFilter() {
     }
@@ -47,10 +47,10 @@ public class OssfileFilter extends DefaultFilter<String,String> {
         this.uploadId = builder.uploadId;
         this.bucket = builder.bucket;
         this.fileType = builder.fileType;
-        this.isPart = builder.isPart;
-        this.isFinish = builder.isFinish;
-        this.isCompress = builder.isCompress;
-        this.isPreview = builder.isPreview;
+        this.part = builder.part;
+        this.finish = builder.finish;
+        this.compress = builder.compress;
+        this.preview = builder.preview;
     }
 
     public OssfileFilter toBucketSql(@NonNull String alias) {
@@ -96,21 +96,21 @@ public class OssfileFilter extends DefaultFilter<String,String> {
     }
 
     public OssfileFilter toPartStateSql(@NonNull String alias) {
-        SqlBuilders.equal(SQL_BUILDER, alias, this.isPart);
+        SqlBuilders.equal(SQL_BUILDER, alias, this.part);
         return this;
     }
 
     public OssfileFilter toFinishStateSql(@NonNull String alias) {
-        SqlBuilders.equal(SQL_BUILDER, alias, this.isFinish);
+        SqlBuilders.equal(SQL_BUILDER, alias, this.finish);
         return this;
     }
     public OssfileFilter toCompressStateSql(@NonNull String alias) {
-        SqlBuilders.equal(SQL_BUILDER, alias, this.isCompress);
+        SqlBuilders.equal(SQL_BUILDER, alias, this.compress);
         return this;
     }
 
     public OssfileFilter toPreviewStateSql(@NonNull String alias) {
-        SqlBuilders.equal(SQL_BUILDER, alias, this.isPreview);
+        SqlBuilders.equal(SQL_BUILDER, alias, this.preview);
         return this;
     }
 
@@ -122,10 +122,10 @@ public class OssfileFilter extends DefaultFilter<String,String> {
         protected String bucket;
         protected OssfileFileType fileType;
 
-        protected boolean isPart;
-        protected boolean isFinish;
-        protected boolean isCompress;
-        protected boolean isPreview;
+        protected Boolean part;
+        protected Boolean finish;
+        protected Boolean compress;
+        protected Boolean preview;
 
         public Builder() {
         }
@@ -180,23 +180,23 @@ public class OssfileFilter extends DefaultFilter<String,String> {
             return this;
         }
 
-        public OssfileFilter.Builder ofPart(boolean isPart) {
-            this.isPart = isPart;
+        public OssfileFilter.Builder ofPart(Boolean isPart) {
+            this.part = isPart;
             return this;
         }
 
-        public OssfileFilter.Builder ofFinish(boolean isFinish) {
-            this.isFinish = isFinish;
+        public OssfileFilter.Builder ofFinish(Boolean finish) {
+            this.finish = finish;
             return this;
         }
 
-        public OssfileFilter.Builder ofCompress(boolean isCompress) {
-            this.isCompress = isCompress;
+        public OssfileFilter.Builder ofCompress(Boolean compress) {
+            this.compress = compress;
             return this;
         }
 
-        public OssfileFilter.Builder ofPreview(boolean isPreview) {
-            this.isPreview = isPreview;
+        public OssfileFilter.Builder ofPreview(Boolean preview) {
+            this.preview = preview;
             return this;
         }
 

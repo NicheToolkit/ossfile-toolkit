@@ -24,7 +24,7 @@ public class OssfileHandleService {
     @Async
     public void handleOfFile(OssfileBulkModel bulkModel) throws RestException {
         byte[] bytes = IoStreamUtils.bytes(bulkModel.inputStream());
-        bulkModel.ofBytes(bytes).defaultAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
     }
 
@@ -35,29 +35,27 @@ public class OssfileHandleService {
         BufferedImage binaryImage = ImageUtils.binaryImage(bufferedImage);
         BufferedImage signatureImage = ImageUtils.signature(binaryImage);
         byte[] bytes = ImageUtils.bytesPng(signatureImage);
-        bulkModel.ofBytes(bytes).defaultAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
     }
 
     @Async
     public void handleOfImageCompress(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
-        bulkModel.ofBytes(bytes).defaultAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
     }
 
     public void handleOfImagePreviewAndCompress(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
-        bulkModel.ofBytes(bytes).copyAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
     }
-
-
 
     @Async
     public void handleOfImagePreview(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
-        bulkModel.ofBytes(bytes).previewAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getPreviewKey());
     }
 
@@ -67,7 +65,7 @@ public class OssfileHandleService {
         Path tempFile = FileUtils.createTempFile(filename, OssfileConstants.FILE_ZIP_SUFFIX);
         ZipUtils.zip(tempFile, filename, bulkModel.inputStream());
         byte[] bytes = IoStreamUtils.bytes(tempFile);
-        bulkModel.ofBytes(bytes).defaultAssert();
+        bulkModel.ofBytes(bytes);
         handleOfOssfileStore(bulkModel,bulkModel.getObjectKey());
         FileUtils.clear(tempFile);
     }
@@ -76,7 +74,7 @@ public class OssfileHandleService {
         OssfileStoreService storeService = OssfileServiceHolder.storeService();
         Future<OssfileETagVersion> ossfileFuture = storeService.putOssfile(bulkModel.getBucket(), objectKey, bulkModel.inputStream());
         handleOfFuture(ossfileFuture, eTagVersion -> {
-            bulkModel.setETagVersion(eTagVersion);
+            bulkModel.etagVersion(eTagVersion);
             bulkModel.setCompleteTime(new Date());
             OssfileServiceHolder.bulkService().save(bulkModel);
         });

@@ -1,5 +1,6 @@
 package io.github.nichetoolkit.ossfile;
 
+import io.github.nichetoolkit.mybatis.scan.MybatisAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "io.github.nichetoolkit")
+@MybatisAutoConfiguration
 public class OssfileExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

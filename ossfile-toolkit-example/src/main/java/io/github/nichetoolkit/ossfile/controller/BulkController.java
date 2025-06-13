@@ -52,7 +52,7 @@ public class BulkController {
      * @see org.springframework.web.bind.annotation.PostMapping
      * @see io.github.nichetoolkit.rest.RestException
      */
-    @PostMapping("/query/{id}")
+    @GetMapping("/query/{id}")
     public RestResult<OssfileBulkModel> queryById(@PathVariable String id) throws RestException {
         OssfileBulkModel bulkModel = bulkService.queryById(id);
         return RestResult.success(bulkModel);

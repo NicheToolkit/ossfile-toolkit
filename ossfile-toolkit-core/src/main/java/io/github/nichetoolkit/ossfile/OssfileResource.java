@@ -1,5 +1,7 @@
 package io.github.nichetoolkit.ossfile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * <code>OssfileResource</code>
  * <p>The ossfile resource interface.</p>
@@ -37,6 +39,7 @@ public interface OssfileResource {
      * <p>The is readable method.</p>
      * @return boolean <p>The is readable return object is <code>boolean</code> type.</p>
      */
+    @JsonIgnore
     default boolean isReadable() {
         return true;
     }
@@ -46,6 +49,7 @@ public interface OssfileResource {
      * <p>The exists method.</p>
      * @return boolean <p>The exists return object is <code>boolean</code> type.</p>
      */
+    @JsonIgnore
     default boolean exists() {
         return true;
     }
@@ -55,6 +59,7 @@ public interface OssfileResource {
      * <p>The is open method.</p>
      * @return boolean <p>The is open return object is <code>boolean</code> type.</p>
      */
+    @JsonIgnore
     default boolean isOpen() {
         return true;
     }

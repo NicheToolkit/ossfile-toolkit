@@ -2,11 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 
@@ -60,7 +57,7 @@ public enum OssfileFileType implements RestKey<String> {
      * {@link java.lang.String} <p>The <code>key</code> field.</p>
      * @see java.lang.String
      */
-    private final String key;
+    private String key;
     /**
      * <code>types</code>
      * {@link java.lang.String} <p>The <code>types</code> field.</p>
@@ -86,6 +83,11 @@ public enum OssfileFileType implements RestKey<String> {
         return this.key;
     }
 
+    private OssfileFileType setKey(String key) {
+        this.key = key;
+        return this;
+    }
+
     /**
      * <code>parseKey</code>
      * <p>The parse key method.</p>
@@ -99,6 +101,21 @@ public enum OssfileFileType implements RestKey<String> {
     public static OssfileFileType parseKey(@NonNull String key) {
         OssfileFileType typeEnum = RestKey.parseKey(OssfileFileType.class, key);
         return Optional.ofNullable(typeEnum).orElse(OssfileFileType.UNKNOWN);
+    }
+
+    /**
+     * <code>present</code>
+     * <p>The present method.</p>
+     * @param type {@link io.github.nichetoolkit.rest.RestKey} <p>The type parameter is <code>RestKey</code> type.</p>
+     * @return boolean <p>The present return object is <code>boolean</code> type.</p>
+     * @see io.github.nichetoolkit.rest.RestKey
+     */
+    public boolean present(RestKey<String> type) {
+        if (type instanceof OssfileFileType) {
+            return type == this;
+        } else {
+            return Arrays.asList(this.types).contains(type.getKey());
+        }
     }
 
     /**
@@ -121,8 +138,8 @@ public enum OssfileFileType implements RestKey<String> {
             } else if (Arrays.asList(OssfileConstants.COMPRESSED_SUFFIX).contains(suffix)) {
                 return OssfileFileType.COMPRESSED;
             } else {
-                return OssfileFileType.UNKNOWN;
+                return OssfileFileType.UNKNOWN.setKey(suffix);
             }
-        }).orElse(OssfileFileType.UNKNOWN);
+        }).orElse(OssfileFileType.UNKNOWN.setKey(suffixType));
     }
 }

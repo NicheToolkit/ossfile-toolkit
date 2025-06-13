@@ -11,17 +11,18 @@ CREATE TABLE "public"."ossfile_bulk" (
     "object_path"    VARCHAR(256) COLLATE "pg_catalog"."default",
     "preview_key"    VARCHAR(256) COLLATE "pg_catalog"."default",
     "preview_path"   VARCHAR(256) COLLATE "pg_catalog"."default",
-    "begin_time" TIMESTAMPTZ,
-    "complete_time" TIMESTAMPTZ,
+    "begin_time"     TIMESTAMPTZ,
+    "complete_time"  TIMESTAMPTZ,
     "file_md5"       VARCHAR(256) COLLATE "pg_catalog"."default",
     "file_size"      INT8,
-    "file_type"      INT4,
+    "file_type"      VARCHAR(256) COLLATE "pg_catalog"."default",
     "part_size"      INT8,
     "etag"           VARCHAR(128) COLLATE "pg_catalog"."default",
     "version"        VARCHAR(128) COLLATE "pg_catalog"."default",
     `properties`     TEXT,
     "part_state"     BOOLEAN,
     "finish_state"   BOOLEAN,
+    "signature_state"   BOOLEAN,
     "compress_state" BOOLEAN,
     "preview_state"  BOOLEAN,
     "update_time" TIMESTAMPTZ,
@@ -40,7 +41,7 @@ CREATE INDEX "IDX_OSSFILE_BULK_UPLOAD_ID" ON "public"."ossfile_bulk" USING btree
 
 CREATE INDEX "IDX_OSSFILE_BULK_FILENAME" ON "public"."ossfile_bulk" USING btree ( "filename" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
 
-CREATE INDEX "IDX_OSSFILE_BULK_FILE_TYPE" ON "public"."ossfile_bulk" USING btree ( "file_type" COLLATE "pg_catalog"."default" "pg_catalog"."int4_ops" ASC NULLS LAST );
+CREATE INDEX "IDX_OSSFILE_BULK_FILE_TYPE" ON "public"."ossfile_bulk" USING btree ( "file_type" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
 
 DROP TABLE IF EXISTS "public"."ossfile_part";
 CREATE TABLE "public"."ossfile_part" (

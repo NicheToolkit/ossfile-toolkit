@@ -2,11 +2,15 @@ package io.github.nichetoolkit.ossfile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.rest.RestException;
+import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rice.RestId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -27,13 +31,13 @@ public class OssfileRequest implements Serializable {
     protected int width;
     protected int height;
 
-    protected boolean isPart;
+    protected Boolean part;
     protected long partSize;
 
-    protected boolean isSignature;
-    protected boolean isFinish;
-    protected boolean isCompress;
-    protected boolean isPreview;
+    protected Boolean signature;
+    protected Boolean finish;
+    protected Boolean compress;
+    protected Boolean preview;
 
     protected Map<String,Object> properties;
 
@@ -51,7 +55,7 @@ public class OssfileRequest implements Serializable {
         this.bulkId = bulk.getId();
     }
 
-    public OssfileBulkModel toBulkModel() {
+    public OssfileBulkModel toBulkModel() throws RestException {
         OssfileBulkModel bulkModel = new OssfileBulkModel();
         bulkModel.setUserId(this.userId);
         bulkModel.setProjectId(this.projectId);
@@ -60,11 +64,22 @@ public class OssfileRequest implements Serializable {
         bulkModel.setFileSize(this.fileSize);
         OssfileFileType fileType = OssfileFileType.parseKey(this.fileType);
         bulkModel.setFileType(fileType != OssfileFileType.UNKNOWN ? fileType : null);
-        bulkModel.setPartState(this.isPart);
-        bulkModel.setPartSize(this.partSize);
-        bulkModel.setFinishState(this.isFinish);
-        bulkModel.setCompressState(this.isCompress);
-        bulkModel.setPreviewState(this.isPreview);
+        RestOptional.ofEmptyable(this.finish).isNotEmpty(bulkModel::setFinishState).ofEmpty(() -> {
+            bulkModel.setCompleteTime(new Date());
+            bulkModel.setFinishState(true);
+        });
+        RestOptional.ofEmptyable(this.compress).isNotEmpty(bulkModel::setCompressState).ofEmpty(() -> {
+            bulkModel.setCompressState(false);
+        });
+        RestOptional.ofEmptyable(this.preview).isNotEmpty(bulkModel::setPreviewState).ofEmpty(() -> {
+            bulkModel.setPreviewState(false);
+        });
+        RestOptional.ofEmptyable(this.part).isNotEmpty(bulkModel::setPartState).ofEmpty(() -> {
+            bulkModel.setPartState(false);
+        });
+        RestOptional.ofEmptyable(this.signature).isNotEmpty(bulkModel::setSignatureState).ofEmpty(() -> {
+            bulkModel.setSignatureState(false);
+        });
         return bulkModel;
     }
 }
