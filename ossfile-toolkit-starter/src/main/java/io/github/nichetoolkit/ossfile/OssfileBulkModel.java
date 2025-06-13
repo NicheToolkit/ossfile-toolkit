@@ -9,6 +9,7 @@ import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.constant.UtilConstants;
 import io.github.nichetoolkit.rest.identity.IdentityUtils;
 import io.github.nichetoolkit.rest.serialize.RestKeySerializer;
 import io.github.nichetoolkit.rest.util.BeanUtils;
@@ -164,6 +165,12 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
             this.completeTime = new Date();
             this.finishState = true;
         });
+        RestOptional.ofEmptyable(this.signatureState).isNotEmpty(state -> {
+            if (state) {
+                String suffix = FileUtils.suffix(this.original);
+                this.filename = this.original.replaceAll(suffix, UtilConstants.PNG_IMAGE_SUFFIX);
+            }
+        }).ofEmpty(() -> this.signatureState = false);
         RestOptional.ofEmptyable(this.compressState).ofEmpty(() -> this.compressState = false);
         RestOptional.ofEmptyable(this.previewState).ofEmpty(() -> this.previewState = false);
         assert GeneralUtils.isNotEmpty(this.fileSize);

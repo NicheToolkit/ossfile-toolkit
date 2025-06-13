@@ -35,8 +35,9 @@ public class StoreController {
 
     @GetMapping("/download/{id}")
     public void downloadById(@PathVariable(value = "id") String id,
+                             @RequestParam(value = "preview", required = false, defaultValue = "true") boolean preview,
                              HttpServletRequest request, HttpServletResponse response) throws RestException {
-        ossfileService.downloadOfId(id, request, response);
+        ossfileService.downloadOfId(id, preview, request, response);
     }
 
     @PostMapping("/download/filter")

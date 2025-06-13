@@ -13,7 +13,6 @@ import io.github.nichetoolkit.rice.RestPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -146,13 +145,15 @@ public class OssfileService {
      * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
-    @Async
     public void downloadOfBulk(OssfileBulkModel bulkModel, boolean preview, HttpServletRequest request, HttpServletResponse response) throws RestException {
         String filename = bulkModel.getFilename();
         Boolean finishState = bulkModel.getFinishState();
         OptionalUtils.ofFalseThrow(finishState, () -> new FileErrorException(OssfileErrorStatus.OSSFILE_FINISHED_ERROR));
-        Optional<MediaType> mediaTypeOptional = MediaTypeFactory.getMediaType(filename);
-        String contentType = mediaTypeOptional.orElse(MediaType.APPLICATION_OCTET_STREAM).toString();
+        String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        if (preview) {
+            Optional<MediaType> mediaType = MediaTypeFactory.getMediaType(filename);
+            contentType = mediaType.map(MediaType::toString).orElse(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        }
         response.setContentType(contentType);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         if (bulkModel.getFileType() == OssfileFileType.VIDEO && preview) {
@@ -190,7 +191,6 @@ public class OssfileService {
      * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
-    @Async
     public void downloadOfFilter(OssfileFilter fileFilter, HttpServletResponse response) throws RestException {
         RestPage<? extends OssfileBulkModel> restPage = OssfileServiceHolder.bulkService().queryAllWithFilter(fileFilter);
         OptionalUtils.ofFalse(GeneralUtils.isNotEmpty(restPage) && GeneralUtils.isNotEmpty(restPage.getItems()),
@@ -235,7 +235,6 @@ public class OssfileService {
      * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
-    @Async
     public void downloadOfFile(Path filePath, String filename, HttpServletResponse response) throws RestException {
         try (FileInputStream inputStream = new FileInputStream(filePath.toFile());
              ServletOutputStream outputStream = response.getOutputStream()) {
@@ -264,12 +263,11 @@ public class OssfileService {
      * @see org.springframework.scheduling.annotation.Async
      * @see io.github.nichetoolkit.rest.RestException
      */
-    @Async
-    public void downloadOfId(String fileId, HttpServletRequest request, HttpServletResponse response) throws RestException {
+    public void downloadOfId(String fileId, boolean preview, HttpServletRequest request, HttpServletResponse response) throws RestException {
         OssfileBulkModel bulkModel = OssfileServiceHolder.bulkService().queryById(fileId);
         OptionalUtils.ofEmpty(bulkModel, () -> new FileErrorException(OssfileErrorStatus.OSSFILE_NO_FOUND_ERROR));
         OptionalUtils.ofFalse(bulkModel.getFinishState(), () -> new FileErrorException(OssfileErrorStatus.OSSFILE_FINISHED_ERROR));
-        downloadOfBulk(bulkModel, true, request, response);
+        downloadOfBulk(bulkModel, preview, request, response);
     }
 
     /**
