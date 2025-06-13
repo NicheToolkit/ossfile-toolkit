@@ -5,15 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
+import io.github.nichetoolkit.rest.RestException;
+import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.util.BeanUtils;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
+import io.github.nichetoolkit.rest.util.IoStreamUtils;
 import io.github.nichetoolkit.rice.DefaultIdModel;
 import io.github.nichetoolkit.rice.RestId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -36,8 +44,6 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
     protected String objectPath;
 
     protected Long partSize;
-    protected Long partStart;
-    protected Long partEnd;
     protected String partMd5;
     protected Boolean lastPart;
 
@@ -51,8 +57,11 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
     protected byte[] bytes;
 
     @JsonIgnore
-    public ByteArrayInputStream inputStream() {
-        return new ByteArrayInputStream(this.bytes);
+    public InputStream inputStream() {
+        if (GeneralUtils.isNotEmpty(this.bytes)) {
+            return new ByteArrayInputStream(this.bytes);
+        }
+        return null;
     }
 
     public OssfilePartModel() {
@@ -61,12 +70,58 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
     public OssfilePartModel(String id) {
         super(id);
     }
+
+    public OssfilePartETag toPartETag() {
+        return new OssfilePartETag(this.partIndex, this.partEtag);
+    }
     public void setBulk(RestId<String> bulk) {
         this.bulkId = bulk.getId();
     }
 
     public void setProject(RestId<String> project) {
         this.projectId = project.getId();
+    }
+
+    public OssfilePartLinks toPartLinks() {
+        return OssfilePartLinks.builder().bulkId(this.bulkId).uploadId(this.uploadId).projectId(this.projectId).build();
+    }
+
+    public OssfilePartModel ofFile(MultipartFile file) {
+        this.partSize = file.getSize();
+        byte[] bytes = IoStreamUtils.bytes(file);
+        return ofBytes(bytes);
+    }
+
+    public OssfilePartModel ofBytes(byte[] bytes) {
+        this.bytes = bytes;
+        this.partMd5 = DigestUtils.md2Hex(bytes);
+        return this;
+    }
+
+    public OssfilePartModel ofBucket() throws RestException {
+        RestOptional.ofEmptyable(this.bucket).ofEmpty(() -> this.bucket = OssfileStoreHolder.defaultBucket());
+        return this;
+    }
+
+    public OssfilePartModel ofObjectPath() throws RestException {
+        assert GeneralUtils.isNotEmpty(this.filename);
+        RestOptional.ofEmptyable(this.objectPath).ofEmpty(() -> {
+            String partPrefix = OssfileStoreHolder.partPrefix();
+            if (GeneralUtils.isNotEmpty(this.projectId)) {
+                this.objectPath = partPrefix + File.separator + this.projectId + File.separator + GeneralUtils.uuid();
+            } else {
+                this.objectPath = partPrefix + File.separator + GeneralUtils.uuid();
+            }
+        });
+        return this;
+    }
+
+    public OssfilePartModel ofObjectKey() throws RestException {
+        assert GeneralUtils.isNotEmpty(this.objectPath);
+        RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
+            this.objectKey = this.objectPath + File.separator + this.filename;
+        });
+        return this;
     }
 
     @Override

@@ -28,9 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,11 +79,10 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
 
     protected List<RestFickle<?>> metas;
 
-    @JsonIgnore
-    protected byte[] bytes;
+    protected List<OssfilePartModel> parts;
 
     @JsonIgnore
-    protected File file;
+    protected byte[] bytes;
 
     public OssfileBulkModel() {
     }
@@ -126,6 +123,24 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         this.projectId = project.getId();
     }
 
+    public OssfilePartLinks toPartLinks() {
+        return OssfilePartLinks.builder().bulkId(this.id).uploadId(this.uploadId).projectId(this.projectId).build();
+    }
+
+    public OssfilePartModel toPartModel(int partIndex, long partSize) throws RestException {
+        OssfilePartModel partModel = new OssfilePartModel();
+        partModel.setBulkId(this.id);
+        partModel.setProjectId(this.projectId);
+        partModel.setUploadId(this.uploadId);
+        partModel.setPartIndex(partIndex);
+        RestOptional.ofValidable(partSize).isValid(partModel::setPartSize).ofEmpty(() -> {
+            partModel.setPartSize(this.partSize);
+        });
+        partModel.setFilename(this.filename + "_" + partIndex);
+        partModel.setPartTime(new Date());
+        return partModel;
+    }
+
     public OssfileBulkModel ofFile(MultipartFile file) throws RestException {
         RestOptional.ofEmptyable(this.original).ofEmpty(() -> this.original = file.getOriginalFilename());
         RestOptional.ofEmptyable(this.filename).ofEmpty(() -> this.filename = file.getResource().getFilename());
@@ -154,6 +169,13 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         this.fileMd5 = DigestUtils.md2Hex(bytes);
         this.fileSize = (long) bytes.length;
         return this;
+    }
+
+    public OssfileBulkModel ofStartPartBuilder() throws RestException {
+        this.partState = true;
+        this.finishState = false;
+        this.completeTime = null;
+        return ofDefaultBuilder();
     }
 
     public OssfileBulkModel ofDefaultBuilder() throws RestException {
@@ -210,6 +232,14 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         return this;
     }
 
+    public OssfileBulkModel ofObjectKey() throws RestException {
+        assert GeneralUtils.isNotEmpty(this.objectPath);
+        RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
+            this.objectKey = this.objectPath + File.separator + this.filename;
+        });
+        return this;
+    }
+
     public OssfileBulkModel ofPreviewPath() throws RestException {
         assert GeneralUtils.isNotEmpty(this.filename);
         RestOptional.ofEmptyable(this.previewPath).ofEmpty(() -> {
@@ -219,14 +249,6 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
             } else {
                 this.previewPath = previewPrefix + File.separator + GeneralUtils.uuid();
             }
-        });
-        return this;
-    }
-
-    public OssfileBulkModel ofObjectKey() throws RestException {
-        assert GeneralUtils.isNotEmpty(this.objectPath);
-        RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
-            this.objectKey = this.objectPath + File.separator + this.filename;
         });
         return this;
     }
@@ -256,11 +278,6 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
     public InputStream inputStream() {
         if (GeneralUtils.isNotEmpty(this.bytes)) {
             return new ByteArrayInputStream(this.bytes);
-        } else if (GeneralUtils.isNotEmpty(this.file)) {
-            try {
-                return Files.newInputStream(this.file.toPath());
-            } catch (IOException ignored) {
-            }
         }
         return null;
     }

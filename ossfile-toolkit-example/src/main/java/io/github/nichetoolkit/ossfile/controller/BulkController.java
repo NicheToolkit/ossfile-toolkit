@@ -5,7 +5,9 @@ import io.github.nichetoolkit.ossfile.OssfileFilter;
 import io.github.nichetoolkit.ossfile.service.OssfileBulkService;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestResult;
+import io.github.nichetoolkit.rest.userlog.stereotype.RestNotelog;
 import io.github.nichetoolkit.rice.RestPage;
+import io.github.nichetoolkit.rice.stereotype.RestSkip;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
  * @since Jdk1.8
  */
 @Slf4j
+@RestSkip
+@RestNotelog
 @RestController
 @RequestMapping("/ossfile/bulk")
 public class BulkController {

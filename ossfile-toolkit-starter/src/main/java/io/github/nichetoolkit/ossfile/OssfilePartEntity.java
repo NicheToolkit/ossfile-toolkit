@@ -31,8 +31,6 @@ public class OssfilePartEntity extends DefaultIdEntity<OssfilePartEntity,Ossfile
     protected String objectPath;
 
     protected Long partSize;
-    protected Long partStart;
-    protected Long partEnd;
     protected String partMd5;
 
     protected Boolean lastPart;

@@ -56,8 +56,6 @@ CREATE TABLE "public"."ossfile_part" (
     "object_key"  VARCHAR(256) COLLATE "pg_catalog"."default",
     "object_path" VARCHAR(256) COLLATE "pg_catalog"."default",
     "part_size"   INT8,
-    "part_start"  INT8,
-    "part_end"    INT8,
     "part_md5"    VARCHAR(256) COLLATE "pg_catalog"."default",
     "last_part"   BOOLEAN,
     "part_time" TIMESTAMPTZ

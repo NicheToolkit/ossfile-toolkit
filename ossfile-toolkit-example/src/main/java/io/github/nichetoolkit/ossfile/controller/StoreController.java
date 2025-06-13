@@ -23,14 +23,39 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/ossfile/store")
 public class StoreController {
 
-    @Autowired
-    private OssfileService ossfileService;
+    private final OssfileService ossfileService;
+
+    public StoreController(OssfileService ossfileService) {
+        this.ossfileService = ossfileService;
+    }
 
     @PostMapping("/upload/file")
-    public RestResult<OssfileBulkModel> uploadOfFile(@NonNull @RequestPart("file") MultipartFile file,
+    public RestResult<OssfileBulkModel> uploadOfFile(@RequestPart("file") MultipartFile file,
                                                        OssfileRequest fileRequest) throws RestException {
         OssfileBulkModel bulkModel = ossfileService.uploadOfFile(file, fileRequest);
         return RestResult.success(bulkModel);
+    }
+
+    @PostMapping("/part/start")
+    public RestResult<OssfileBulkModel> startPart(@RequestBody OssfileRequest request) throws RestException {
+        OssfileBulkModel bulkModel = ossfileService.startOfPart(request);
+        return RestResult.success(bulkModel);
+    }
+
+    @PostMapping("/part/upload/{bulkId}")
+    public RestResult<OssfilePartModel> uploadPart(@PathVariable(value = "bulkId") String bulkId,
+                                                   @RequestParam(value = "index") int index,
+                                                   @RequestParam(value = "size", required = false, defaultValue = "0") long size,
+                                                   @RequestParam(value = "last", required = false, defaultValue = "false") boolean last,
+                                                   @RequestPart("file") MultipartFile file) throws RestException {
+        OssfilePartModel partModel = ossfileService.uploadOfPart(file, bulkId, index, size, last);
+        return RestResult.success(partModel);
+    }
+
+    @PostMapping("/part/finish/{bulkId}")
+    public RestResult<?> finishPart(@PathVariable(value = "bulkId") String bulkId) throws RestException {
+        ossfileService.finishOfPart(bulkId);
+        return RestResult.success();
     }
 
     @GetMapping("/download/{id}")

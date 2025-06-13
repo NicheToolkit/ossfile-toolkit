@@ -61,8 +61,6 @@ CREATE TABLE `ossfile_part` (
     `object_key`  VARCHAR(256),
     `object_path` VARCHAR(256),
     `part_size`   LONG,
-    `part_start`  LONG,
-    `part_end`    LONG,
     `part_md5`    VARCHAR(256),
     `last_part`   BOOLEAN,
     `part_time`   TIMESTAMP,
