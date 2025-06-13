@@ -53,6 +53,7 @@ CREATE TABLE `ossfile_part` (
     `id`          VARCHAR(64) NOT NULL,
     `bulk_id`     VARCHAR(64) NOT NULL,
     `project_id`  VARCHAR(64),
+    `upload_id`   VARCHAR(64),
     `filename`    VARCHAR(256),
     `part_index`  INT         NOT NULL,
     `part_etag`   VARCHAR(128),
@@ -75,6 +76,9 @@ ALTER TABLE `ossfile_part`
 
 ALTER TABLE `ossfile_part`
     ADD INDEX IDX_OSSFILE_PART_PROJECT_ID (`project_id`);
+
+ALTER TABLE `ossfile_part`
+    ADD INDEX IDX_OSSFILE_PART_UPLOAD_ID (`upload_id`);
 
 ALTER TABLE `ossfile_part`
     ADD INDEX IDX_OSSFILE_PART_FILENAME (`filename`);

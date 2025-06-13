@@ -29,6 +29,8 @@ public interface OssfileConstants {
 
     String FILE_ZIP_SUFFIX = ".zip";
 
+    String FILE_DATE_PATTERN = "yyyyMMdd-HHmmss";
+
     String BULK_PREFIX = "bulk";
 
     String PREVIEW_PREFIX = "preview";

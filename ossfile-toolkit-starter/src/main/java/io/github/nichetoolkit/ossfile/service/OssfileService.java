@@ -75,8 +75,8 @@ public class OssfileService {
             String objectKey = ossfileBulkModel.getObjectKey();
             OssfileServiceHolder.storeService().deleteOssfile(bucket, objectKey);
             OssfileServiceHolder.bulkService().deleteById(id);
-            if (GeneralUtils.isNotEmpty(ossfileBulkModel.getPartState())) {
-                OssfileServiceHolder.partService().queryByLinkId(id, RestKey.of("bulkId"));
+            if (ossfileBulkModel.getPartState()) {
+                OssfileServiceHolder.partService().deleteByLinkId(id, RestKey.of("bulkId"));
             }
         }
     }
@@ -213,9 +213,9 @@ public class OssfileService {
             }
         }
         long timeMillis = System.currentTimeMillis();
-        String timeDay = DateUtils.format(DateUtils.today(), "yyyyMMdd-HHmmss");
+        String timeDay = DateUtils.format(DateUtils.today(), OssfileConstants.FILE_DATE_PATTERN);
         String name = timeDay + timeMillis;
-        Path tempZipFile = FileUtils.createTempFile(name, ".zip");
+        Path tempZipFile = FileUtils.createTempFile(name, OssfileConstants.FILE_ZIP_SUFFIX);
         String filename = tempZipFile.getFileName().toString();
         ZipUtils.zipsOfEntry(tempZipFile, filename, ossfileEntryList);
         downloadOfFile(tempZipFile, filename, response);

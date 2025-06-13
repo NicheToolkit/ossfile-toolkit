@@ -48,6 +48,7 @@ CREATE TABLE "public"."ossfile_part" (
     "id"          VARCHAR(64) COLLATE "pg_catalog"."default" NOT NULL,
     "bulk_id"     VARCHAR(64) COLLATE "pg_catalog"."default" NOT NULL,
     "project_id"  VARCHAR(64) COLLATE "pg_catalog"."default",
+    "upload_id"   VARCHAR(64) COLLATE "pg_catalog"."default",
     "filename"    VARCHAR(256) COLLATE "pg_catalog"."default",
     "part_index"  INT4                                       NOT NULL,
     "part_etag"   VARCHAR(128) COLLATE "pg_catalog"."default",
@@ -69,6 +70,8 @@ ALTER TABLE "public"."ossfile_part"
 CREATE INDEX "IDX_OSSFILE_PART_BULK_ID" ON "public"."ossfile_part" USING btree ( "bulk_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
 
 CREATE INDEX "IDX_OSSFILE_PART_PROJECT_ID" ON "public"."ossfile_part" USING btree ( "project_id" "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
+
+CREATE INDEX "IDX_OSSFILE_PART_UPLOAD_ID" ON "public"."ossfile_part" USING btree ( "upload_id" "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
 
 CREATE INDEX "IDX_OSSFILE_PART_FILENAME" ON "public"."ossfile_part" USING btree ( "filename" "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST );
 
