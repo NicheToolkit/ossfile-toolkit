@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestOptional;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rice.RestId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -35,7 +33,6 @@ public class OssfileRequest implements Serializable {
     protected long partSize;
 
     protected Boolean signature;
-    protected Boolean finish;
     protected Boolean compress;
     protected Boolean preview;
 
@@ -64,10 +61,6 @@ public class OssfileRequest implements Serializable {
         bulkModel.setFileSize(this.fileSize);
         OssfileFileType fileType = OssfileFileType.parseKey(this.fileType);
         bulkModel.setFileType(fileType != OssfileFileType.UNKNOWN ? fileType : null);
-        RestOptional.ofEmptyable(this.finish).isNotEmpty(bulkModel::setFinishState).ofEmpty(() -> {
-            bulkModel.setCompleteTime(new Date());
-            bulkModel.setFinishState(true);
-        });
         RestOptional.ofEmptyable(this.compress).isNotEmpty(bulkModel::setCompressState).ofEmpty(() -> {
             bulkModel.setCompressState(false);
         });

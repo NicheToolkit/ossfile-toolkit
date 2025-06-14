@@ -1,8 +1,5 @@
 package io.github.nichetoolkit.ossfile.controller;
 
-import io.github.nichetoolkit.ossfile.OssfileBulkModel;
-import io.github.nichetoolkit.ossfile.OssfileConstants;
-import io.github.nichetoolkit.ossfile.OssfileRequest;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestResult;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
@@ -10,8 +7,6 @@ import io.github.nichetoolkit.rest.userlog.stereotype.RestNotelog;
 import io.github.nichetoolkit.rest.util.FileUtils;
 import io.github.nichetoolkit.rice.stereotype.RestSkip;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,16 +23,18 @@ import java.nio.channels.FileChannel;
 public class PartController {
 
     @PostMapping("/slice")
-    public RestResult<?> sliceFile(@RequestPart("file") MultipartFile file) throws RestException {
+    public RestResult<?> sliceFile(@RequestPart("file") MultipartFile file,
+                                   @RequestParam(value = "size", required = false, defaultValue = "0") long size) throws RestException {
         String originalFilename = file.getOriginalFilename();
         String filename = FileUtils.filename(originalFilename);
         String tempPath = "C:\\Users\\Snow\\Desktop\\test\\slice";
         try {
-            String cachePath = FileUtils.createPath(tempPath, filename);
+            String cachePath = FileUtils.createPath(tempPath);
             assert originalFilename != null;
-            File originalFile = FileUtils.createFile(cachePath.concat(originalFilename));
+            File originalFile = FileUtils.createFile(cachePath.concat(File.separator).concat(originalFilename));
             file.transferTo(originalFile);
-            long partSize = 200 * 1024 * 1024L;
+            // 1Mb
+            long partSize = size == 0 ?  1024 * 1024L : size >=  1024 * 1024L ? size : 1024 * 1024L;
             long sliceSize = originalFile.length() / partSize;
             if (file.getSize() % partSize != 0) {
                 sliceSize += 1;
@@ -52,14 +49,12 @@ public class PartController {
                 }
                 partSize = positionEnd - position;
                 String sliceFilename = cachePath.concat(File.separator).concat(filename).concat("_").concat(String.valueOf(i))
-                        .concat("_").concat(String.valueOf(position))
-                        .concat("_").concat(String.valueOf(positionEnd))
-                        .concat("_").concat(String.valueOf(partSize))
-                        .concat("_").concat(String.valueOf(file.getSize()));
+                        .concat("_").concat(String.valueOf(partSize));
                 File sliceFile = FileUtils.createFile(sliceFilename);
                 RandomAccessFile sliceAccessFile = new RandomAccessFile(sliceFile, "rwd");
                 FileChannel sliceAccessFileChannel = sliceAccessFile.getChannel();
                 long transferTo = accessFileChannel.transferTo(position, partSize, sliceAccessFileChannel);
+                log.debug("the file of {} slice success. path: {}", sliceFile.getName(), sliceFile.getPath());
                 sliceAccessFileChannel.close();
             }
             accessFileChannel.close();

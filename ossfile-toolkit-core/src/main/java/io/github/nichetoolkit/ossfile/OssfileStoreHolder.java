@@ -1,12 +1,15 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.RestStatus;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
+import io.github.nichetoolkit.rest.error.natives.FileErrorException;
+import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
-import io.github.nichetoolkit.rice.RestServiceFitter;
-import io.github.nichetoolkit.rice.stereotype.RestService;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiFunction;
 
 /**
  * <code>OssfileStoreHolder</code>
@@ -22,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
+ * @see lombok.Setter
  * @since Jdk1.8
  */
 @Slf4j
@@ -80,7 +85,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
     static void cacheStoreServices() {
         List<OssfileStoreService> storeServices = ApplicationContextHolder.beansOfType(OssfileStoreService.class);
         RestOptional.ofEmptyable(storeServices).orElseThrow(() -> new InstanceLackError("There are no any store service has been initiated."));
-        storeServices.forEach(storeService -> OSSFILE_STORE_SERVICE_CACHE.putIfAbsent(storeService.providerType(),storeService));
+        storeServices.forEach(storeService -> OSSFILE_STORE_SERVICE_CACHE.putIfAbsent(storeService.providerType(), storeService));
         log.debug("There are {} store service beans has been initiated.", storeServices.size());
     }
 
@@ -103,7 +108,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see io.github.nichetoolkit.ossfile.OssfileStoreService
      */
     public static OssfileStoreService storeServiceOfAnyone() {
-        Optional<OssfileStoreService>  anyoneStoreServiceOptional = OSSFILE_STORE_SERVICE_CACHE.values().stream().findAny();
+        Optional<OssfileStoreService> anyoneStoreServiceOptional = OSSFILE_STORE_SERVICE_CACHE.values().stream().findAny();
         assert anyoneStoreServiceOptional.isPresent();
         return anyoneStoreServiceOptional.get();
     }
@@ -182,5 +187,60 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
         return Optional.ofNullable(storeService).orElse(storeServiceOfAnyone());
     }
 
+    /**
+     * <code>serviceErrorOfCause</code>
+     * <p>The service error of cause method.</p>
+     * @param restStatus {@link io.github.nichetoolkit.rest.RestStatus} <p>The rest status parameter is <code>RestStatus</code> type.</p>
+     * @param exception  {@link java.lang.Exception} <p>The exception parameter is <code>Exception</code> type.</p>
+     * @return {@link io.github.nichetoolkit.rest.error.natives.ServiceErrorException} <p>The service error of cause return object is <code>ServiceErrorException</code> type.</p>
+     * @see io.github.nichetoolkit.rest.RestStatus
+     * @see java.lang.Exception
+     * @see io.github.nichetoolkit.rest.error.natives.ServiceErrorException
+     */
+    public static ServiceErrorException serviceErrorOfCause(RestStatus restStatus, Exception exception) {
+        return exceptionOfCause(restStatus, exception, ServiceErrorException::new);
+    }
+
+    /**
+     * <code>fileErrorOfCause</code>
+     * <p>The file error of cause method.</p>
+     * @param restStatus {@link io.github.nichetoolkit.rest.RestStatus} <p>The rest status parameter is <code>RestStatus</code> type.</p>
+     * @param exception  {@link java.lang.Throwable} <p>The exception parameter is <code>Throwable</code> type.</p>
+     * @return {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error of cause return object is <code>FileErrorException</code> type.</p>
+     * @see io.github.nichetoolkit.rest.RestStatus
+     * @see java.lang.Throwable
+     * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
+     */
+    public static FileErrorException fileErrorOfCause(RestStatus restStatus, Throwable exception) {
+        return exceptionOfCause(restStatus, exception, FileErrorException::new);
+    }
+
+    /**
+     * <code>exceptionOfCause</code>
+     * <p>The exception of cause method.</p>
+     * @param <T>        {@link io.github.nichetoolkit.rest.RestException} <p>The generic parameter is <code>RestException</code> type.</p>
+     * @param restStatus {@link io.github.nichetoolkit.rest.RestStatus} <p>The rest status parameter is <code>RestStatus</code> type.</p>
+     * @param exception  {@link java.lang.Throwable} <p>The exception parameter is <code>Throwable</code> type.</p>
+     * @param function   {@link java.util.function.BiFunction} <p>The function parameter is <code>BiFunction</code> type.</p>
+     * @return T <p>The exception of cause return object is <code>T</code> type.</p>
+     * @see io.github.nichetoolkit.rest.RestException
+     * @see io.github.nichetoolkit.rest.RestStatus
+     * @see java.lang.Throwable
+     * @see java.util.function.BiFunction
+     */
+    public static <T extends RestException> T exceptionOfCause(RestStatus restStatus, Throwable exception, BiFunction<RestStatus, String, T> function) {
+        Throwable cause = exception.getCause();
+        String message = exception.getMessage();
+        if (GeneralUtils.isNotEmpty(cause)) {
+            message = cause.getMessage();
+        } else {
+            cause = exception;
+        }
+        if (cause instanceof RestStatus) {
+            return function.apply((RestStatus)cause, message);
+        } else {
+            return function.apply(restStatus, message);
+        }
+    }
 
 }

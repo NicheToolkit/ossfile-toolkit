@@ -1,7 +1,10 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestStatus;
+import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
 import lombok.Setter;
@@ -129,7 +132,5 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     public static String defaultRegion() {
         return INSTANCE.defaultRegion;
     }
-
-
 
 }

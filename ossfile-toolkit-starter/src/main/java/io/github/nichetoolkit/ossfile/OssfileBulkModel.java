@@ -171,11 +171,13 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         return this;
     }
 
-    public OssfileBulkModel ofStartPartBuilder() throws RestException {
+    public void ofStartPartBuilder() throws RestException {
         this.partState = true;
-        this.finishState = false;
-        this.completeTime = null;
-        return ofDefaultBuilder();
+        this.original = this.filename;
+        RestOptional.ofEmptyable(this.fileType).ofEmpty(() -> {
+            this.fileType = this.parseFileType();
+        });
+        ofDefaultBuilder();
     }
 
     public OssfileBulkModel ofDefaultBuilder() throws RestException {
@@ -183,10 +185,6 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         assert GeneralUtils.isNotEmpty(this.original);
         assert GeneralUtils.isNotEmpty(this.filename);
         RestOptional.ofEmptyable(this.beginTime).ofEmpty(() -> this.beginTime = new Date());
-        RestOptional.ofEmptyable(this.finishState).ofEmpty(() -> {
-            this.completeTime = new Date();
-            this.finishState = true;
-        });
         RestOptional.ofEmptyable(this.signatureState).isNotEmpty(state -> {
             if (state) {
                 String suffix = FileUtils.suffix(this.original);
@@ -196,9 +194,18 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         RestOptional.ofEmptyable(this.compressState).ofEmpty(() -> this.compressState = false);
         RestOptional.ofEmptyable(this.previewState).ofEmpty(() -> this.previewState = false);
         assert GeneralUtils.isNotEmpty(this.fileSize);
-        RestOptional.ofEmptyable(this.partState).ofEmpty(() -> {
+        RestOptional.ofEmptyable(this.partState).isNotEmpty(part -> {
+            if (part) {
+                this.finishState = false;
+            } else {
+                this.completeTime = new Date();
+                this.finishState = true;
+            }
+        }).ofEmpty(() -> {
             this.partSize = this.fileSize;
             this.partState = false;
+            this.completeTime = new Date();
+            this.finishState = true;
         });
         ofBucket().ofObjectPath().ofObjectKey();
         return this;
@@ -232,12 +239,11 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         return this;
     }
 
-    public OssfileBulkModel ofObjectKey() throws RestException {
+    public void ofObjectKey() throws RestException {
         assert GeneralUtils.isNotEmpty(this.objectPath);
         RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
             this.objectKey = this.objectPath + File.separator + this.filename;
         });
-        return this;
     }
 
     public OssfileBulkModel ofPreviewPath() throws RestException {
@@ -253,20 +259,18 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         return this;
     }
 
-    public OssfileBulkModel ofPreviewKey() throws RestException {
+    public void ofPreviewKey() throws RestException {
         assert GeneralUtils.isNotEmpty(this.previewPath);
         RestOptional.ofEmptyable(this.previewKey).ofEmpty(() -> {
             this.previewKey =  this.previewPath + File.separator + this.filename;
         });
-        return this;
     }
 
-    public OssfileBulkModel ofObjectCopy() {
+    public void ofObjectCopy() {
         assert GeneralUtils.isNotEmpty(this.objectPath);
         assert GeneralUtils.isNotEmpty(this.objectKey);
         this.previewPath = objectPath;
         this.previewKey = objectKey;
-        return this;
     }
 
     @Override

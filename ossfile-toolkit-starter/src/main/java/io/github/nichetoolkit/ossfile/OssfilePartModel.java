@@ -86,10 +86,10 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
         return OssfilePartLinks.builder().bulkId(this.bulkId).uploadId(this.uploadId).projectId(this.projectId).build();
     }
 
-    public OssfilePartModel ofFile(MultipartFile file) {
+    public OssfilePartModel ofFile(MultipartFile file) throws RestException {
         this.partSize = file.getSize();
         byte[] bytes = IoStreamUtils.bytes(file);
-        return ofBytes(bytes);
+        return ofBucket().ofObjectPath().ofObjectKey().ofBytes(bytes);
     }
 
     public OssfilePartModel ofBytes(byte[] bytes) {
