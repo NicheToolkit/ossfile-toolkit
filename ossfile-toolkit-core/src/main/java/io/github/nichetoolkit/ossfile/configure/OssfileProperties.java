@@ -101,12 +101,7 @@ public class OssfileProperties {
      * @see java.lang.String
      */
     private String previewPrefix = OssfileConstants.PREVIEW_PREFIX;
-    /**
-     * <code>partPrefix</code>
-     * {@link java.lang.String} <p>The <code>partPrefix</code> field.</p>
-     * @see java.lang.String
-     */
-    private String partPrefix = OssfileConstants.PART_PREFIX;
+
     /**
      * <code>image</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties.OssImage} <p>The <code>image</code> field.</p>
@@ -231,16 +226,4 @@ public class OssfileProperties {
         return this.previewPrefix;
     }
 
-    /**
-     * <code>partPrefix</code>
-     * <p>The part prefix method.</p>
-     * @return {@link java.lang.String} <p>The part prefix return object is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    public String partPrefix() {
-        if (GeneralUtils.isEmpty(this.prefix)) {
-            return this.prefix + File.separator + this.partPrefix;
-        }
-        return this.partPrefix;
-    }
 }

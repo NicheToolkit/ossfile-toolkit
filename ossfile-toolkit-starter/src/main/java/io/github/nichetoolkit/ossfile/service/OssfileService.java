@@ -170,7 +170,9 @@ public class OssfileService {
     }
 
     public OssfileBulkModel startOfPart(OssfileRequest request) throws RestException {
-        OptionalUtils.ofEmpty(request.getPartSize(), () -> new FileErrorException(OssfileErrorStatus.OSSFILE_CONFIG_ERROR,"The param of part size is empty."));
+        long partSize = request.getPartSize();
+        OptionalUtils.ofFalse(partSize >= OssfileConstants.MIN_PART_SIZE && partSize <= OssfileConstants.MAX_PART_SIZE,
+                () -> new FileErrorException(OssfileErrorStatus.OSSFILE_CONFIG_ERROR,"The param of part size is invalid, it is must be in 5MB-5GB range."));
         OssfileBulkModel bulkModel = request.toBulkModel();
         bulkModel.ofStartPartBuilder();
         handleService.handleOfPartStart(bulkModel);

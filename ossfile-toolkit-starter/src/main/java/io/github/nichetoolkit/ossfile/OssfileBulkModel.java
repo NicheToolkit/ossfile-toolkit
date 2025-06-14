@@ -138,6 +138,9 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         });
         partModel.setFilename(this.filename + "_" + partIndex);
         partModel.setPartTime(new Date());
+        partModel.setBucket(this.bucket);
+        partModel.setObjectKey(this.objectKey);
+        partModel.setObjectPath(this.objectPath);
         return partModel;
     }
 

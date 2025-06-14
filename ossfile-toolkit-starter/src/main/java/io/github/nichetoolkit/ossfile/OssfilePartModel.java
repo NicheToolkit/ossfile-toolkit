@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
-import io.github.nichetoolkit.rest.RestException;
-import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rest.util.IoStreamUtils;
@@ -20,7 +18,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.Comparator;
 import java.util.Date;
@@ -86,41 +83,15 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
         return OssfilePartLinks.builder().bulkId(this.bulkId).uploadId(this.uploadId).projectId(this.projectId).build();
     }
 
-    public OssfilePartModel ofFile(MultipartFile file) throws RestException {
+    public OssfilePartModel ofFile(MultipartFile file) {
         this.partSize = file.getSize();
         byte[] bytes = IoStreamUtils.bytes(file);
-        return ofBucket().ofObjectPath().ofObjectKey().ofBytes(bytes);
+        return ofBytes(bytes);
     }
 
     public OssfilePartModel ofBytes(byte[] bytes) {
         this.bytes = bytes;
         this.partMd5 = DigestUtils.md2Hex(bytes);
-        return this;
-    }
-
-    public OssfilePartModel ofBucket() throws RestException {
-        RestOptional.ofEmptyable(this.bucket).ofEmpty(() -> this.bucket = OssfileStoreHolder.defaultBucket());
-        return this;
-    }
-
-    public OssfilePartModel ofObjectPath() throws RestException {
-        assert GeneralUtils.isNotEmpty(this.filename);
-        RestOptional.ofEmptyable(this.objectPath).ofEmpty(() -> {
-            String partPrefix = OssfileStoreHolder.partPrefix();
-            if (GeneralUtils.isNotEmpty(this.projectId)) {
-                this.objectPath = partPrefix + File.separator + this.projectId + File.separator + GeneralUtils.uuid();
-            } else {
-                this.objectPath = partPrefix + File.separator + GeneralUtils.uuid();
-            }
-        });
-        return this;
-    }
-
-    public OssfilePartModel ofObjectKey() throws RestException {
-        assert GeneralUtils.isNotEmpty(this.objectPath);
-        RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
-            this.objectKey = this.objectPath + File.separator + this.filename;
-        });
         return this;
     }
 

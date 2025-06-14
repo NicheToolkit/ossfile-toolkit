@@ -145,16 +145,6 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
     }
 
     /**
-     * <code>partPrefix</code>
-     * <p>The part prefix method.</p>
-     * @return {@link java.lang.String} <p>The part prefix return object is <code>String</code> type.</p>
-     * @see java.lang.String
-     */
-    public static String partPrefix() {
-        return INSTANCE.properties.partPrefix();
-    }
-
-    /**
      * <code>previewPrefix</code>
      * <p>The preview prefix method.</p>
      * @return {@link java.lang.String} <p>The preview prefix return object is <code>String</code> type.</p>

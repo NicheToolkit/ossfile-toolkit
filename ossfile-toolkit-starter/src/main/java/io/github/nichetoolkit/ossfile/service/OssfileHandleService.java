@@ -98,6 +98,7 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getObjectKey());
     }
 
+    @Async
     public void handleOfImagePreviewAndCompress(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
         bulkModel.ofBytes(bytes);
