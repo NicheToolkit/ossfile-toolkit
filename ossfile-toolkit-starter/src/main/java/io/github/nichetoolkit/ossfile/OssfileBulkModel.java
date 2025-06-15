@@ -27,7 +27,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -234,9 +233,9 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         RestOptional.ofEmptyable(this.objectPath).ofEmpty(() -> {
             String bulkPrefix = OssfileStoreHolder.bulkPrefix();
             if (GeneralUtils.isNotEmpty(this.projectId)) {
-                this.objectPath = bulkPrefix + File.separator + this.projectId + File.separator + GeneralUtils.uuid();
+                this.objectPath = bulkPrefix + OssfileConstants.FILE_SEPARATOR + this.projectId + OssfileConstants.FILE_SEPARATOR + GeneralUtils.uuid();
             } else {
-                this.objectPath = bulkPrefix + File.separator + GeneralUtils.uuid();
+                this.objectPath = bulkPrefix + OssfileConstants.FILE_SEPARATOR + GeneralUtils.uuid();
             }
         });
         return this;
@@ -245,7 +244,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
     public void ofObjectKey() throws RestException {
         assert GeneralUtils.isNotEmpty(this.objectPath);
         RestOptional.ofEmptyable(this.objectKey).ofEmpty(() -> {
-            this.objectKey = this.objectPath + File.separator + this.filename;
+            this.objectKey = this.objectPath + OssfileConstants.FILE_SEPARATOR + this.filename;
         });
     }
 
@@ -254,9 +253,9 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
         RestOptional.ofEmptyable(this.previewPath).ofEmpty(() -> {
             String previewPrefix = OssfileStoreHolder.previewPrefix();
             if (GeneralUtils.isNotEmpty(this.projectId)) {
-                this.previewPath = previewPrefix + File.separator + this.projectId + File.separator + GeneralUtils.uuid();
+                this.previewPath = previewPrefix + OssfileConstants.FILE_SEPARATOR + this.projectId + OssfileConstants.FILE_SEPARATOR + GeneralUtils.uuid();
             } else {
-                this.previewPath = previewPrefix + File.separator + GeneralUtils.uuid();
+                this.previewPath = previewPrefix + OssfileConstants.FILE_SEPARATOR + GeneralUtils.uuid();
             }
         });
         return this;
@@ -265,7 +264,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
     public void ofPreviewKey() throws RestException {
         assert GeneralUtils.isNotEmpty(this.previewPath);
         RestOptional.ofEmptyable(this.previewKey).ofEmpty(() -> {
-            this.previewKey =  this.previewPath + File.separator + this.filename;
+            this.previewKey =  this.previewPath + OssfileConstants.FILE_SEPARATOR + this.filename;
         });
     }
 

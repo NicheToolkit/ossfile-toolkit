@@ -208,7 +208,7 @@ public class OssfileProperties {
      */
     public String bulkPrefix() {
        if (GeneralUtils.isEmpty(this.prefix)) {
-           return this.prefix + File.separator + this.bulkPrefix;
+           return this.prefix + OssfileConstants.FILE_SEPARATOR + this.bulkPrefix;
        }
         return this.bulkPrefix;
     }
@@ -221,7 +221,7 @@ public class OssfileProperties {
      */
     public String previewPrefix() {
         if (GeneralUtils.isEmpty(this.prefix)) {
-            return this.prefix + File.separator + this.previewPrefix;
+            return this.prefix + OssfileConstants.FILE_SEPARATOR + this.previewPrefix;
         }
         return this.previewPrefix;
     }

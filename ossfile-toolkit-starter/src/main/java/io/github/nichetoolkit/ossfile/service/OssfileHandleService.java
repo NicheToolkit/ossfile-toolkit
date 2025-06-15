@@ -52,7 +52,6 @@ public class OssfileHandleService {
         Future<OssfilePartETag> partETagFuture = storeService.uploadMultipart(bucket, objectKey, uploadId, inputStream, partIndex, partSize);
         handleOfFuture(partETagFuture, partETag -> {
             partModel.setPartEtag(partETag.getPartEtag());
-            partModel.setLastPart(lastPart);
             OssfileServiceHolder.partService().save(partModel);
             if (lastPart) {
                 List<OssfilePartModel> partModels = OssfileServiceHolder.partService().queryByLinkId(partModel.toPartLinks());

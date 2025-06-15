@@ -50,32 +50,6 @@ public interface OssfileConstants {
      */
     String[] COMPRESSED_SUFFIX = new String[]{"rar", "tar", "zip", "jar", "war"};
 
-
-    /**
-     * <code>CONTENT_RANGE_HEADER</code>
-     * {@link java.lang.String} <p>The constant <code>CONTENT_RANGE_HEADER</code> field.</p>
-     * @see java.lang.String
-     */
-    String CONTENT_RANGE_HEADER = "Content-Range";
-    /**
-     * <code>CONTENT_RANGE_BYTES_HEADER</code>
-     * {@link java.lang.String} <p>The constant <code>CONTENT_RANGE_BYTES_HEADER</code> field.</p>
-     * @see java.lang.String
-     */
-    String CONTENT_RANGE_BYTES_HEADER = "bytes ";
-    /**
-     * <code>CONTENT_RANGE_RANGE_REGEX</code>
-     * {@link java.lang.String} <p>The constant <code>CONTENT_RANGE_RANGE_REGEX</code> field.</p>
-     * @see java.lang.String
-     */
-    String CONTENT_RANGE_RANGE_REGEX = "-";
-    /**
-     * <code>CONTENT_RANGE_SIZE_REGEX</code>
-     * {@link java.lang.String} <p>The constant <code>CONTENT_RANGE_SIZE_REGEX</code> field.</p>
-     * @see java.lang.String
-     */
-    String CONTENT_RANGE_SIZE_REGEX = "/";
-
     /**
      * <code>CONTENT_DISPOSITION_HEADER</code>
      * {@link java.lang.String} <p>The constant <code>CONTENT_DISPOSITION_HEADER</code> field.</p>
@@ -88,25 +62,6 @@ public interface OssfileConstants {
      * @see java.lang.String
      */
     String ATTACHMENT_FILENAME_VALUE = "attachment; filename=";
-
-    /**
-     * <code>SUFFIX_REGEX</code>
-     * {@link java.lang.String} <p>The constant <code>SUFFIX_REGEX</code> field.</p>
-     * @see java.lang.String
-     */
-    String SUFFIX_REGEX = ".";
-    /**
-     * <code>IMAGE_JPEG_SUFFIX</code>
-     * {@link java.lang.String} <p>The constant <code>IMAGE_JPEG_SUFFIX</code> field.</p>
-     * @see java.lang.String
-     */
-    String IMAGE_JPEG_SUFFIX = "jpeg";
-    /**
-     * <code>IMAGE_PNG_SUFFIX</code>
-     * {@link java.lang.String} <p>The constant <code>IMAGE_PNG_SUFFIX</code> field.</p>
-     * @see java.lang.String
-     */
-    String IMAGE_PNG_SUFFIX = "png";
 
     /**
      * <code>FILE_ZIP_SUFFIX</code>
@@ -128,6 +83,14 @@ public interface OssfileConstants {
      * @see java.lang.String
      */
     String BULK_PREFIX = "bulk";
+
+
+    /**
+     * <code>FILE_SEPARATOR</code>
+     * {@link java.lang.String} <p>The constant <code>FILE_SEPARATOR</code> field.</p>
+     * @see java.lang.String
+     */
+    String FILE_SEPARATOR = "/";
 
     /**
      * <code>PREVIEW_PREFIX</code>

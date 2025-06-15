@@ -33,8 +33,6 @@ public class OssfilePartEntity extends DefaultIdEntity<OssfilePartEntity,Ossfile
     protected Long partSize;
     protected String partMd5;
 
-    protected Boolean lastPart;
-
     protected Date partTime;
 
     @RestFickleEntry

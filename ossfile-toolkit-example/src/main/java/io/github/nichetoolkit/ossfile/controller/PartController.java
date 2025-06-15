@@ -33,8 +33,8 @@ public class PartController {
             assert originalFilename != null;
             File originalFile = FileUtils.createFile(cachePath.concat(File.separator).concat(originalFilename));
             file.transferTo(originalFile);
-            // 1Mb
-            long partSize = size == 0 ?  1024 * 1024L : size >=  1024 * 1024L ? size : 1024 * 1024L;
+            // 100Mb
+            long partSize = size == 0 ? 100 * 1024 * 1024L : size >= 100 * 1024 * 1024L ? size : 1100 * 1024 * 1024L;
             long sliceSize = originalFile.length() / partSize;
             if (file.getSize() % partSize != 0) {
                 sliceSize += 1;

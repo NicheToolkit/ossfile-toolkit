@@ -42,7 +42,6 @@ public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePar
 
     protected Long partSize;
     protected String partMd5;
-    protected Boolean lastPart;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

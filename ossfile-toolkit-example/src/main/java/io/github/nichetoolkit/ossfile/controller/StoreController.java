@@ -52,7 +52,7 @@ public class StoreController {
         return RestResult.success(partModel);
     }
 
-    @PostMapping("/part/finish/{bulkId}")
+    @GetMapping("/part/finish/{bulkId}")
     public RestResult<?> finishPart(@PathVariable(value = "bulkId") String bulkId) throws RestException {
         ossfileService.finishOfPart(bulkId);
         return RestResult.success();
