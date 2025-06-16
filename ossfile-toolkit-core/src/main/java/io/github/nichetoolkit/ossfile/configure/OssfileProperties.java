@@ -101,14 +101,6 @@ public class OssfileProperties {
      */
     private String previewPrefix = OssfileConstants.PREVIEW_PREFIX;
 
-
-    /**
-     * <code>typeSuffix</code>
-     * {@link java.util.Map} <p>The <code>typeSuffix</code> field.</p>
-     * @see java.util.Map
-     */
-    private Map<String,String[]> typeSuffix = new HashMap<>();
-
     /**
      * <code>image</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties.OssImage} <p>The <code>image</code> field.</p>
