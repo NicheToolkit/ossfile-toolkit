@@ -12,6 +12,20 @@ import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkLinks;
 import io.github.nichetoolkit.ossfile.domain.entity.OssfileStates;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * <code>OssfileBulkMapper</code>
+ * <p>The ossfile bulk mapper interface.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see io.github.nichetoolkit.mybatis.MybatisSuperMapper
+ * @see io.github.nichetoolkit.mybatis.MybatisFindLinkMapper
+ * @see io.github.nichetoolkit.mybatis.MybatisAlertLinkMapper
+ * @see io.github.nichetoolkit.mybatis.MybatisDeleteLinkMapper
+ * @see io.github.nichetoolkit.mybatis.natives.MybatisFindFickleMapper
+ * @see io.github.nichetoolkit.mybatis.natives.MybatisFilterFickleMapper
+ * @see io.github.nichetoolkit.mybatis.natives.MybatisLinkFickleMapper
+ * @see org.apache.ibatis.annotations.Mapper
+ * @since Jdk1.8
+ */
 @Mapper
 public interface OssfileBulkMapper extends MybatisSuperMapper<OssfileBulkEntity,String>,
         MybatisFindLinkMapper<OssfileBulkEntity, OssfileBulkLinks, String>,

@@ -84,12 +84,6 @@
       "description": "the preview prefix on oss file configuration."
     },
     {
-      "name": "nichetoolkit.ossfile.type-suffix",
-      "type": "java.util.Map",
-      "sourceType": "java.util.Map",
-      "description": "the type suffix on oss file configuration."
-    },
-    {
       "name": "nichetoolkit.ossfile.image.compress",
       "type": "java.lang.Long",
       "sourceType": "java.lang.Long",

@@ -48,7 +48,7 @@ public enum OssfileFileType implements RestKey<String> {
     COMPRESSED("compressed", OssfileConstants.COMPRESSED_SUFFIX),
     /**
      * <code>UNKNOWN</code>
-     * {@link OssfileFileType} <p>The <code>UNKNOWN</code> field.</p>
+     * {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The <code>UNKNOWN</code> field.</p>
      */
     UNKNOWN("unknown", new String[0]),
     ;
@@ -84,6 +84,13 @@ public enum OssfileFileType implements RestKey<String> {
         return this.key;
     }
 
+    /**
+     * <code>setKey</code>
+     * <p>The set key setter method.</p>
+     * @param key {@link java.lang.String} <p>The key parameter is <code>String</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The set key return object is <code>OssfileFileType</code> type.</p>
+     * @see java.lang.String
+     */
     private OssfileFileType setKey(String key) {
         this.key = key;
         return this;
@@ -93,7 +100,7 @@ public enum OssfileFileType implements RestKey<String> {
      * <code>parseKey</code>
      * <p>The parse key method.</p>
      * @param key {@link java.lang.String} <p>The key parameter is <code>String</code> type.</p>
-     * @return {@link OssfileFileType} <p>The parse key return object is <code>OssfileFileType</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The parse key return object is <code>OssfileFileType</code> type.</p>
      * @see java.lang.String
      * @see org.springframework.lang.NonNull
      * @see com.fasterxml.jackson.annotation.JsonCreator
@@ -123,7 +130,7 @@ public enum OssfileFileType implements RestKey<String> {
      * <code>parseSuffix</code>
      * <p>The parse suffix method.</p>
      * @param suffixType {@link java.lang.String} <p>The suffix type parameter is <code>String</code> type.</p>
-     * @return {@link OssfileFileType} <p>The parse suffix return object is <code>OssfileFileType</code> type.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The parse suffix return object is <code>OssfileFileType</code> type.</p>
      * @see java.lang.String
      */
     public static OssfileFileType parseSuffix(String suffixType) {

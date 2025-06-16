@@ -18,7 +18,6 @@ import javax.annotation.Resource;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
- * @see lombok.Setter
  * @since Jdk1.8
  */
 @Slf4j
@@ -56,6 +55,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * <code>ossfileProperties</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     * @see lombok.Setter
      * @see javax.annotation.Resource
      */
     @Setter
@@ -85,6 +85,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     public int getOrder() {
         return 10;
     }
+
     /**
      * <code>refreshClient</code>
      * <p>The refresh client method.</p>

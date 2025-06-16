@@ -35,6 +35,11 @@ import java.util.stream.Collectors;
 @Service
 public class AliyunStoreService implements OssfileStoreService {
 
+    /**
+     * <code>properties</code>
+     * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>properties</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     */
     private final OssfileProperties properties;
 
     /**

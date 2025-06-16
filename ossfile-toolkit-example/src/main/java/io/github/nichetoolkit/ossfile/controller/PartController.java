@@ -15,6 +15,17 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 
+/**
+ * <code>PartController</code>
+ * <p>The part controller class.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see lombok.extern.slf4j.Slf4j
+ * @see io.github.nichetoolkit.rice.stereotype.RestSkip
+ * @see io.github.nichetoolkit.rest.userlog.stereotype.RestNotelog
+ * @see org.springframework.web.bind.annotation.RestController
+ * @see org.springframework.web.bind.annotation.RequestMapping
+ * @since Jdk1.8
+ */
 @Slf4j
 @RestSkip
 @RestNotelog
@@ -22,6 +33,20 @@ import java.nio.channels.FileChannel;
 @RequestMapping("/ossfile/part")
 public class PartController {
 
+    /**
+     * <code>sliceFile</code>
+     * <p>The slice file method.</p>
+     * @param file {@link org.springframework.web.multipart.MultipartFile} <p>The file parameter is <code>MultipartFile</code> type.</p>
+     * @param size long <p>The size parameter is <code>long</code> type.</p>
+     * @return {@link io.github.nichetoolkit.rest.RestResult} <p>The slice file return object is <code>RestResult</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see org.springframework.web.multipart.MultipartFile
+     * @see org.springframework.web.bind.annotation.RequestPart
+     * @see org.springframework.web.bind.annotation.RequestParam
+     * @see io.github.nichetoolkit.rest.RestResult
+     * @see org.springframework.web.bind.annotation.PostMapping
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @PostMapping("/slice")
     public RestResult<?> sliceFile(@RequestPart("file") MultipartFile file,
                                    @RequestParam(value = "size", required = false, defaultValue = "0") long size) throws RestException {

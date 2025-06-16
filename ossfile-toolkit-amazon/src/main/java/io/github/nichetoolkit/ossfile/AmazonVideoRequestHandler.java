@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * <code>AliyunVideoRequestHandler</code>
- * <p>The aliyun video request handler class.</p>
+ * <code>AmazonVideoRequestHandler</code>
+ * <p>The amazon video request handler class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
  * @see org.springframework.stereotype.Component

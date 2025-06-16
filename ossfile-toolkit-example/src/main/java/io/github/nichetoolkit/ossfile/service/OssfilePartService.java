@@ -12,10 +12,10 @@ import io.github.nichetoolkit.rice.service.SingleService;
  * <code>OssfilePartService</code>
  * <p>The ossfile part service interface.</p>
  * @author Cyan (snow22314@outlook.com)
- * @see FilterService
- * @see SingleService
- * @see QueryLinkService
- * @see DeleteLinkService
+ * @see io.github.nichetoolkit.rice.service.FilterService
+ * @see io.github.nichetoolkit.rice.service.SingleService
+ * @see io.github.nichetoolkit.rice.service.QueryLinkService
+ * @see io.github.nichetoolkit.rice.service.DeleteLinkService
  * @since Jdk1.8
  */
 public interface OssfilePartService extends FilterService<OssfilePartModel, OssfileFilter, String, String>, SingleService<OssfilePartModel, String, String>,

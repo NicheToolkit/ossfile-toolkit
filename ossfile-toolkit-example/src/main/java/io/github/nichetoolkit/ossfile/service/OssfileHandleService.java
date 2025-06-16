@@ -21,10 +21,27 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+/**
+ * <code>OssfileHandleService</code>
+ * <p>The ossfile handle service class.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see lombok.extern.slf4j.Slf4j
+ * @see org.springframework.stereotype.Service
+ * @since Jdk1.8
+ */
 @Slf4j
 @Service
 public class OssfileHandleService {
 
+    /**
+     * <code>handleOfPartFinish</code>
+     * <p>The handle of part finish method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfPartFinish(OssfileBulkModel bulkModel) throws RestException {
         OssfileStoreService storeService = OssfileServiceHolder.storeService();
@@ -42,6 +59,18 @@ public class OssfileHandleService {
         });
     }
 
+    /**
+     * <code>handleOfPartUpload</code>
+     * <p>The handle of part upload method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @param partModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel} <p>The part model parameter is <code>OssfilePartModel</code> type.</p>
+     * @param lastPart  boolean <p>The last part parameter is <code>boolean</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfPartUpload(OssfileBulkModel bulkModel,OssfilePartModel partModel, boolean lastPart) throws RestException {
         OssfileStoreService storeService = OssfileServiceHolder.storeService();
@@ -63,6 +92,15 @@ public class OssfileHandleService {
         });
     }
 
+    /**
+     * <code>handleOfPartStart</code>
+     * <p>The handle of part start method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfPartStart(OssfileBulkModel bulkModel) throws RestException {
         OssfileStoreService storeService = OssfileServiceHolder.storeService();
@@ -74,6 +112,15 @@ public class OssfileHandleService {
     }
 
 
+    /**
+     * <code>handleOfFile</code>
+     * <p>The handle of file method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfFile(OssfileBulkModel bulkModel) throws RestException {
         byte[] bytes = IoStreamUtils.bytes(bulkModel.inputStream());
@@ -81,6 +128,15 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getObjectKey());
     }
 
+    /**
+     * <code>handleOfSignature</code>
+     * <p>The handle of signature method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfSignature(OssfileBulkModel bulkModel) throws RestException {
         InputStream inputStream = bulkModel.inputStream();
@@ -92,6 +148,18 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getObjectKey());
     }
 
+    /**
+     * <code>handleOfImageCompress</code>
+     * <p>The handle of image compress method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @param width     {@link java.lang.Integer} <p>The width parameter is <code>Integer</code> type.</p>
+     * @param height    {@link java.lang.Integer} <p>The height parameter is <code>Integer</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see java.lang.Integer
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfImageCompress(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
@@ -99,6 +167,18 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getObjectKey());
     }
 
+    /**
+     * <code>handleOfImagePreviewAndCompress</code>
+     * <p>The handle of image preview and compress method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @param width     {@link java.lang.Integer} <p>The width parameter is <code>Integer</code> type.</p>
+     * @param height    {@link java.lang.Integer} <p>The height parameter is <code>Integer</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see java.lang.Integer
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfImagePreviewAndCompress(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
@@ -106,6 +186,18 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getObjectKey());
     }
 
+    /**
+     * <code>handleOfImagePreview</code>
+     * <p>The handle of image preview method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @param width     {@link java.lang.Integer} <p>The width parameter is <code>Integer</code> type.</p>
+     * @param height    {@link java.lang.Integer} <p>The height parameter is <code>Integer</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see java.lang.Integer
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfImagePreview(OssfileBulkModel bulkModel, Integer width, Integer height) throws RestException {
         byte[] bytes = bytesOfImage(bulkModel.inputStream(), width, height);
@@ -113,6 +205,15 @@ public class OssfileHandleService {
         handleOfOssfileStore(bulkModel, bulkModel.getPreviewKey());
     }
 
+    /**
+     * <code>handleOfFileCompress</code>
+     * <p>The handle of file compress method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see org.springframework.scheduling.annotation.Async
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     @Async
     public void handleOfFileCompress(OssfileBulkModel bulkModel) throws RestException {
         String filename = bulkModel.getFilename();
@@ -124,6 +225,16 @@ public class OssfileHandleService {
         FileUtils.clear(tempFile);
     }
 
+    /**
+     * <code>handleOfOssfileStore</code>
+     * <p>The handle of ossfile store method.</p>
+     * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
+     * @param objectKey {@link java.lang.String} <p>The object key parameter is <code>String</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
+     * @see java.lang.String
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     public void handleOfOssfileStore(OssfileBulkModel bulkModel, String objectKey) throws RestException {
         OssfileStoreService storeService = OssfileServiceHolder.storeService();
         Future<OssfileETagVersion> ossfileFuture = storeService.putOssfile(bulkModel.getBucket(), objectKey, bulkModel.inputStream());
@@ -134,6 +245,16 @@ public class OssfileHandleService {
         });
     }
 
+    /**
+     * <code>bytesOfImage</code>
+     * <p>The bytes of image method.</p>
+     * @param inputStream {@link java.io.InputStream} <p>The input stream parameter is <code>InputStream</code> type.</p>
+     * @param width       {@link java.lang.Integer} <p>The width parameter is <code>Integer</code> type.</p>
+     * @param height      {@link java.lang.Integer} <p>The height parameter is <code>Integer</code> type.</p>
+     * @return byte <p>The bytes of image return object is <code>byte</code> type.</p>
+     * @see java.io.InputStream
+     * @see java.lang.Integer
+     */
     private byte[] bytesOfImage(InputStream inputStream, Integer width, Integer height) {
         double quality = 0.9d;
         double scale = 1.0d;
@@ -163,6 +284,17 @@ public class OssfileHandleService {
     }
 
 
+    /**
+     * <code>handleOfFuture</code>
+     * <p>The handle of future method.</p>
+     * @param <F>              {@link java.lang.Object} <p>The parameter can be of any type.</p>
+     * @param ossfileFuture    {@link java.util.concurrent.Future} <p>The ossfile future parameter is <code>Future</code> type.</p>
+     * @param consumerActuator {@link io.github.nichetoolkit.rest.actuator.ConsumerActuator} <p>The consumer actuator parameter is <code>ConsumerActuator</code> type.</p>
+     * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
+     * @see java.util.concurrent.Future
+     * @see io.github.nichetoolkit.rest.actuator.ConsumerActuator
+     * @see io.github.nichetoolkit.rest.RestException
+     */
     private <F> void handleOfFuture(Future<F> ossfileFuture, ConsumerActuator<F> consumerActuator) throws RestException {
         try {
             F ossfileValue = ossfileFuture.get();

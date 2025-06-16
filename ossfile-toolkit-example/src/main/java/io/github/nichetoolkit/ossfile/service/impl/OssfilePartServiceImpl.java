@@ -9,6 +9,15 @@ import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rice.DefaultIdService;
 import org.springframework.stereotype.Service;
 
+/**
+ * <code>OssfilePartServiceImpl</code>
+ * <p>The ossfile part service class.</p>
+ * @author Cyan (snow22314@outlook.com)
+ * @see io.github.nichetoolkit.rice.DefaultIdService
+ * @see io.github.nichetoolkit.ossfile.service.OssfilePartService
+ * @see org.springframework.stereotype.Service
+ * @since Jdk1.8
+ */
 @Service
 public class OssfilePartServiceImpl extends DefaultIdService<OssfilePartModel, OssfilePartEntity, OssfileFilter, String, String> implements OssfilePartService {
 

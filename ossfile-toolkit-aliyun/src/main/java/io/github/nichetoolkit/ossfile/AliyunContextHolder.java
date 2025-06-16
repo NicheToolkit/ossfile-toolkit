@@ -14,7 +14,6 @@ import javax.annotation.Resource;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
- * @see lombok.Setter
  * @since Jdk1.8
  */
 @Slf4j
@@ -31,6 +30,7 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      * <code>ossfileProperties</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     * @see lombok.Setter
      * @see javax.annotation.Resource
      */
     @Setter

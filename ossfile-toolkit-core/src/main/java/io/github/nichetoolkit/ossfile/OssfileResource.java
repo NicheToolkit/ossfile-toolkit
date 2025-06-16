@@ -38,6 +38,7 @@ public interface OssfileResource {
      * <code>isReadable</code>
      * <p>The is readable method.</p>
      * @return boolean <p>The is readable return object is <code>boolean</code> type.</p>
+     * @see com.fasterxml.jackson.annotation.JsonIgnore
      */
     @JsonIgnore
     default boolean isReadable() {
@@ -48,6 +49,7 @@ public interface OssfileResource {
      * <code>exists</code>
      * <p>The exists method.</p>
      * @return boolean <p>The exists return object is <code>boolean</code> type.</p>
+     * @see com.fasterxml.jackson.annotation.JsonIgnore
      */
     @JsonIgnore
     default boolean exists() {
@@ -58,6 +60,7 @@ public interface OssfileResource {
      * <code>isOpen</code>
      * <p>The is open method.</p>
      * @return boolean <p>The is open return object is <code>boolean</code> type.</p>
+     * @see com.fasterxml.jackson.annotation.JsonIgnore
      */
     @JsonIgnore
     default boolean isOpen() {

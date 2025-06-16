@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * <p>The ossfile minio auto configure class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
- * @see org.springframework.context.annotation.Configuration
+ * @see org.springframework.boot.autoconfigure.AutoConfiguration
  * @see org.springframework.context.annotation.ComponentScan
  * @since Jdk1.8
  */
