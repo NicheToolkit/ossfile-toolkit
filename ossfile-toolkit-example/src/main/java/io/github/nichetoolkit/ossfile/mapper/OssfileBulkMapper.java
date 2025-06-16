@@ -7,9 +7,9 @@ import io.github.nichetoolkit.mybatis.MybatisSuperMapper;
 import io.github.nichetoolkit.mybatis.natives.MybatisFilterFickleMapper;
 import io.github.nichetoolkit.mybatis.natives.MybatisFindFickleMapper;
 import io.github.nichetoolkit.mybatis.natives.MybatisLinkFickleMapper;
-import io.github.nichetoolkit.ossfile.OssfileBulkEntity;
-import io.github.nichetoolkit.ossfile.OssfileBulkLinks;
-import io.github.nichetoolkit.ossfile.OssfileStates;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkEntity;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkLinks;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileStates;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

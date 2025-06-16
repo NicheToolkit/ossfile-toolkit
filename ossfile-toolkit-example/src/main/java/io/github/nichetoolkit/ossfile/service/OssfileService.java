@@ -1,6 +1,11 @@
 package io.github.nichetoolkit.ossfile.service;
 
 import io.github.nichetoolkit.ossfile.*;
+import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileFilter;
+import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileRequest;
 import io.github.nichetoolkit.rest.RestEntry;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
@@ -40,7 +45,6 @@ public class OssfileService {
     public OssfileService(OssfileHandleService handleService) {
         this.handleService = handleService;
     }
-
 
     public void deleteOfId(String id) throws RestException {
         OssfileBulkModel ossfileBulkModel = OssfileServiceHolder.bulkService().queryById(id);

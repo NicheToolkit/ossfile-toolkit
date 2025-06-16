@@ -1,7 +1,8 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rice.DefaultFilter;
@@ -39,7 +40,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
         super(ids);
     }
 
-    public OssfileFilter(OssfileFilter.Builder builder) {
+    public OssfileFilter(Builder builder) {
         super(builder);
         this.userId = builder.userId;
         this.projectId = builder.projectId;
@@ -130,72 +131,72 @@ public class OssfileFilter extends DefaultFilter<String,String> {
         public Builder() {
         }
 
-        public OssfileFilter.Builder userId(String userId) {
+        public Builder userId(String userId) {
             this.userId = userId;
             return this;
         }
 
-        public OssfileFilter.Builder userId(@NonNull RestId<String> user) {
+        public Builder userId(@NonNull RestId<String> user) {
             this.userId = user.getId();
             return this;
         }
 
-        public OssfileFilter.Builder projectId(String projectId) {
+        public Builder projectId(String projectId) {
             this.projectId = projectId;
             return this;
         }
 
-        public OssfileFilter.Builder projectId(@NonNull RestId<String> project) {
+        public Builder projectId(@NonNull RestId<String> project) {
             this.projectId = project.getId();
             return this;
         }
 
-        public OssfileFilter.Builder bulkId(String bulkId) {
+        public Builder bulkId(String bulkId) {
             this.bulkId = bulkId;
             return this;
         }
 
-        public OssfileFilter.Builder bulkId(@NonNull RestId<String> bulk) {
+        public Builder bulkId(@NonNull RestId<String> bulk) {
             this.bulkId = bulk.getId();
             return this;
         }
 
-        public OssfileFilter.Builder uploadId(String uploadId) {
+        public Builder uploadId(String uploadId) {
             this.uploadId = uploadId;
             return this;
         }
 
-        public OssfileFilter.Builder bucket(String bucket) {
+        public Builder bucket(String bucket) {
             this.bucket = bucket;
             return this;
         }
 
-        public OssfileFilter.Builder fileType(@NonNull String fileType) {
+        public Builder fileType(@NonNull String fileType) {
             this.fileType = OssfileFileType.parseKey(fileType);
             return this;
         }
 
-        public OssfileFilter.Builder fileType(OssfileFileType fileType) {
+        public Builder fileType(OssfileFileType fileType) {
             this.fileType = fileType;
             return this;
         }
 
-        public OssfileFilter.Builder ofPart(Boolean isPart) {
+        public Builder ofPart(Boolean isPart) {
             this.part = isPart;
             return this;
         }
 
-        public OssfileFilter.Builder ofFinish(Boolean finish) {
+        public Builder ofFinish(Boolean finish) {
             this.finish = finish;
             return this;
         }
 
-        public OssfileFilter.Builder ofCompress(Boolean compress) {
+        public Builder ofCompress(Boolean compress) {
             this.compress = compress;
             return this;
         }
 
-        public OssfileFilter.Builder ofPreview(Boolean preview) {
+        public Builder ofPreview(Boolean preview) {
             this.preview = preview;
             return this;
         }

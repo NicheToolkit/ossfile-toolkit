@@ -1,15 +1,16 @@
 package io.github.nichetoolkit.ossfile.controller;
 
 
-import io.github.nichetoolkit.ossfile.*;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileFilter;
+import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileRequest;
 import io.github.nichetoolkit.ossfile.service.OssfileService;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestResult;
 import io.github.nichetoolkit.rest.userlog.stereotype.RestNotelog;
 import io.github.nichetoolkit.rice.stereotype.RestSkip;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ public class StoreController {
 
     @PostMapping("/upload/file")
     public RestResult<OssfileBulkModel> uploadOfFile(@RequestPart("file") MultipartFile file,
-                                                       OssfileRequest fileRequest) throws RestException {
+                                                     OssfileRequest fileRequest) throws RestException {
         OssfileBulkModel bulkModel = ossfileService.uploadOfFile(file, fileRequest);
         return RestResult.success(bulkModel);
     }

@@ -2,6 +2,8 @@ package io.github.nichetoolkit.ossfile.service;
 
 import io.github.nichetoolkit.ossfile.*;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel;
+import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.actuator.ConsumerActuator;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;

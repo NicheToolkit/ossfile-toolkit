@@ -1,4 +1,4 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.entity;
 
 import io.github.nichetoolkit.mybatis.table.RestAlertness;
 import lombok.AllArgsConstructor;

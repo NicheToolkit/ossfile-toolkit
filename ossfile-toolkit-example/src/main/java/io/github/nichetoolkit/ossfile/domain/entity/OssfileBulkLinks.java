@@ -1,7 +1,10 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.entity;
 
 import io.github.nichetoolkit.mybatis.table.RestLinkage;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 

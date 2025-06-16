@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.nichetoolkit.ossfile.configure.OssfileStarterAutoConfigure
-io.github.nichetoolkit.rest.fitter.RestFulfilledFitter=io.github.nichetoolkit.ossfile.OssfileServiceHolder

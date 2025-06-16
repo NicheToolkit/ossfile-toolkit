@@ -1,11 +1,16 @@
-package io.github.nichetoolkit.ossfile.service;
+package io.github.nichetoolkit.ossfile.service.impl;
 
 
-import io.github.nichetoolkit.ossfile.*;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileFilter;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfilePartEntity;
+import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
+import io.github.nichetoolkit.ossfile.service.OssfilePartService;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rice.DefaultIdService;
+import org.springframework.stereotype.Service;
 
-public abstract class DefaultPartService extends DefaultIdService<OssfilePartModel, OssfilePartEntity, OssfileFilter, String, String> implements OssfilePartService{
+@Service
+public class OssfilePartServiceImpl extends DefaultIdService<OssfilePartModel, OssfilePartEntity, OssfileFilter, String, String> implements OssfilePartService {
 
     @Override
     public String queryWhereSql(OssfileFilter filter) throws RestException {

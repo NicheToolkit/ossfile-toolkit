@@ -1,10 +1,14 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
+import io.github.nichetoolkit.ossfile.OssfilePartETag;
+import io.github.nichetoolkit.ossfile.OssfileResource;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfilePartEntity;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfilePartLinks;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.github.nichetoolkit.rest.util.IoStreamUtils;
@@ -27,7 +31,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OssfilePartModel extends DefaultIdModel<OssfilePartModel,OssfilePartEntity,String> implements Comparator<OssfilePartModel>, Comparable<OssfilePartModel>, OssfileResource {
+public class OssfilePartModel extends DefaultIdModel<OssfilePartModel, OssfilePartEntity,String> implements Comparator<OssfilePartModel>, Comparable<OssfilePartModel>, OssfileResource {
     protected String bulkId;
     protected String projectId;
     protected String uploadId;

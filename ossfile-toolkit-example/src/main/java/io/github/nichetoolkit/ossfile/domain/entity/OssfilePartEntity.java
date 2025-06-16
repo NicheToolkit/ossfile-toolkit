@@ -1,10 +1,11 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.entity;
 
 import io.github.nichetoolkit.mybatis.column.RestFickleEntry;
 import io.github.nichetoolkit.mybatis.column.RestLinkKey;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.mybatis.table.RestEntity;
 import io.github.nichetoolkit.mybatis.table.RestExcludes;
+import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RestEntity(name = "ossfile_part")
 @RestExcludes({"updateTime","createTime"})
 @EqualsAndHashCode(callSuper = true)
-public class OssfilePartEntity extends DefaultIdEntity<OssfilePartEntity,OssfilePartModel,String> {
+public class OssfilePartEntity extends DefaultIdEntity<OssfilePartEntity, OssfilePartModel,String> {
     @RestLinkKey
     protected OssfilePartLinks links;
 

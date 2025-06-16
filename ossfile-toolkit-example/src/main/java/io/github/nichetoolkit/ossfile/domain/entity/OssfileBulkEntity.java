@@ -1,10 +1,11 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.entity;
 
 import io.github.nichetoolkit.mybatis.column.RestAlertKey;
 import io.github.nichetoolkit.mybatis.column.RestFickleEntry;
 import io.github.nichetoolkit.mybatis.column.RestLinkKey;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.mybatis.table.RestEntity;
+import io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;

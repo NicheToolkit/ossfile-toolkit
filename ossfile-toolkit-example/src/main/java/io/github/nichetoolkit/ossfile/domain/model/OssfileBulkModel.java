@@ -1,4 +1,4 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,6 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
+import io.github.nichetoolkit.ossfile.*;
+import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkEntity;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkLinks;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfilePartLinks;
+import io.github.nichetoolkit.ossfile.domain.entity.OssfileStates;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;

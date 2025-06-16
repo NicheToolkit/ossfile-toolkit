@@ -11,6 +11,7 @@
       "name": "nichetoolkit.ossfile.provider",
       "type": "io.github.nichetoolkit.ossfile.OssfileProviderType",
       "sourceType": "io.github.nichetoolkit.ossfile.OssfileProviderType",
+      "defaultValue": "MINIO",
       "description": "the provider type on oss file configuration."
     },
     {
@@ -83,11 +84,10 @@
       "description": "the preview prefix on oss file configuration."
     },
     {
-      "name": "nichetoolkit.ossfile.part-prefix",
-      "type": "java.lang.String",
-      "sourceType": "java.lang.String",
-      "defaultValue": "part",
-      "description": "the part prefix on oss file configuration."
+      "name": "nichetoolkit.ossfile.type-suffix",
+      "type": "java.util.Map",
+      "sourceType": "java.util.Map",
+      "description": "the type suffix on oss file configuration."
     },
     {
       "name": "nichetoolkit.ossfile.image.compress",
@@ -118,8 +118,8 @@
     },
     {
       "name": "nichetoolkit.ossfile.allowed.headers",
-      "type": "java.lang.Long",
-      "sourceType": "java.lang.Long",
+      "type": "java.lang.String[]",
+      "sourceType": "java.lang.String[]",
       "description": "the allowed headers on oss file configuration."
     }
   ],

@@ -15,16 +15,16 @@ import java.util.concurrent.ThreadPoolExecutor;
  * <code>OssfileAsyncConfigure</code>
  * <p>The ossfile async configure class.</p>
  * @author Cyan (snow22314@outlook.com)
- * @see org.springframework.scheduling.annotation.AsyncConfigurer
- * @see lombok.extern.slf4j.Slf4j
- * @see org.springframework.scheduling.annotation.EnableAsync
- * @see org.springframework.stereotype.Component
+ * @see AsyncConfigurer
+ * @see Slf4j
+ * @see EnableAsync
+ * @see Component
  * @since Jdk1.8
  */
 @Slf4j
 @EnableAsync
 @Component
-public class OssfileAsyncConfigure implements AsyncConfigurer {
+public class OssfileAsyncExecutorConfigure implements AsyncConfigurer {
     /**
      * 自定义线程池
      * 1. SimpleAsyncTaskExecutor：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程（默认）。

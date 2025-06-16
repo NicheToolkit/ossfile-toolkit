@@ -1,7 +1,8 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rice.RestId;

@@ -1,25 +1,25 @@
-package io.github.nichetoolkit.ossfile;
+package io.github.nichetoolkit.ossfile.service;
 
+import io.github.nichetoolkit.ossfile.OssfileProviderType;
+import io.github.nichetoolkit.ossfile.OssfileStoreHolder;
+import io.github.nichetoolkit.ossfile.OssfileStoreService;
+import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
-import io.github.nichetoolkit.ossfile.service.OssfileBulkService;
-import io.github.nichetoolkit.ossfile.service.OssfilePartService;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
-import java.io.File;
 
 /**
  * <code>OssfileServiceHolder</code>
  * <p>The ossfile service holder class.</p>
  * @author Cyan (snow22314@outlook.com)
- * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
- * @see lombok.extern.slf4j.Slf4j
+ * @see RestFulfilledFitter
+ * @see Slf4j
  * @since Jdk1.8
  */
 @Slf4j
@@ -27,15 +27,15 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
 
     /**
      * <code>INSTANCE</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileServiceHolder} <p>The constant <code>INSTANCE</code> field.</p>
+     * {@link OssfileServiceHolder} <p>The constant <code>INSTANCE</code> field.</p>
      */
     private static OssfileServiceHolder INSTANCE = null;
 
     /**
      * <code>properties</code>
-     * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>properties</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
-     * @see javax.annotation.Resource
+     * {@link OssfileProperties} <p>The <code>properties</code> field.</p>
+     * @see OssfileProperties
+     * @see Resource
      */
     @Setter
     @Resource
@@ -43,29 +43,29 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
 
     /**
      * <code>bulkService</code>
-     * {@link io.github.nichetoolkit.ossfile.service.OssfileBulkService} <p>The <code>bulkService</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.service.OssfileBulkService
+     * {@link OssfileBulkService} <p>The <code>bulkService</code> field.</p>
+     * @see OssfileBulkService
      */
     protected OssfileBulkService bulkService;
 
     /**
      * <code>partService</code>
-     * {@link io.github.nichetoolkit.ossfile.service.OssfilePartService} <p>The <code>partService</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.service.OssfilePartService
+     * {@link OssfilePartService} <p>The <code>partService</code> field.</p>
+     * @see OssfilePartService
      */
     protected OssfilePartService partService;
 
     /**
      * <code>videoHandler</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler} <p>The <code>videoHandler</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
+     * {@link OssfileVideoRequestHandler} <p>The <code>videoHandler</code> field.</p>
+     * @see OssfileVideoRequestHandler
      */
     protected OssfileVideoRequestHandler videoHandler;
 
     /**
      * <code>storeService</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileStoreService} <p>The <code>storeService</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.OssfileStoreService
+     * {@link OssfileStoreService} <p>The <code>storeService</code> field.</p>
+     * @see OssfileStoreService
      */
     protected OssfileStoreService storeService;
 
@@ -95,8 +95,8 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
     /**
      * <code>properties</code>
      * <p>The properties method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The properties return object is <code>OssfileProperties</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     * @return {@link OssfileProperties} <p>The properties return object is <code>OssfileProperties</code> type.</p>
+     * @see OssfileProperties
      */
     public static OssfileProperties properties() {
         return INSTANCE.properties;
@@ -105,8 +105,8 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
     /**
      * <code>storeService</code>
      * <p>The store service method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.OssfileStoreService} <p>The store service return object is <code>OssfileStoreService</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.OssfileStoreService
+     * @return {@link OssfileStoreService} <p>The store service return object is <code>OssfileStoreService</code> type.</p>
+     * @see OssfileStoreService
      */
     public static OssfileStoreService storeService() {
         return INSTANCE.storeService;
@@ -115,8 +115,8 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
     /**
      * <code>bulkService</code>
      * <p>The bulk service method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.service.OssfileBulkService} <p>The bulk service return object is <code>OssfileBulkService</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.service.OssfileBulkService
+     * @return {@link OssfileBulkService} <p>The bulk service return object is <code>OssfileBulkService</code> type.</p>
+     * @see OssfileBulkService
      */
     public static OssfileBulkService bulkService() {
         return INSTANCE.bulkService;
@@ -125,8 +125,8 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
     /**
      * <code>partService</code>
      * <p>The part service method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.service.OssfilePartService} <p>The part service return object is <code>OssfilePartService</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.service.OssfilePartService
+     * @return {@link OssfilePartService} <p>The part service return object is <code>OssfilePartService</code> type.</p>
+     * @see OssfilePartService
      */
     public static OssfilePartService partService() {
         return INSTANCE.partService;
@@ -135,25 +135,11 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
     /**
      * <code>videoHandler</code>
      * <p>The video handler method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler} <p>The video handler return object is <code>OssfileVideoRequestHandler</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
+     * @return {@link OssfileVideoRequestHandler} <p>The video handler return object is <code>OssfileVideoRequestHandler</code> type.</p>
+     * @see OssfileVideoRequestHandler
      */
     public static OssfileVideoRequestHandler videoHandler() {
         return INSTANCE.videoHandler;
     }
-
-    public static void ofBulkPreview(OssfileBulkModel bulkModel) {
-        String previewPath = RestOptional.ofEmptyable(bulkModel.getPreviewPath()).orElseGet(() -> {
-            String previewPrefix = OssfileStoreHolder.previewPrefix();
-            String projectId = bulkModel.getProjectId();
-            if (GeneralUtils.isNotEmpty(projectId)) {
-                return previewPrefix + File.separator + projectId + File.separator + bulkModel.getFilename();
-            } else {
-                return previewPrefix + File.separator + bulkModel.getFilename();
-            }
-        });
-        bulkModel.setPreviewPath(previewPath);
-    }
-
 
 }

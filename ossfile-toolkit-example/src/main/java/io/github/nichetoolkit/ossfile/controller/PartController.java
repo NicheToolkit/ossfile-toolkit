@@ -53,7 +53,7 @@ public class PartController {
                 File sliceFile = FileUtils.createFile(sliceFilename);
                 RandomAccessFile sliceAccessFile = new RandomAccessFile(sliceFile, "rwd");
                 FileChannel sliceAccessFileChannel = sliceAccessFile.getChannel();
-                long transferTo = accessFileChannel.transferTo(position, partSize, sliceAccessFileChannel);
+                accessFileChannel.transferTo(position, partSize, sliceAccessFileChannel);
                 log.debug("the file of {} slice success. path: {}", sliceFile.getName(), sliceFile.getPath());
                 sliceAccessFileChannel.close();
             }

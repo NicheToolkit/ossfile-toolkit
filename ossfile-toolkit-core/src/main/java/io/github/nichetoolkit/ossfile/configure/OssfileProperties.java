@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -101,6 +100,14 @@ public class OssfileProperties {
      * @see java.lang.String
      */
     private String previewPrefix = OssfileConstants.PREVIEW_PREFIX;
+
+
+    /**
+     * <code>typeSuffix</code>
+     * {@link java.util.Map} <p>The <code>typeSuffix</code> field.</p>
+     * @see java.util.Map
+     */
+    private Map<String,String[]> typeSuffix = new HashMap<>();
 
     /**
      * <code>image</code>

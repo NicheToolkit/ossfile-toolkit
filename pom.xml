@@ -11,7 +11,6 @@
         <module>ossfile-toolkit-example</module>
         <module>ossfile-toolkit-bom</module>
         <module>ossfile-toolkit-core</module>
-        <module>ossfile-toolkit-starter</module>
         <module>ossfile-toolkit-minio</module>
         <module>ossfile-toolkit-aliyun</module>
         <module>ossfile-toolkit-amazon</module>
@@ -180,7 +179,13 @@
 
             <dependency>
                 <groupId>io.github.nichetoolkit</groupId>
-                <artifactId>ossfile-toolkit-starter</artifactId>
+                <artifactId>ossfile-toolkit-aliyun</artifactId>
+                <version>${ossfile-toolkit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.nichetoolkit</groupId>
+                <artifactId>ossfile-toolkit-amazon</artifactId>
                 <version>${ossfile-toolkit.version}</version>
             </dependency>
 
