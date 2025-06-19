@@ -6,8 +6,10 @@ import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rice.RestId;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -17,13 +19,17 @@ import java.util.Map;
  * <p>The ossfile request class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see java.io.Serializable
- * @see lombok.Data
+ * @see lombok.Getter
+ * @see lombok.Setter
+ * @see lombok.experimental.SuperBuilder
  * @see lombok.EqualsAndHashCode
  * @see com.fasterxml.jackson.annotation.JsonInclude
  * @see com.fasterxml.jackson.annotation.JsonIgnoreProperties
  * @since Jdk1.8
  */
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

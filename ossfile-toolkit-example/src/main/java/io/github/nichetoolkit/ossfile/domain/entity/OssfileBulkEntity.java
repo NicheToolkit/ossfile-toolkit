@@ -11,6 +11,9 @@ import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.List;
@@ -21,12 +24,16 @@ import java.util.Optional;
  * <p>The ossfile bulk entity class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rice.DefaultIdEntity
- * @see lombok.Data
+ * @see lombok.Getter
+ * @see lombok.Setter
+ * @see lombok.experimental.SuperBuilder
  * @see io.github.nichetoolkit.mybatis.table.RestEntity
  * @see lombok.EqualsAndHashCode
  * @since Jdk1.8
  */
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @RestEntity(name = "ossfile_bulk")
 @EqualsAndHashCode(callSuper = true)
 public class OssfileBulkEntity extends DefaultIdEntity<OssfileBulkEntity, OssfileBulkModel, String> {

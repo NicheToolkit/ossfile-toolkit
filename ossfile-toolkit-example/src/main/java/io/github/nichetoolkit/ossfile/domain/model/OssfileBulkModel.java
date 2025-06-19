@@ -27,6 +27,9 @@ import io.github.nichetoolkit.rice.RestId;
 import io.github.nichetoolkit.rice.jsonb.Property;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
@@ -44,13 +47,17 @@ import java.util.List;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rice.DefaultIdModel
  * @see io.github.nichetoolkit.ossfile.OssfileResource
- * @see lombok.Data
+ * @see lombok.Getter
+ * @see lombok.Setter
+ * @see lombok.experimental.SuperBuilder
  * @see lombok.EqualsAndHashCode
  * @see com.fasterxml.jackson.annotation.JsonInclude
  * @see com.fasterxml.jackson.annotation.JsonIgnoreProperties
  * @since Jdk1.8
  */
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

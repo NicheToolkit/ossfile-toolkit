@@ -2,9 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
@@ -13,15 +12,17 @@ import java.io.Serializable;
  * <p>The ossfile credentials class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see java.io.Serializable
- * @see lombok.Data
- * @see lombok.Builder
+ * @see lombok.Getter
+ * @see lombok.Setter
+ * @see lombok.experimental.SuperBuilder
  * @see lombok.EqualsAndHashCode
  * @see com.fasterxml.jackson.annotation.JsonInclude
  * @see com.fasterxml.jackson.annotation.JsonIgnoreProperties
  * @since Jdk1.8
  */
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

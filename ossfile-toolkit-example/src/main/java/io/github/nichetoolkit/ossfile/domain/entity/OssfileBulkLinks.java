@@ -1,10 +1,8 @@
 package io.github.nichetoolkit.ossfile.domain.entity;
 
 import io.github.nichetoolkit.mybatis.table.RestLinkage;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
@@ -13,15 +11,17 @@ import java.io.Serializable;
  * <p>The ossfile bulk links class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see java.io.Serializable
- * @see lombok.Data
- * @see lombok.Builder
+ * @see lombok.Getter
+ * @see lombok.Setter
+ * @see lombok.experimental.SuperBuilder
  * @see io.github.nichetoolkit.mybatis.table.RestLinkage
  * @see lombok.NoArgsConstructor
  * @see lombok.AllArgsConstructor
  * @since Jdk1.8
  */
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @RestLinkage
 @NoArgsConstructor
 @AllArgsConstructor
