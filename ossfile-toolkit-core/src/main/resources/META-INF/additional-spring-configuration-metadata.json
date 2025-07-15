@@ -11,7 +11,7 @@
       "name": "nichetoolkit.ossfile.provider",
       "type": "io.github.nichetoolkit.ossfile.OssfileProviderType",
       "sourceType": "io.github.nichetoolkit.ossfile.OssfileProviderType",
-      "defaultValue": "MINIO",
+      "defaultValue": "minio",
       "description": "the provider type on oss file configuration."
     },
     {
@@ -115,25 +115,6 @@
       "type": "java.lang.String[]",
       "sourceType": "java.lang.String[]",
       "description": "the allowed headers on oss file configuration."
-    }
-  ],
-  "hints": [
-    {
-      "name": "nichetoolkit.ossfile.provider",
-      "values": [
-        {
-          "value": "MINIO",
-          "description": "the provider type is minio on oss file configuration."
-        },
-        {
-          "value": "ALIYUN",
-          "description": "the provider type aliyun on oss file configuration."
-        },
-        {
-          "value": "AMAZON",
-          "description": "the provider type amazon on oss file configuration."
-        }
-      ]
     }
   ]
 }
