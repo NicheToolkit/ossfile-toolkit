@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 
@@ -28,7 +27,7 @@ public class OssfileCoreAutoConfigure {
      * {@link java.lang.String} <p>The constant <code>OSSFILE_I18N</code> field.</p>
      * @see java.lang.String
      */
-    private static final String OSSFILE_I18N = "ossfile-i18n";
+    private static final String OSSFILE_I18N = "ossfile-i18n/messages";
 
 
     /**
