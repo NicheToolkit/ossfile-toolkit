@@ -1,6 +1,6 @@
 package io.github.nichetoolkit.ossfile;
 
-import io.github.nichetoolkit.mybatis.scan.MybatisAutoConfiguration;
+import io.github.nichetoolkit.mybatis.scan.EnableMybatisConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,12 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
  * @see org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  * @see org.springframework.context.annotation.ComponentScan
- * @see io.github.nichetoolkit.mybatis.scan.MybatisAutoConfiguration
+ * @see io.github.nichetoolkit.mybatis.scan.EnableMybatisConfiguration
  * @since Jdk1.8
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "io.github.nichetoolkit")
-@MybatisAutoConfiguration
+@EnableMybatisConfiguration
 public class OssfileExampleApplication extends SpringBootServletInitializer {
 
     /**
