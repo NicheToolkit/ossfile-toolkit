@@ -2,6 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import com.aliyun.oss.OSS;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,15 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      */
     private static AliyunContextHolder INSTANCE = null;
 
+    /**
+     * <code>instance</code>
+     * <p>The instance method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.AliyunContextHolder} <p>The instance return object is <code>AliyunContextHolder</code> type.</p>
+     */
+    public static AliyunContextHolder instance() {
+        return RestOptional.ofNullable(INSTANCE).orNullThrow(ConfigureLackError::new);
+    }
+
     @Override
     public void afterPropertiesSet() {
         INSTANCE = this;
@@ -63,7 +74,7 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      * <p>The refresh client method.</p>
      */
     static void refreshClient() {
-        INSTANCE.aliyunClient = AliyunHelper.createAliyunClient(INSTANCE.ossfileProperties);
+        instance().aliyunClient = AliyunHelper.createAliyunClient(instance().ossfileProperties);
     }
 
     /**
@@ -73,7 +84,7 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      * @see com.aliyun.oss.OSS
      */
     public static OSS defaultClient() {
-        return INSTANCE.aliyunClient;
+        return instance().aliyunClient;
     }
 
 

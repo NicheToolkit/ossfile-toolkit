@@ -39,6 +39,21 @@ public class OssfileProperties {
      * @see java.lang.String
      */
     private String endpoint;
+
+    /**
+     * <code>intranet</code>
+     * {@link java.lang.String} <p>The <code>intranet</code> field.</p>
+     * @see java.lang.String
+     */
+    private String intranet;
+
+    /**
+     * <code>intranetPriority</code>
+     * {@link java.lang.Boolean} <p>The <code>intranetPriority</code> field.</p>
+     * @see java.lang.Boolean
+     */
+    private Boolean intranetPriority= false;
+
     /**
      * <code>accessKey</code>
      * {@link java.lang.String} <p>The <code>accessKey</code> field.</p>

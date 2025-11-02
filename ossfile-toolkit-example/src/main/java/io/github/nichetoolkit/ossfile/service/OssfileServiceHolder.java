@@ -6,9 +6,11 @@ import io.github.nichetoolkit.ossfile.OssfileStoreService;
 import io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.holder.ApplicationContextHolder;
+import io.github.nichetoolkit.rest.identity.IdentityManager;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,6 +72,15 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      */
     protected OssfileStoreService storeService;
 
+    /**
+     * <code>instance</code>
+     * <p>The instance method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.service.OssfileServiceHolder} <p>The instance return object is <code>OssfileServiceHolder</code> type.</p>
+     */
+    public static OssfileServiceHolder instance() {
+        return RestOptional.ofNullable(INSTANCE).orNullThrow(ConfigureLackError::new);
+    }
+
     @Override
     public void afterPropertiesSet() {
         INSTANCE = this;
@@ -100,7 +111,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      */
     public static OssfileProperties properties() {
-        return INSTANCE.properties;
+        return instance().properties;
     }
 
     /**
@@ -110,7 +121,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.OssfileStoreService
      */
     public static OssfileStoreService storeService() {
-        return INSTANCE.storeService;
+        return instance().storeService;
     }
 
     /**
@@ -120,7 +131,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.service.OssfileBulkService
      */
     public static OssfileBulkService bulkService() {
-        return INSTANCE.bulkService;
+        return instance().bulkService;
     }
 
     /**
@@ -130,7 +141,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.service.OssfilePartService
      */
     public static OssfilePartService partService() {
-        return INSTANCE.partService;
+        return instance().partService;
     }
 
     /**
@@ -140,7 +151,7 @@ public class OssfileServiceHolder implements RestFulfilledFitter<OssfileServiceH
      * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
      */
     public static OssfileVideoRequestHandler videoHandler() {
-        return INSTANCE.videoHandler;
+        return instance().videoHandler;
     }
 
 }

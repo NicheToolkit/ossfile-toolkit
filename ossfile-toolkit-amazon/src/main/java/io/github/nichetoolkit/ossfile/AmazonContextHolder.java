@@ -2,6 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import com.amazonaws.services.s3.AmazonS3;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestOptional;
+import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,15 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
      */
     private static AmazonContextHolder INSTANCE = null;
 
+    /**
+     * <code>instance</code>
+     * <p>The instance method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.AmazonContextHolder} <p>The instance return object is <code>AmazonContextHolder</code> type.</p>
+     */
+    public static AmazonContextHolder instance() {
+        return RestOptional.ofNullable(INSTANCE).orNullThrow(ConfigureLackError::new);
+    }
+
     @Override
     public void afterPropertiesSet() {
         INSTANCE = this;
@@ -63,7 +74,7 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
      * <p>The refresh client method.</p>
      */
     static void refreshClient() {
-        INSTANCE.amazonClient = AmazonHelper.createAmazonClient(INSTANCE.ossfileProperties);
+        instance().amazonClient = AmazonHelper.createAmazonClient(instance().ossfileProperties);
     }
 
     /**
@@ -73,7 +84,7 @@ public class AmazonContextHolder implements RestFulfilledFitter<AmazonContextHol
      * @see com.amazonaws.services.s3.AmazonS3
      */
     public static AmazonS3 defaultClient() {
-        return INSTANCE.amazonClient;
+        return instance().amazonClient;
     }
 
 }

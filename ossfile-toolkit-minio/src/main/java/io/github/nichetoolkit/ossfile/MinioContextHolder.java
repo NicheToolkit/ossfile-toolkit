@@ -1,7 +1,9 @@
 package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
+import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.RestStatus;
+import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
@@ -68,6 +70,15 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      */
     private static MinioContextHolder INSTANCE = null;
 
+    /**
+     * <code>instance</code>
+     * <p>The instance method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.MinioContextHolder} <p>The instance return object is <code>MinioContextHolder</code> type.</p>
+     */
+    public static MinioContextHolder instance() {
+        return RestOptional.ofNullable(INSTANCE).orNullThrow(ConfigureLackError::new);
+    }
+
     @Override
     public void afterPropertiesSet() {
         INSTANCE = this;
@@ -91,7 +102,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * <p>The refresh client method.</p>
      */
     static void refreshClient() {
-        INSTANCE.minioClient = MinioHelper.createMinioClient(INSTANCE.ossfileProperties);
+        instance().minioClient = MinioHelper.createMinioClient(instance().ossfileProperties);
     }
 
     /**
@@ -101,7 +112,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * @see io.minio.MinioClient
      */
     public static MinioClient defaultClient() {
-        return INSTANCE.minioClient;
+        return instance().minioClient;
     }
 
     /**
@@ -111,7 +122,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * @see io.github.nichetoolkit.ossfile.MinioMultipartClient
      */
     public static MinioMultipartClient multipartClient() {
-        return INSTANCE.multipartClient;
+        return instance().multipartClient;
     }
 
     /**
@@ -121,7 +132,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * @see io.minio.MinioAsyncClient
      */
     public static MinioAsyncClient asyncClient() {
-        return INSTANCE.asyncClient;
+        return instance().asyncClient;
     }
 
     /**
@@ -131,7 +142,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * @see java.lang.String
      */
     public static String defaultRegion() {
-        return INSTANCE.defaultRegion;
+        return instance().defaultRegion;
     }
 
 }

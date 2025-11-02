@@ -36,8 +36,13 @@ public class AliyunHelper {
      * @see com.aliyun.oss.OSS
      */
     public static OSS createAliyunClient(OssfileProperties ossfileProperties) {
-        return new OSSClientBuilder()
-                .build(ossfileProperties.getEndpoint(), ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey());
+        if (ossfileProperties.getIntranetPriority() && GeneralUtils.isNotEmpty(ossfileProperties.getIntranet())) {
+            return new OSSClientBuilder()
+                    .build(ossfileProperties.getIntranet(), ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey());
+        } else {
+            return new OSSClientBuilder()
+                    .build(ossfileProperties.getEndpoint(), ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey());
+        }
     }
 
     /**

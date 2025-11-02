@@ -4,6 +4,7 @@ import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.RestStatus;
+import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
 import io.github.nichetoolkit.rest.error.lack.InstanceLackError;
 import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
@@ -54,6 +55,15 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      */
     @Resource
     private OssfileProperties properties;
+
+    /**
+     * <code>instance</code>
+     * <p>The instance method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileStoreHolder} <p>The instance return object is <code>OssfileStoreHolder</code> type.</p>
+     */
+    public static OssfileStoreHolder instance() {
+        return RestOptional.ofNullable(INSTANCE).orNullThrow(ConfigureLackError::new);
+    }
 
     @Override
     public int getOrder() {
@@ -120,7 +130,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      */
     public static OssfileProperties properties() {
-        return INSTANCE.properties;
+        return instance().properties;
     }
 
 
@@ -131,7 +141,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see java.lang.String
      */
     static void switchBucket(String bucketName) {
-        INSTANCE.defaultBucket = bucketName;
+        instance().defaultBucket = bucketName;
     }
 
     /**
@@ -141,7 +151,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see java.lang.String
      */
     public static String defaultBucket() {
-        return INSTANCE.defaultBucket;
+        return instance().defaultBucket;
     }
 
     /**
@@ -151,7 +161,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see java.lang.String
      */
     public static String previewPrefix() {
-        return INSTANCE.properties.previewPrefix();
+        return instance().properties.previewPrefix();
     }
 
     /**
@@ -161,7 +171,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * @see java.lang.String
      */
     public static String bulkPrefix() {
-        return INSTANCE.properties.bulkPrefix();
+        return instance().properties.bulkPrefix();
     }
 
     /**

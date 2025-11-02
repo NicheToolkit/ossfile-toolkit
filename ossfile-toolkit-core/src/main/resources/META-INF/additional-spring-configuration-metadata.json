@@ -21,6 +21,19 @@
       "description": "the endpoint on oss file configuration."
     },
     {
+      "name": "nichetoolkit.ossfile.intranet",
+      "type": "java.lang.String",
+      "sourceType": "java.lang.String",
+      "description": "the intranet on oss file configuration."
+    },
+    {
+      "name": "nichetoolkit.ossfile.intranet-priority",
+      "type": "java.lang.Boolean",
+      "sourceType": "java.lang.Boolean",
+      "description": "the switch of intranet priority use.",
+      "defaultValue": false
+    },
+    {
       "name": "nichetoolkit.ossfile.access-key",
       "type": "java.lang.String",
       "sourceType": "java.lang.String",
@@ -115,6 +128,21 @@
       "type": "java.lang.String[]",
       "sourceType": "java.lang.String[]",
       "description": "the allowed headers on oss file configuration."
+    }
+  ],
+  "hints": [
+    {
+      "name": "nichetoolkit.ossfile.intranet-priority",
+      "values": [
+        {
+          "value": false,
+          "description": "the switch of intranet priority closed."
+        },
+        {
+          "value": true,
+          "description": "the switch of intranet priority opened."
+        }
+      ]
     }
   ]
 }

@@ -43,10 +43,12 @@ public class MinioHelper {
      */
     public static MinioAsyncClient createAsyncClient(OssfileProperties ossfileProperties) {
         MinioAsyncClient.Builder builder = MinioAsyncClient.builder();
-        return builder
-                .endpoint(ossfileProperties.getEndpoint())
-                .credentials(ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey())
-                .build();
+        if (ossfileProperties.getIntranetPriority() && GeneralUtils.isNotEmpty(ossfileProperties.getIntranet())) {
+            builder.endpoint(ossfileProperties.getIntranet());
+        } else {
+            builder.endpoint(ossfileProperties.getEndpoint());
+        }
+        return builder.credentials(ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey()).build();
     }
 
     /**
@@ -60,8 +62,12 @@ public class MinioHelper {
     public static MinioClient createMinioClient(OssfileProperties ossfileProperties) {
         MinioClient.Builder builder = MinioClient.builder();
         Optional.ofNullable(ossfileProperties.getRegion()).ifPresent(builder::region);
+        if (ossfileProperties.getIntranetPriority() && GeneralUtils.isNotEmpty(ossfileProperties.getIntranet())) {
+            builder.endpoint(ossfileProperties.getIntranet());
+        } else {
+            builder.endpoint(ossfileProperties.getEndpoint());
+        }
         return builder
-                .endpoint(ossfileProperties.getEndpoint())
                 .credentials(ossfileProperties.getAccessKey(), ossfileProperties.getSecretKey())
                 .build();
     }

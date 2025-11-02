@@ -3,6 +3,7 @@ package io.github.nichetoolkit.ossfile;
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
+import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.ObjectWriteResponse;
 import io.minio.UploadPartResponse;
 import io.minio.credentials.AssumeRoleProvider;
@@ -52,8 +53,12 @@ public class MinioStoreService implements OssfileStoreService {
 
     @Override
     public OssfileCredentials credentials() throws RestException {
+        String endpoint = properties.getEndpoint();
+        if (properties.getIntranetPriority() && GeneralUtils.isNotEmpty(properties.getIntranet())) {
+            endpoint =  properties.getIntranet();
+        }
         try {
-            AssumeRoleProvider provider = new AssumeRoleProvider(properties.getEndpoint(), properties.getAccessKey(),
+            AssumeRoleProvider provider = new AssumeRoleProvider(endpoint, properties.getAccessKey(),
                     properties.getSecretKey(), Math.toIntExact(properties.getExpire()),
                     null, properties.getRegion(), null, null, null, null);
             Credentials credential = provider.fetch();
