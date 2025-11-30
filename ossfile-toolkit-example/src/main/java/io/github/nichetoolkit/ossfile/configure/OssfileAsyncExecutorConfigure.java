@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @see lombok.extern.slf4j.Slf4j
  * @see org.springframework.scheduling.annotation.EnableAsync
  * @see org.springframework.stereotype.Component
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 @EnableAsync

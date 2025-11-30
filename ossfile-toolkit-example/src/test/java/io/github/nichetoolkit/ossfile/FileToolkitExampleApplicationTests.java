@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * <p>The file toolkit example application tests class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see org.springframework.boot.test.context.SpringBootTest
- * @since Jdk1.8
+ * @since Jdk17
  */
 @SpringBootTest
 class FileToolkitExampleApplicationTests {

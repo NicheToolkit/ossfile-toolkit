@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @see lombok.Setter
  * @see org.springframework.stereotype.Component
  * @see org.springframework.boot.context.properties.ConfigurationProperties
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter
@@ -139,7 +139,7 @@ public class OssfileProperties {
      * <p>The oss allowed class.</p>
      * @author Cyan (snow22314@outlook.com)
      * @see lombok.Setter
-     * @since Jdk1.8
+     * @since Jdk17
      */
     @Setter
     public static class OssAllowed {
@@ -189,7 +189,7 @@ public class OssfileProperties {
      * @author Cyan (snow22314@outlook.com)
      * @see lombok.Getter
      * @see lombok.Setter
-     * @since Jdk1.8
+     * @since Jdk17
      */
     @Getter
     @Setter

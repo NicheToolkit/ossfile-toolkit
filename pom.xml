@@ -5,7 +5,7 @@
 
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-parent</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>4.1.2-SNAPSHOT</version>
 
     <modules>
         <module>ossfile-toolkit-example</module>
@@ -44,7 +44,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>4.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -89,36 +89,35 @@
     </repositories>
 
     <properties>
-        <java.version>1.8</java.version>
-        <jdk.version>1.8</jdk.version>
+        <java.version>17</java.version>
+        <jdk.version>17</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-boot.version>4.0.0</spring-boot.version>
 
-        <rest-toolkit.version>1.1.2-SNAPSHOT</rest-toolkit.version>
-        <rice-toolkit.version>1.1.2-SNAPSHOT</rice-toolkit.version>
-        <mybatis-toolkit.version>1.1.2-SNAPSHOT</mybatis-toolkit.version>
+        <rest-toolkit.version>4.1.2-SNAPSHOT</rest-toolkit.version>
+        <rice-toolkit.version>4.1.2-SNAPSHOT</rice-toolkit.version>
+        <mybatis-toolkit.version>4.1.2-SNAPSHOT</mybatis-toolkit.version>
 
-        <spring-boot-maven-plugin.version>2.7.18</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>4.0.0</spring-boot-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.5</maven-gpg-plugin.version>
-        <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
-        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+        <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+        <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
 
-        <ossfile-toolkit.version>1.1.2-SNAPSHOT</ossfile-toolkit.version>
+        <ossfile-toolkit.version>4.1.2-SNAPSHOT</ossfile-toolkit.version>
 
         <thumbnailator.version>0.4.20</thumbnailator.version>
-        <minio.version>8.4.6</minio.version>
+        <minio.version>8.5.17</minio.version>
+        
         <aliyun-sts.version>3.1.0</aliyun-sts.version>
         <aliyun-oss.version>3.12.0</aliyun-oss.version>
 
         <amazon-sts.version>1.12.261</amazon-sts.version>
         <amazon-oss.version>1.12.261</amazon-oss.version>
-
-        <mybatis-spring.version>2.3.2</mybatis-spring.version>
 
     </properties>
 
@@ -206,12 +205,6 @@
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk-sts</artifactId>
                 <version>${amazon-sts.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring.version}</version>
             </dependency>
 
         </dependencies>
@@ -341,9 +334,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>utf-8</encoding>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>

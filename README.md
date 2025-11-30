@@ -14,9 +14,9 @@
 
 ## Dependent & Environment
 
-> [Spring Boot](https://spring.io/projects/spring-boot) 2.7.18.RELEASE\
+> [Spring Boot](https://spring.io/projects/spring-boot) 4.0.0.RELEASE\
 > [Maven](https://maven.apache.org/) 3.6.3+\
-> [JDK](https://www.oracle.com/java/technologies/downloads/#java8) 1.8\
+> [JDK](https://www.oracle.com/java/technologies/downloads/#java17) 17\
 > [PostgreSQL](https://www.postgresql.org/) 10.0+
 
 ## Wiki Reference
@@ -36,7 +36,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-core</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -49,7 +49,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-minio</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -62,7 +62,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-aliyun</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -75,7 +75,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-amazon</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 

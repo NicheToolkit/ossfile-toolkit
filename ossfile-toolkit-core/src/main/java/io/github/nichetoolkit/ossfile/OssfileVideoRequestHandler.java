@@ -3,7 +3,7 @@ package io.github.nichetoolkit.ossfile;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -11,7 +11,7 @@ import java.io.IOException;
  * <p>The ossfile video request handler class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see org.springframework.web.servlet.resource.ResourceHttpRequestHandler
- * @since Jdk1.8
+ * @since Jdk17
  */
 public abstract class OssfileVideoRequestHandler extends ResourceHttpRequestHandler {
 

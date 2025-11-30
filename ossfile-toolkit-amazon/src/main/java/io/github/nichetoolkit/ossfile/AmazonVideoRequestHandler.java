@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.ossfile.OssfileVideoRequestHandler
  * @see org.springframework.stereotype.Component
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Component
 public class AmazonVideoRequestHandler extends OssfileVideoRequestHandler {

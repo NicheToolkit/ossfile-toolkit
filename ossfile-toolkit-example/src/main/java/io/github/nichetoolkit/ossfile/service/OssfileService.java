@@ -21,10 +21,10 @@ import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
  * @see org.springframework.stereotype.Service
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 @Service
@@ -141,12 +141,12 @@ public class OssfileService {
      * <p>The download of bulk method.</p>
      * @param bulkModel {@link io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel} <p>The bulk model parameter is <code>OssfileBulkModel</code> type.</p>
      * @param preview   boolean <p>The preview parameter is <code>boolean</code> type.</p>
-     * @param request   {@link javax.servlet.http.HttpServletRequest} <p>The request parameter is <code>HttpServletRequest</code> type.</p>
-     * @param response  {@link javax.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
+     * @param request   {@link jakarta.servlet.http.HttpServletRequest} <p>The request parameter is <code>HttpServletRequest</code> type.</p>
+     * @param response  {@link jakarta.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel
-     * @see javax.servlet.http.HttpServletRequest
-     * @see javax.servlet.http.HttpServletResponse
+     * @see jakarta.servlet.http.HttpServletRequest
+     * @see jakarta.servlet.http.HttpServletResponse
      * @see io.github.nichetoolkit.rest.RestException
      */
     public void downloadOfBulk(OssfileBulkModel bulkModel, boolean preview, HttpServletRequest request, HttpServletResponse response) throws RestException {
@@ -188,10 +188,10 @@ public class OssfileService {
      * <code>downloadOfFilter</code>
      * <p>The download of filter method.</p>
      * @param fileFilter {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The file filter parameter is <code>OssfileFilter</code> type.</p>
-     * @param response   {@link javax.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
+     * @param response   {@link jakarta.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see io.github.nichetoolkit.ossfile.domain.model.OssfileFilter
-     * @see javax.servlet.http.HttpServletResponse
+     * @see jakarta.servlet.http.HttpServletResponse
      * @see io.github.nichetoolkit.rest.RestException
      */
     public void downloadOfFilter(OssfileFilter fileFilter, HttpServletResponse response) throws RestException {
@@ -230,11 +230,11 @@ public class OssfileService {
      * <p>The download of file method.</p>
      * @param filePath {@link java.nio.file.Path} <p>The file path parameter is <code>Path</code> type.</p>
      * @param filename {@link java.lang.String} <p>The filename parameter is <code>String</code> type.</p>
-     * @param response {@link javax.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
+     * @param response {@link jakarta.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.nio.file.Path
      * @see java.lang.String
-     * @see javax.servlet.http.HttpServletResponse
+     * @see jakarta.servlet.http.HttpServletResponse
      * @see io.github.nichetoolkit.rest.RestException
      */
     public void downloadOfFile(Path filePath, String filename, HttpServletResponse response) throws RestException {
@@ -257,12 +257,12 @@ public class OssfileService {
      * <p>The download of id method.</p>
      * @param fileId   {@link java.lang.String} <p>The file id parameter is <code>String</code> type.</p>
      * @param preview  boolean <p>The preview parameter is <code>boolean</code> type.</p>
-     * @param request  {@link javax.servlet.http.HttpServletRequest} <p>The request parameter is <code>HttpServletRequest</code> type.</p>
-     * @param response {@link javax.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
+     * @param request  {@link jakarta.servlet.http.HttpServletRequest} <p>The request parameter is <code>HttpServletRequest</code> type.</p>
+     * @param response {@link jakarta.servlet.http.HttpServletResponse} <p>The response parameter is <code>HttpServletResponse</code> type.</p>
      * @throws RestException {@link io.github.nichetoolkit.rest.RestException} <p>The rest exception is <code>RestException</code> type.</p>
      * @see java.lang.String
-     * @see javax.servlet.http.HttpServletRequest
-     * @see javax.servlet.http.HttpServletResponse
+     * @see jakarta.servlet.http.HttpServletRequest
+     * @see jakarta.servlet.http.HttpServletResponse
      * @see io.github.nichetoolkit.rest.RestException
      */
     public void downloadOfId(String fileId, boolean preview, HttpServletRequest request, HttpServletResponse response) throws RestException {

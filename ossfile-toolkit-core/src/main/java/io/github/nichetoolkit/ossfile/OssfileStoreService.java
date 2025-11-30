@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
  * <p>The ossfile store service interface.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see org.springframework.beans.factory.InitializingBean
- * @since Jdk1.8
+ * @since Jdk17
  */
 public interface OssfileStoreService extends InitializingBean {
 

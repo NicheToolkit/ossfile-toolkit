@@ -1,8 +1,8 @@
 package io.github.nichetoolkit.ossfile;
 
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import java.io.InputStream;
  * <p>The ossfile video resource class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see org.springframework.core.io.InputStreamResource
- * @since Jdk1.8
+ * @since Jdk17
  */
 public abstract class OssfileVideoResource extends InputStreamResource {
     /**

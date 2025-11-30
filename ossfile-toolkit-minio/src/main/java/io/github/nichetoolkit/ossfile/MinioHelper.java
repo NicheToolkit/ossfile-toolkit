@@ -11,14 +11,14 @@ import io.minio.errors.MinioException;
 import io.minio.http.Method;
 import io.minio.messages.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -28,7 +28,7 @@ import java.util.*;
  * <p>The minio helper class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class MinioHelper {
@@ -517,7 +517,7 @@ public class MinioHelper {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.messages.InitiateMultipartUploadResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -556,7 +556,7 @@ public class MinioHelper {
      * @see java.lang.String
      * @see java.util.Collection
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.ObjectWriteResponse
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -599,7 +599,7 @@ public class MinioHelper {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.UploadPartResponse
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -1015,11 +1015,7 @@ public class MinioHelper {
      */
     public static String uriDecode(String uri) throws UnsupportedErrorException {
         String url = uri.trim().replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-        try {
-            return URLDecoder.decode(url, "UTF-8");
-        } catch (UnsupportedEncodingException exception) {
-            throw new UnsupportedErrorException(OssfileErrorStatus.OSSFILE_UNSUPPORTED_ERROR, exception);
-        }
+        return URLDecoder.decode(url, StandardCharsets.UTF_8);
 
     }
 

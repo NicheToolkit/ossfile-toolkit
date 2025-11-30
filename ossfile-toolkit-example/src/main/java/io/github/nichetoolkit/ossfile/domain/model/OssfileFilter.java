@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * <code>OssfileFilter</code>
@@ -23,7 +23,7 @@ import org.springframework.lang.NonNull;
  * @see lombok.EqualsAndHashCode
  * @see com.fasterxml.jackson.annotation.JsonInclude
  * @see com.fasterxml.jackson.annotation.JsonIgnoreProperties
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter
@@ -127,7 +127,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to bucket sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toBucketSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.bucket)) {
@@ -142,7 +142,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to file type sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toFileTypeSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.fileType)) {
@@ -157,7 +157,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to user id sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toUserIdSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.userId)) {
@@ -172,7 +172,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to project id sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toProjectIdSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.projectId)) {
@@ -187,7 +187,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to bulk id sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toBulkIdSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.bulkId)) {
@@ -202,7 +202,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to upload id sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toUploadIdSql(@NonNull String alias) {
         if (GeneralUtils.isNotEmpty(this.uploadId)) {
@@ -217,7 +217,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to part state sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toPartStateSql(@NonNull String alias) {
         SqlBuilders.equal(SQL_BUILDER, alias, this.part);
@@ -230,7 +230,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to finish state sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toFinishStateSql(@NonNull String alias) {
         SqlBuilders.equal(SQL_BUILDER, alias, this.finish);
@@ -243,7 +243,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to compress state sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toCompressStateSql(@NonNull String alias) {
         SqlBuilders.equal(SQL_BUILDER, alias, this.compress);
@@ -256,7 +256,7 @@ public class OssfileFilter extends DefaultFilter<String,String> {
      * @param alias {@link java.lang.String} <p>The alias parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.model.OssfileFilter} <p>The to preview state sql return object is <code>OssfileFilter</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      */
     public OssfileFilter toPreviewStateSql(@NonNull String alias) {
         SqlBuilders.equal(SQL_BUILDER, alias, this.preview);

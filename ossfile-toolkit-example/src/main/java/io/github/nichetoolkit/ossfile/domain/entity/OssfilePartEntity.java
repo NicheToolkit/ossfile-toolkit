@@ -8,7 +8,6 @@ import io.github.nichetoolkit.mybatis.table.RestExcludes;
 import io.github.nichetoolkit.ossfile.domain.model.OssfilePartModel;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,7 @@ import java.util.Optional;
  * @see io.github.nichetoolkit.mybatis.table.RestEntity
  * @see io.github.nichetoolkit.mybatis.table.RestExcludes
  * @see lombok.EqualsAndHashCode
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter

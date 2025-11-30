@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @see io.github.nichetoolkit.mybatis.table.RestAlertness
  * @see lombok.NoArgsConstructor
  * @see lombok.AllArgsConstructor
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter

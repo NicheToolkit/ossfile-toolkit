@@ -5,11 +5,10 @@ import io.github.nichetoolkit.mybatis.column.RestFickleEntry;
 import io.github.nichetoolkit.mybatis.column.RestLinkKey;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.mybatis.table.RestEntity;
+import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
 import io.github.nichetoolkit.ossfile.domain.model.OssfileBulkModel;
-import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rice.DefaultIdEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,7 @@ import java.util.Optional;
  * @see lombok.experimental.SuperBuilder
  * @see io.github.nichetoolkit.mybatis.table.RestEntity
  * @see lombok.EqualsAndHashCode
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter
@@ -189,7 +188,7 @@ public class OssfileBulkEntity extends DefaultIdEntity<OssfileBulkEntity, Ossfil
     public OssfileBulkModel toModel() {
         OssfileBulkModel bulkModel = new OssfileBulkModel();
         BeanUtils.copyNonnullProperties(this, bulkModel);
-        bulkModel.setFileType(RestKey.of(this.fileType));
+        bulkModel.setFileType(OssfileFileType.parseKey(this.fileType));
         Optional.ofNullable(this.links).ifPresent((link) -> {
             bulkModel.setUserId(link.getUserId());
             bulkModel.setProjectId(link.getProjectId());

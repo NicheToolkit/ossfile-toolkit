@@ -13,7 +13,7 @@ import io.github.nichetoolkit.rice.service.*;
  * @see io.github.nichetoolkit.rice.service.QueryLinkService
  * @see io.github.nichetoolkit.rice.service.AlertLinkService
  * @see io.github.nichetoolkit.rice.service.DeleteLinkService
- * @since Jdk1.8
+ * @since Jdk17
  */
 public interface OssfileBulkService extends FilterService<OssfileBulkModel, OssfileFilter, String,String>, SingleService<OssfileBulkModel, String, String>, QueryLinkService<OssfileBulkModel,String,String>,
         AlertLinkService<String, String>, DeleteLinkService<String, String> {

@@ -6,7 +6,7 @@ import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -18,7 +18,7 @@ import java.util.*;
  * <p>The aliyun utils class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class AliyunUtils {
@@ -427,7 +427,7 @@ public class AliyunUtils {
      * @return {@link com.aliyun.oss.model.InitiateMultipartUploadResult} <p>The initiate multipart return object is <code>InitiateMultipartUploadResult</code> type.</p>
      * @see java.lang.String
      * @see com.aliyun.oss.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.aliyun.oss.model.InitiateMultipartUploadResult
      */
     public static InitiateMultipartUploadResult initiateMultipart(String objectName, @Nullable ObjectMetadata metadata) {
@@ -443,7 +443,7 @@ public class AliyunUtils {
      * @return {@link com.aliyun.oss.model.InitiateMultipartUploadResult} <p>The initiate multipart return object is <code>InitiateMultipartUploadResult</code> type.</p>
      * @see java.lang.String
      * @see com.aliyun.oss.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.aliyun.oss.model.InitiateMultipartUploadResult
      */
     public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable ObjectMetadata metadata) {
@@ -593,7 +593,7 @@ public class AliyunUtils {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.aliyun.oss.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.aliyun.oss.model.AppendObjectResult
      */
     public static AppendObjectResult appendObject(String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) {
@@ -611,7 +611,7 @@ public class AliyunUtils {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.aliyun.oss.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.aliyun.oss.model.AppendObjectResult
      */
     public static AppendObjectResult appendObject(String bucketName, String objectName, InputStream inputStream, @Nullable ObjectMetadata metadata) {

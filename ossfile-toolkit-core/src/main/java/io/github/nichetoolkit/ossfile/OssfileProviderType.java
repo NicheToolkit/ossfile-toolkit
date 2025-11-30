@@ -3,7 +3,7 @@ package io.github.nichetoolkit.ossfile;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.nichetoolkit.rest.RestKey;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
  * <p>The ossfile provider type enumeration.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.RestKey
- * @since Jdk1.8
+ * @since Jdk17
  */
 public enum OssfileProviderType implements RestKey<String> {
     /**
@@ -60,7 +60,7 @@ public enum OssfileProviderType implements RestKey<String> {
      * @param key {@link java.lang.String} <p>The key parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.OssfileProviderType} <p>The parse key return object is <code>OssfileProviderType</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      * @see com.fasterxml.jackson.annotation.JsonCreator
      */
     @JsonCreator

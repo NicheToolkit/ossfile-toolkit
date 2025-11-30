@@ -13,7 +13,7 @@ import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.error.natives.ServiceErrorException;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * <p>The amazon helper class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class AmazonHelper {
@@ -526,7 +526,7 @@ public class AmazonHelper {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see com.amazonaws.services.s3.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.amazonaws.services.s3.model.InitiateMultipartUploadResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -544,7 +544,7 @@ public class AmazonHelper {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see com.amazonaws.services.s3.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.amazonaws.services.s3.model.InitiateMultipartUploadResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -693,7 +693,7 @@ public class AmazonHelper {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.amazonaws.services.s3.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.amazonaws.services.s3.model.PutObjectResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -713,7 +713,7 @@ public class AmazonHelper {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.amazonaws.services.s3.model.ObjectMetadata
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see com.amazonaws.services.s3.model.PutObjectResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -827,7 +827,7 @@ public class AmazonHelper {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see java.lang.Integer
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see java.net.URL
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -845,7 +845,7 @@ public class AmazonHelper {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see java.lang.Integer
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see java.net.URL
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */

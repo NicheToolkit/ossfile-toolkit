@@ -16,7 +16,7 @@ import io.github.nichetoolkit.rice.service.SingleService;
  * @see io.github.nichetoolkit.rice.service.SingleService
  * @see io.github.nichetoolkit.rice.service.QueryLinkService
  * @see io.github.nichetoolkit.rice.service.DeleteLinkService
- * @since Jdk1.8
+ * @since Jdk17
  */
 public interface OssfilePartService extends FilterService<OssfilePartModel, OssfileFilter, String, String>, SingleService<OssfilePartModel, String, String>,
         QueryLinkService<OssfilePartModel, String, String>, DeleteLinkService<String, String> {

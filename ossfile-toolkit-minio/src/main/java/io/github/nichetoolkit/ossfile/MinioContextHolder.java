@@ -2,17 +2,14 @@ package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestOptional;
-import io.github.nichetoolkit.rest.RestStatus;
 import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * <code>MinioContextHolder</code>
@@ -20,7 +17,7 @@ import javax.annotation.Resource;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolder> {
@@ -58,7 +55,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      * @see lombok.Setter
-     * @see javax.annotation.Resource
+     * @see jakarta.annotation.Resource
      */
     @Setter
     @Resource

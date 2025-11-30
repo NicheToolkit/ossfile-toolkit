@@ -8,7 +8,7 @@ import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.InitiateMultipartUploadResult;
 import io.minio.messages.Part;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  * <p>The minio multipart client class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see io.minio.MinioAsyncClient
- * @since Jdk1.8
+ * @since Jdk17
  */
 public class MinioMultipartClient extends MinioAsyncClient {
 
@@ -63,7 +63,7 @@ public class MinioMultipartClient extends MinioAsyncClient {
      * @throws FileErrorException {@link io.github.nichetoolkit.rest.error.natives.FileErrorException} <p>The file error exception is <code>FileErrorException</code> type.</p>
      * @see java.lang.String
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.messages.InitiateMultipartUploadResult
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -147,7 +147,7 @@ public class MinioMultipartClient extends MinioAsyncClient {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.UploadPartResponse
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */
@@ -200,7 +200,7 @@ public class MinioMultipartClient extends MinioAsyncClient {
      * @see java.lang.String
      * @see java.util.Collection
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.ObjectWriteResponse
      * @see io.github.nichetoolkit.rest.error.natives.FileErrorException
      */

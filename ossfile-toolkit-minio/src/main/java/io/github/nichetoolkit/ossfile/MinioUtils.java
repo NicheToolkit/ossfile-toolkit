@@ -8,7 +8,7 @@ import io.github.nichetoolkit.rest.util.GeneralUtils;
 import io.minio.*;
 import io.minio.messages.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -20,7 +20,7 @@ import java.util.*;
  * <p>The minio utils class.</p>
  * @author Cyan (snow22314@outlook.com)
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class MinioUtils {
@@ -594,7 +594,7 @@ public class MinioUtils {
      * @return {@link io.minio.messages.InitiateMultipartUploadResult} <p>The initiate multipart return object is <code>InitiateMultipartUploadResult</code> type.</p>
      * @see java.lang.String
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.messages.InitiateMultipartUploadResult
      */
     public static InitiateMultipartUploadResult initiateMultipart(String bucketName, String objectName, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {
@@ -639,7 +639,7 @@ public class MinioUtils {
      * @see java.lang.String
      * @see java.io.InputStream
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.UploadPartResponse
      */
     public static UploadPartResponse uploadMultipart(String bucketName, String objectName, String uploadId, int partIndex, InputStream inputStream, long partSize, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {
@@ -680,7 +680,7 @@ public class MinioUtils {
      * @see java.lang.String
      * @see java.util.Collection
      * @see com.google.common.collect.Multimap
-     * @see org.springframework.lang.Nullable
+     * @see org.jspecify.annotations.Nullable
      * @see io.minio.ObjectWriteResponse
      */
     public static ObjectWriteResponse completeMultipart(String bucketName, String objectName, String uploadId, Collection<Part> parts, @Nullable Multimap<String, String> headers, @Nullable Multimap<String, String> extraQueryParams) {

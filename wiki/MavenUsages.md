@@ -9,7 +9,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-core</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-minio</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -35,7 +35,7 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-aliyun</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -48,6 +48,6 @@
 <dependency>
     <groupId>io.github.nichetoolkit</groupId>
     <artifactId>ossfile-toolkit-amazon</artifactId>
-    <version>1.1.2</version>
+    <version>4.1.2-SNAPSHOT</version>
 </dependency>
 ```

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.nichetoolkit.mybatis.fickle.RestFickle;
 import io.github.nichetoolkit.ossfile.*;
 import io.github.nichetoolkit.ossfile.domain.OssfileFileType;
@@ -13,11 +12,9 @@ import io.github.nichetoolkit.ossfile.domain.entity.OssfileBulkLinks;
 import io.github.nichetoolkit.ossfile.domain.entity.OssfilePartLinks;
 import io.github.nichetoolkit.ossfile.domain.entity.OssfileStates;
 import io.github.nichetoolkit.rest.RestException;
-import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
 import io.github.nichetoolkit.rest.constant.UtilConstants;
 import io.github.nichetoolkit.rest.identity.IdentityUtils;
-import io.github.nichetoolkit.rest.serialize.RestKeySerializer;
 import io.github.nichetoolkit.rest.util.BeanUtils;
 import io.github.nichetoolkit.rest.util.FileUtils;
 import io.github.nichetoolkit.rest.util.GeneralUtils;
@@ -25,14 +22,13 @@ import io.github.nichetoolkit.rest.util.IoStreamUtils;
 import io.github.nichetoolkit.rice.DefaultIdModel;
 import io.github.nichetoolkit.rice.RestId;
 import io.github.nichetoolkit.rice.jsonb.Property;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -53,7 +49,7 @@ import java.util.List;
  * @see lombok.EqualsAndHashCode
  * @see com.fasterxml.jackson.annotation.JsonInclude
  * @see com.fasterxml.jackson.annotation.JsonIgnoreProperties
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 @Setter
@@ -141,12 +137,10 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
     protected Long fileSize;
     /**
      * <code>fileType</code>
-     * {@link io.github.nichetoolkit.rest.RestKey} <p>The <code>fileType</code> field.</p>
-     * @see io.github.nichetoolkit.rest.RestKey
-     * @see com.fasterxml.jackson.databind.annotation.JsonSerialize
+     * {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The <code>fileType</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.OssfileFileType
      */
-    @JsonSerialize(using = RestKeySerializer.class)
-    protected RestKey<String> fileType;
+    protected OssfileFileType fileType;
     /**
      * <code>partSize</code>
      * {@link java.lang.Long} <p>The <code>partSize</code> field.</p>
@@ -375,10 +369,10 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
     /**
      * <code>parseFileType</code>
      * <p>The parse file type method.</p>
-     * @return {@link io.github.nichetoolkit.rest.RestKey} <p>The parse file type return object is <code>RestKey</code> type.</p>
-     * @see io.github.nichetoolkit.rest.RestKey
+     * @return {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The parse file type return object is <code>OssfileFileType</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.domain.OssfileFileType
      */
-    public RestKey<String> parseFileType() {
+    public OssfileFileType parseFileType() {
         String suffix = FileUtils.suffix(this.original);
         return OssfileFileType.parseSuffix(suffix);
     }
@@ -598,7 +592,7 @@ public class OssfileBulkModel extends DefaultIdModel<OssfileBulkModel, OssfileBu
      * @param name  {@link java.lang.String} <p>The name parameter is <code>String</code> type.</p>
      * @param value {@link java.lang.Object} <p>The value parameter is <code>Object</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      * @see java.lang.Object
      */
     public void addProperty(@NonNull String name, Object value) {

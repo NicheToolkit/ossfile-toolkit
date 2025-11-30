@@ -8,7 +8,7 @@ import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * <code>AliyunContextHolder</code>
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHolder> {
@@ -33,7 +33,7 @@ public class AliyunContextHolder implements RestFulfilledFitter<AliyunContextHol
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>ossfileProperties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
      * @see lombok.Setter
-     * @see javax.annotation.Resource
+     * @see jakarta.annotation.Resource
      */
     @Setter
     @Resource

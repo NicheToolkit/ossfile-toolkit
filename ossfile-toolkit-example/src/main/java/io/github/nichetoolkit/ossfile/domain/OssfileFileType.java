@@ -6,7 +6,7 @@ import io.github.nichetoolkit.ossfile.OssfileConstants;
 import io.github.nichetoolkit.rest.RestKey;
 import io.github.nichetoolkit.rest.RestOptional;
 import lombok.Getter;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.RestKey
  * @see lombok.Getter
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 public enum OssfileFileType implements RestKey<String> {
@@ -102,7 +102,7 @@ public enum OssfileFileType implements RestKey<String> {
      * @param key {@link java.lang.String} <p>The key parameter is <code>String</code> type.</p>
      * @return {@link io.github.nichetoolkit.ossfile.domain.OssfileFileType} <p>The parse key return object is <code>OssfileFileType</code> type.</p>
      * @see java.lang.String
-     * @see org.springframework.lang.NonNull
+     * @see org.jspecify.annotations.NonNull
      * @see com.fasterxml.jackson.annotation.JsonCreator
      */
     @JsonCreator

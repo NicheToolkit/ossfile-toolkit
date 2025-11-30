@@ -14,7 +14,7 @@ import io.github.nichetoolkit.rest.util.GeneralUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +28,7 @@ import java.util.function.BiFunction;
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
  * @see lombok.Setter
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 @Setter
@@ -51,7 +51,7 @@ public class OssfileStoreHolder implements RestFulfilledFitter<OssfileStoreHolde
      * <code>properties</code>
      * {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The <code>properties</code> field.</p>
      * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
-     * @see javax.annotation.Resource
+     * @see jakarta.annotation.Resource
      */
     @Resource
     private OssfileProperties properties;
