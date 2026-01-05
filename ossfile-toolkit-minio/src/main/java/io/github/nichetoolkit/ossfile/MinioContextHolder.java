@@ -2,13 +2,8 @@ package io.github.nichetoolkit.ossfile;
 
 import io.github.nichetoolkit.ossfile.configure.OssfileProperties;
 import io.github.nichetoolkit.rest.RestOptional;
-import io.github.nichetoolkit.rest.RestStatus;
 import io.github.nichetoolkit.rest.error.lack.ConfigureLackError;
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
 import io.github.nichetoolkit.rest.fitter.RestFulfilledFitter;
-import io.github.nichetoolkit.rest.util.GeneralUtils;
-import io.minio.MinioAsyncClient;
-import io.minio.MinioClient;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,31 +15,17 @@ import javax.annotation.Resource;
  * @author Cyan (snow22314@outlook.com)
  * @see io.github.nichetoolkit.rest.fitter.RestFulfilledFitter
  * @see lombok.extern.slf4j.Slf4j
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Slf4j
 public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolder> {
 
     /**
      * <code>minioClient</code>
-     * {@link io.minio.MinioClient} <p>The <code>minioClient</code> field.</p>
-     * @see io.minio.MinioClient
+     * {@link io.github.nichetoolkit.ossfile.OssfileMinioClient} <p>The <code>minioClient</code> field.</p>
+     * @see io.github.nichetoolkit.ossfile.OssfileMinioClient
      */
-    private MinioClient minioClient;
-
-    /**
-     * <code>asyncClient</code>
-     * {@link io.minio.MinioAsyncClient} <p>The <code>asyncClient</code> field.</p>
-     * @see io.minio.MinioAsyncClient
-     */
-    private MinioAsyncClient asyncClient;
-
-    /**
-     * <code>multipartClient</code>
-     * {@link io.github.nichetoolkit.ossfile.MinioMultipartClient} <p>The <code>multipartClient</code> field.</p>
-     * @see io.github.nichetoolkit.ossfile.MinioMultipartClient
-     */
-    private MinioMultipartClient multipartClient;
+    private OssfileMinioClient minioClient;
 
     /**
      * <code>defaultRegion</code>
@@ -86,9 +67,7 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
 
     @Override
     public void afterAutowirePropertiesSet() {
-        this.asyncClient = MinioHelper.createAsyncClient(this.ossfileProperties);
-        this.minioClient = MinioHelper.createMinioClient(this.ossfileProperties);
-        this.multipartClient = new MinioMultipartClient(this.asyncClient);
+        this.minioClient = MinioHelper.createOssfileClient(this.ossfileProperties);
         this.defaultRegion = ossfileProperties.getRegion();
     }
 
@@ -98,41 +77,31 @@ public class MinioContextHolder implements RestFulfilledFitter<MinioContextHolde
     }
 
     /**
+     * <code>ossfileProperties</code>
+     * <p>The ossfile properties method.</p>
+     * @return {@link io.github.nichetoolkit.ossfile.configure.OssfileProperties} <p>The ossfile properties return object is <code>OssfileProperties</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.configure.OssfileProperties
+     */
+    public static OssfileProperties ossfileProperties() {
+        return instance().ossfileProperties;
+    }
+
+    /**
      * <code>refreshClient</code>
      * <p>The refresh client method.</p>
      */
     static void refreshClient() {
-        instance().minioClient = MinioHelper.createMinioClient(instance().ossfileProperties);
+        instance().minioClient = MinioHelper.createOssfileClient(instance().ossfileProperties);
     }
 
     /**
      * <code>defaultClient</code>
      * <p>The default client method.</p>
-     * @return {@link io.minio.MinioClient} <p>The default client return object is <code>MinioClient</code> type.</p>
-     * @see io.minio.MinioClient
+     * @return {@link io.github.nichetoolkit.ossfile.OssfileMinioClient} <p>The default client return object is <code>OssfileMinioClient</code> type.</p>
+     * @see io.github.nichetoolkit.ossfile.OssfileMinioClient
      */
-    public static MinioClient defaultClient() {
+    public static OssfileMinioClient defaultClient() {
         return instance().minioClient;
-    }
-
-    /**
-     * <code>multipartClient</code>
-     * <p>The multipart client method.</p>
-     * @return {@link io.github.nichetoolkit.ossfile.MinioMultipartClient} <p>The multipart client return object is <code>MinioMultipartClient</code> type.</p>
-     * @see io.github.nichetoolkit.ossfile.MinioMultipartClient
-     */
-    public static MinioMultipartClient multipartClient() {
-        return instance().multipartClient;
-    }
-
-    /**
-     * <code>asyncClient</code>
-     * <p>The async client method.</p>
-     * @return {@link io.minio.MinioAsyncClient} <p>The async client return object is <code>MinioAsyncClient</code> type.</p>
-     * @see io.minio.MinioAsyncClient
-     */
-    public static MinioAsyncClient asyncClient() {
-        return instance().asyncClient;
     }
 
     /**

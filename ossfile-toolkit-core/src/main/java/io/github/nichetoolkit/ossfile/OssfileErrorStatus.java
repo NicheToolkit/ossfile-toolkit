@@ -7,10 +7,10 @@ import lombok.Getter;
 /**
  * <code>OssfileErrorStatus</code>
  * <p>The ossfile error status enumeration.</p>
+ * @see  io.github.nichetoolkit.rest.RestStatus
+ * @see  lombok.Getter
  * @author Cyan (snow22314@outlook.com)
- * @see io.github.nichetoolkit.rest.RestStatus
- * @see lombok.Getter
- * @since Jdk1.8
+ * @since Jdk17
  */
 @Getter
 public enum OssfileErrorStatus implements RestStatus {
@@ -147,72 +147,110 @@ public enum OssfileErrorStatus implements RestStatus {
      */
     OSSFILE_GET_OBJECT_ERROR(11108, "It has encountered a get object error"),
     /**
-     * <code>OSSFILE_PUT_OBJECT_ERROR</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PUT_OBJECT_ERROR</code> field.</p>
+     * <code>OSSFILE_DOWNLOAD_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_DOWNLOAD_OBJECT_ERROR</code> field.</p>
      */
-    OSSFILE_PUT_OBJECT_ERROR(11109, "It has encountered a put object error"),
-    /**
-     * <code>OSSFILE_PUT_FOLDER_ERROR</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PUT_FOLDER_ERROR</code> field.</p>
-     */
-    OSSFILE_PUT_FOLDER_ERROR(11110, "It has encountered a put folder error"),
-    /**
-     * <code>OSSFILE_COMPOSE_OBJECT_ERROR</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_COMPOSE_OBJECT_ERROR</code> field.</p>
-     */
-    OSSFILE_COMPOSE_OBJECT_ERROR(11111, "It has encountered a compose object error"),
-    /**
-     * <code>OSSFILE_UPLOAD_OBJECT_ERROR</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_UPLOAD_OBJECT_ERROR</code> field.</p>
-     */
-    OSSFILE_UPLOAD_OBJECT_ERROR(11112, "It has encountered a upload object error"),
-    /**
-     * <code>OSSFILE_APPEND_OBJECT_ERROR</code>
-     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_APPEND_OBJECT_ERROR</code> field.</p>
-     */
-    OSSFILE_APPEND_OBJECT_ERROR(11113, "It has encountered a append object error"),
+    OSSFILE_DOWNLOAD_OBJECT_ERROR(11109, "It has encountered a download object error"),
     /**
      * <code>OSSFILE_COPY_OBJECT_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_COPY_OBJECT_ERROR</code> field.</p>
      */
-    OSSFILE_COPY_OBJECT_ERROR(11114, "It has encountered a copy object error"),
+    OSSFILE_COPY_OBJECT_ERROR(11110, "It has encountered a copy object error"),
+    /**
+     * <code>OSSFILE_PUT_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PUT_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_PUT_OBJECT_ERROR(11111, "It has encountered a put object error"),
+    /**
+     * <code>OSSFILE_PUT_FOLDER_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PUT_FOLDER_ERROR</code> field.</p>
+     */
+    OSSFILE_PUT_FOLDER_ERROR(11112, "It has encountered a put folder error"),
+    /**
+     * <code>OSSFILE_COMPOSE_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_COMPOSE_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_COMPOSE_OBJECT_ERROR(11113, "It has encountered a compose object error"),
+    /**
+     * <code>OSSFILE_UPLOAD_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_UPLOAD_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_UPLOAD_OBJECT_ERROR(11114, "It has encountered a upload object error"),
+    /**
+     * <code>OSSFILE_APPEND_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_APPEND_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_APPEND_OBJECT_ERROR(11115, "It has encountered a append object error"),
     /**
      * <code>OSSFILE_REMOVE_OBJECT_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_REMOVE_OBJECT_ERROR</code> field.</p>
      */
-    OSSFILE_REMOVE_OBJECT_ERROR(11115, "It has encountered a remove object error"),
+    OSSFILE_REMOVE_OBJECT_ERROR(11116, "It has encountered a remove object error"),
     /**
      * <code>OSSFILE_PRESIGNED_OBJECT_URL_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PRESIGNED_OBJECT_URL_ERROR</code> field.</p>
      */
-    OSSFILE_PRESIGNED_OBJECT_URL_ERROR(11116, "It has encountered a presigned object url error"),
+    OSSFILE_PRESIGNED_OBJECT_URL_ERROR(11117, "It has encountered a presigned object url error"),
     /**
      * <code>OSSFILE_PRESIGNED_ALL_OBJECT_URL_ERROR</code>
      * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PRESIGNED_ALL_OBJECT_URL_ERROR</code> field.</p>
      */
-    OSSFILE_PRESIGNED_ALL_OBJECT_URL_ERROR(11117, "It has encountered a presigned all object urls error"),
+    OSSFILE_PRESIGNED_ALL_OBJECT_URL_ERROR(11118, "It has encountered a presigned all object urls error"),
+
+    /**
+     * <code>OSSFILE_PRESIGNED_POLICY_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_PRESIGNED_POLICY_ERROR</code> field.</p>
+     */
+    OSSFILE_PRESIGNED_POLICY_ERROR(11119, "It has encountered a presigned policy error"),
+    /**
+     * <code>OSSFILE_RESTORE_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_RESTORE_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_RESTORE_OBJECT_ERROR(11120, "It has encountered a restore object error"),
+    /**
+     * <code>OSSFILE_SELECT_OBJECT_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_SELECT_OBJECT_ERROR</code> field.</p>
+     */
+    OSSFILE_SELECT_OBJECT_ERROR(11121, "It has encountered a select object error"),
+
+    /**
+     * <code>OSSFILE_EXIST_BUCKET_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_EXIST_BUCKET_ERROR</code> field.</p>
+     */
+    OSSFILE_EXIST_BUCKET_ERROR(11122, "It has encountered a bucket exist checked error"),
+    /**
+     * <code>OSSFILE_BUCKET_CONFIG_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_BUCKET_CONFIG_ERROR</code> field.</p>
+     */
+    OSSFILE_BUCKET_CONFIG_ERROR(11123, "It has encountered a bucket config setting error"),
+    /**
+     * <code>OSSFILE_OBJECT_CONFIG_ERROR</code>
+     * {@link io.github.nichetoolkit.ossfile.OssfileErrorStatus} <p>The <code>OSSFILE_OBJECT_CONFIG_ERROR</code> field.</p>
+     */
+    OSSFILE_OBJECT_CONFIG_ERROR(11124, "It has encountered a object config setting error"),
+
     ;
 
     /**
      * <code>status</code>
      * {@link java.lang.Integer} <p>The <code>status</code> field.</p>
-     * @see java.lang.Integer
+     * @see  java.lang.Integer
      */
     private final Integer status;
     /**
      * <code>message</code>
      * {@link java.lang.String} <p>The <code>message</code> field.</p>
-     * @see java.lang.String
+     * @see  java.lang.String
      */
     private final String message;
 
     /**
      * <code>OssfileErrorStatus</code>
      * <p>Instantiates a new ossfile error status.</p>
-     * @param status  {@link java.lang.Integer} <p>The status parameter is <code>Integer</code> type.</p>
+     * @param status {@link java.lang.Integer} <p>The status parameter is <code>Integer</code> type.</p>
      * @param message {@link java.lang.String} <p>The message parameter is <code>String</code> type.</p>
-     * @see java.lang.Integer
-     * @see java.lang.String
+     * @see  java.lang.Integer
+     * @see  java.lang.String
      */
     OssfileErrorStatus(Integer status, String message) {
         this.status = status;
