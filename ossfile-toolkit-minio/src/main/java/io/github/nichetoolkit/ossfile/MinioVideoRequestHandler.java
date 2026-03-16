@@ -1,6 +1,6 @@
 package io.github.nichetoolkit.ossfile;
 
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
+import io.github.nichetoolkit.rest.RestException;
 import io.minio.GetObjectResponse;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class MinioVideoRequestHandler extends OssfileVideoRequestHandler {
         try {
             GetObjectResponse getObjectResponse = MinioHelper.getObject(resource.getBucket(), resource.getObjectKey());
             return new MinioVideoResource(getObjectResponse, resource);
-        } catch (FileErrorException exception) {
+        } catch (RestException exception) {
             throw new IOException(exception.getMessage(), exception);
         }
     }

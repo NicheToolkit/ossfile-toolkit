@@ -1,6 +1,6 @@
 package io.github.nichetoolkit.ossfile;
 
-import io.github.nichetoolkit.rest.error.natives.FileErrorException;
+import io.github.nichetoolkit.rest.RestException;
 import io.minio.StatObjectResponse;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class MinioVideoResource extends OssfileVideoResource {
         super(inputStream, resource);
         try {
             this.statObject = MinioHelper.statObject(resource.getObjectKey());
-        } catch (FileErrorException exception) {
+        } catch (RestException exception) {
             throw new IOException(exception.getMessage(), exception);
         }
     }
