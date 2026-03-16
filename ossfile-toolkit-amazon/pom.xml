@@ -5,11 +5,11 @@
     <parent>
         <groupId>io.github.nichetoolkit</groupId>
         <artifactId>ossfile-toolkit-parent</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>ossfile-toolkit-amazon</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3-SNAPSHOT</version>
     <name>ossfile-toolkit-amazon</name>
     <packaging>jar</packaging>
     <description>OSS file toolkit amazon project for Spring Boot</description>
