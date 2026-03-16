@@ -12,10 +12,10 @@ currently being supported with security updates.
 | Maven 3.6.3+        | :white_check_mark: |
 | < 3.6.3             | :x:                |
 | JDK 1.8             | :white_check_mark: |               |
-| Rest-Toolkit 1.1.1+ | :white_check_mark: |
-| < 1.1.1             | :x: 
-| Rice-Toolkit 1.1.1+ | :white_check_mark: |
-| < 1.1.1             | :x: 
+| Rest-Toolkit 1.1.2+ | :white_check_mark: |
+| < 1.1.2             | :x: 
+| Rice-Toolkit 1.1.2+ | :white_check_mark: |
+| < 1.1.2             | :x: 
 
 ## Reporting a Vulnerability
 

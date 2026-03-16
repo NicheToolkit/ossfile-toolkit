@@ -5,11 +5,11 @@
     <parent>
         <groupId>io.github.nichetoolkit</groupId>
         <artifactId>ossfile-toolkit-parent</artifactId>
-        <version>1.1.2-SNAPSHOT</version>
+        <version>1.1.2</version>
     </parent>
 
     <artifactId>ossfile-toolkit-core</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.2</version>
     <name>ossfile-toolkit-core</name>
     <description>OSS file toolkit core project for Spring Boot</description>
     <url>https://github.com/NicheToolkit/ossfile-toolkit/tree/master/ossfile-toolkit-core</url>
@@ -171,7 +171,7 @@
                 <artifactId>central-publishing-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <centralBaseUrl>https://central.sonatype.com/</centralBaseUrl>
+                    <centralBaseUrl>https://central.sonatype.com</centralBaseUrl>
                     <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
                     <publishingServerId>sonatype-nexus-release</publishingServerId>
                     <autoPublish>true</autoPublish>
